@@ -1,0 +1,19 @@
+{
+    "name": "agent",
+    "version": "1.0.0",
+    "description": "Main server for the app",
+    "private": true,
+    "main": "dist/main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "tsc-watch --onSuccess \"node ./dist/main.js\" --onFailure \"echo 'Build failed'\""
+    },
+    "devDependencies": {
+        "@types/node": "^18.8.5",
+        "tsc-watch": "^5.0.3",
+        "typescript": "^4.8.4"
+    },
+    "dependencies": {
+        "leapjs": "^1.1.1"
+    }
+}
