@@ -1,5 +1,8 @@
 import express, { Request, Response } from 'express';
+import * as dotenv from 'dotenv';
+import { existsSync } from 'fs';
 import next from 'next';
+if (existsSync('.env.local')) dotenv.config({ path: '.env.local' });
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });

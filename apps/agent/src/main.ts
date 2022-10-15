@@ -2,6 +2,10 @@
 import { app, BrowserWindow } from 'electron';
 import serve from 'electron-serve';
 import * as path from 'path';
+import * as dotenv from 'dotenv';
+import { existsSync } from 'fs';
+
+if (existsSync('.env.local')) dotenv.config({ path: '.env.local' });
 
 const dev = process.env.NODE_ENV === 'development';
 const loadURL = serve({ directory: 'app' });
