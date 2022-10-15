@@ -13,6 +13,7 @@ const port = process.env.PORT || 3001;
     try {
         await app.prepare();
         const server = express();
+
         server.all('*', (req: Request, res: Response) => {
             return handle(req, res);
         });
