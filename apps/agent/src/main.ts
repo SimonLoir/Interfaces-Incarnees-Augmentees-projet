@@ -1,4 +1,4 @@
-import * as Leap from 'leapjs';
+//import * as Leap from 'leapjs';
 import { app, BrowserWindow } from 'electron';
 import serve from 'electron-serve';
 import * as path from 'path';
