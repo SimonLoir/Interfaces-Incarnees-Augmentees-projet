@@ -22,11 +22,15 @@ npm run dev
 
 ## Start the IronProf server
 
+The main server runs on port 3001. To start it, run:
+
 ```bash
 npm run dev:main
 ```
 
 ## Start the IronProf client
+
+The client runs on port 3000. It also uses Electron to create an app. To start it, run:
 
 ```bash
 npm run dev:agent
