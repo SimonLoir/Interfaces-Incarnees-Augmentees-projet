@@ -15,7 +15,7 @@ async function newWindow() {
             preload: path.join(__dirname, 'preload.js'),
             sandbox: true,
         },
-        title: 'User Agent',
+        title: 'IronProf Agent',
     });
 
     main.setMenu(null);
