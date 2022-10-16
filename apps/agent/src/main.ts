@@ -15,7 +15,7 @@ console.log('dev mode : ', dev, appUrl);
 
 ipcMain.on('get-sources', async (event) => {
     const sources = await desktopCapturer.getSources({
-        types: ['screen'],
+        types: ['screen', 'window'],
     });
     event.sender.send('sources', sources);
 });
