@@ -23,6 +23,10 @@ const port = process.env.PORT || 3001;
             s.on('message', (msg) => console.log(msg));
         });
 
+        setInterval(() => {
+            io.emit('time', new Date().toISOString());
+        }, 1000);
+
         server.all('*', (req: Request, res: Response) => {
             return handle(req, res);
         });

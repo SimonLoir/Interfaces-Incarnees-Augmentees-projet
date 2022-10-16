@@ -11,7 +11,6 @@ export function useSocket() {
 
         s.on('connect', () => {
             setConnected(true);
-            s.emit('message', 'Hello from client');
         });
 
         s.on('disconnect', () => {
