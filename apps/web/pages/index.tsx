@@ -9,7 +9,7 @@ export default function Web() {
                 const { sources }: { sources: VideoSource[] } = data;
                 setSources(
                     sources.filter(
-                        (s) => s.thumbnail != 'data:image/png;base64,'
+                        (s) => s.thumbnail !== 'data:image/png;base64,'
                     )
                 );
             }

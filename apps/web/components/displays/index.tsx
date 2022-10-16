@@ -18,15 +18,15 @@ export default function DisplayChooser({
     const [selected, setSelected] = useState<VideoSource | null>(null);
 
     useEffect(() => {
-        if (sources.length == 0) return setSelected(null);
-        if (selected == null) return setSelected(sources[0]);
-        if (sources.find((s) => s.id == selected.id) == null)
+        if (sources.length === 0) return setSelected(null);
+        if (selected === null) return setSelected(sources[0]);
+        if (sources.find((s) => s.id === selected.id) === undefined)
             return setSelected(sources[0]);
     }, [sources, selected]);
 
     if (selected === null) return <div>Impossible de trouver un écran</div>;
 
-    const index = sources.findIndex((s) => s.id == selected.id);
+    const index = sources.findIndex((s) => s.id === selected.id);
     const previousSource = getAt(sources, index - 1);
     const nextSource = getAt(sources, index + 1);
 

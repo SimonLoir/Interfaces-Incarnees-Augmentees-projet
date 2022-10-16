@@ -12,5 +12,7 @@ module.exports = {
         'no-debugger': 'error',
         'no-dupe-keys': 'error',
         'no-with': 'error',
+        eqeqeq: ['error', 'always'],
+        '@next/next/no-img-element': 'off',
     },
 };
