@@ -1,5 +1,5 @@
 //import * as Leap from 'leapjs';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, desktopCapturer, ipcMain } from 'electron';
 import serve from 'electron-serve';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
@@ -12,6 +12,13 @@ const loadURL = serve({ directory: 'app' });
 const appUrl = dev ? 'http://localhost:3000' : 'app://./index.html';
 
 console.log('dev mode : ', dev, appUrl);
+
+ipcMain.on('get-sources', async (event) => {
+    const sources = await desktopCapturer.getSources({
+        types: ['window', 'screen'],
+    });
+    event.sender.send('sources', sources);
+});
 
 async function newWindow() {
     const main = new BrowserWindow({
