@@ -29,13 +29,14 @@ async function newWindow() {
         title: 'IronProf Agent',
     });
 
-    main.setMenu(null);
+    //main.setMenu(null);
 
     if (!dev) await loadURL(main);
     main.loadURL(appUrl);
 }
 
 app.whenReady().then(async () => {
+    newWindow();
     // Used on macOS device when the app is in the dock but no windows are open.
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) newWindow();

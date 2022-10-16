@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import DisplayChooser from '../components/displays';
 
 export default function Web() {
     const [sources, setSources] = useState<VideoSource[]>([]);
@@ -6,7 +7,11 @@ export default function Web() {
         const cb = ({ data }: MessageEvent) => {
             if (data.type === 'sources') {
                 const { sources }: { sources: VideoSource[] } = data;
-                setSources(sources);
+                setSources(
+                    sources.filter(
+                        (s) => s.thumbnail != 'data:image/png;base64,'
+                    )
+                );
             }
         };
         window.addEventListener('message', cb);
@@ -22,12 +27,7 @@ export default function Web() {
             >
                 Get Sources
             </button>
-            {sources.map((source) => (
-                <div key={source.id}>
-                    <h2>{source.name}</h2>
-                    <img src={source.thumbnail} alt='Source' />
-                </div>
-            ))}
+            <DisplayChooser sources={sources} />
         </div>
     );
 }
