@@ -18,15 +18,12 @@ const port = process.env.PORT || 3001;
         const httpServer = createServer(server);
         const io = new Server(httpServer);
 
-        io.on('connection', () => {
+        io.on('connection', (s) => {
             console.log('a user connected');
+            s.on('message', (msg) => console.log(msg));
         });
 
-        server.all('/', (req: Request, res: Response) => {
-            return handle(req, res);
-        });
-
-        server.all('/_next/*', (req: Request, res: Response) => {
+        server.all('*', (req: Request, res: Response) => {
             return handle(req, res);
         });
 
