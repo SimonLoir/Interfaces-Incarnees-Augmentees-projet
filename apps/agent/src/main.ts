@@ -5,13 +5,12 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { existsSync } from 'fs';
 
+// Loads the environment variables from the .env.local file
 if (existsSync('.env.local')) dotenv.config({ path: '.env.local' });
 
 const dev = process.env.NODE_ENV === 'development';
 const loadURL = serve({ directory: 'app' });
 const appUrl = dev ? 'http://localhost:3000' : 'app://./index.html';
-
-console.log('dev mode : ', dev, appUrl);
 
 ipcMain.on('get-sources', async (event) => {
     const sources = await desktopCapturer.getSources({

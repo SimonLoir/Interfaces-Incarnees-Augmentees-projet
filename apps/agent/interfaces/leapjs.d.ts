@@ -63,4 +63,95 @@ declare module 'leapjs' {
         toString(): string;
         translation(sinceFrame: Frame): any;
     }
+
+    export class Pointable {
+        direction: [number, number, number];
+        id: string;
+        length: number;
+        stabilizedTipPosition: [number, number, number];
+        timeVisible: number;
+        tipPosition: [number, number, number];
+        tipVelocity: [number, number, number];
+        touchDistance: number;
+        tool: boolean;
+        touchZone: string;
+        width: number;
+        valid: boolean;
+        hand(): Hand;
+        toString(): String;
+    }
+    export class Finger extends Pointable {
+        bones: Bone[];
+        carpPosition: [number, number, number];
+        dipPosition: [number, number, number];
+        distal: Bone;
+        medial: Bone;
+        extended: boolean;
+        mcpPosition: [number, number, number];
+        metacarpal: Bone;
+        pipPosition: [number, number, number];
+        proximal: Bone;
+        type: number;
+        invalid: boolean;
+    }
+    export class Hand {
+        arm: Bone;
+        confidence: number;
+        direction: [number, number, number];
+        fingers: Finger[];
+        grabStrength: number;
+        id: string;
+        indexFinger: Finger;
+        middleFinger: Finger;
+        palmNormal: [number, number, number];
+        palmPosition: [number, number, number];
+        palmVelocity: [number, number, number];
+        palmWidth: number;
+        pinchStrength: number;
+        pinky: Finger;
+        pointables: Pointable[];
+        ringFinger: Finger;
+        sphereCenter: [number, number, number];
+        sphereRadius: number;
+        stabilizedPalmPosition: [number, number, number];
+        thumb: Finger;
+        timeVisible: number;
+        tools: Pointable[];
+        type: string;
+        valid: boolean;
+
+        finger(id: number): Finger;
+        toString(): string;
+
+        pitch(): number;
+        roll(): number;
+        rotationAngle(sinceFrame: Frame, axis?: any): number;
+        rotationAxis(sinceFrame: Frame): any;
+        rotationMatrix(sinceFrame: Frame): any;
+        scaleFactor(sinceFrame: Frame): number;
+        translation(sinceFrame: Frame): any;
+
+        yaw(): number;
+    }
+
+    export class Bone {
+        basis: [
+            [number, number, number],
+            [number, number, number],
+            [number, number, number]
+        ];
+        length: number;
+        nextJoint: number[];
+        prevJoint: number[];
+        type: number;
+        width: number;
+        center(): [number, number, number];
+        direction(): [number, number, number];
+        left(): boolean;
+        lerp(
+            out: [number, number, number],
+            t: number
+        ): [number, number, number];
+        matrix(): [number, number, number];
+    }
 }
