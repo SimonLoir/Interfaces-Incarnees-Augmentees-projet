@@ -4,6 +4,7 @@ import { existsSync } from 'fs';
 import next from 'next';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+
 if (existsSync('.env.local')) dotenv.config({ path: '.env.local' });
 
 const dev = process.env.NODE_ENV !== 'production';
