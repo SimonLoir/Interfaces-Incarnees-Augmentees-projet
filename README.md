@@ -14,6 +14,12 @@ This project uses npm as a package manager. To install all packages, run:
 npm install
 ```
 
+If you want to install packages for a specific workspace, run:
+
+```bash
+npm install [package_name] --workspace=apps/[app_name]
+```
+
 ## Start all projects
 
 ```bash
