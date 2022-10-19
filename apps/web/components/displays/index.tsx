@@ -7,7 +7,7 @@ function getAt<T>(array: T[], index: number): T {
     if (index < 0) {
         index = array.length + index;
     }
-    return array[index];
+    return array[index%array.length];
 }
 
 export default function DisplayChooser({
@@ -29,12 +29,13 @@ export default function DisplayChooser({
     const index = sources.findIndex((s) => s.id === selected.id);
     const previousSource = getAt(sources, index - 1);
     const nextSource = getAt(sources, index + 1);
+    
 
     return (
         <div className={style.main}>
-            <Source source={previousSource} />
-            <Source source={selected} selected={true} />
-            <Source source={nextSource} />
+            <Source source={previousSource} onClick={() => setSelected(previousSource)} />
+            <Source source={selected} selected={true} onClick={()=>{}} />
+            <Source source={nextSource} onClick={() => setSelected(nextSource)} />
         </div>
     );
 }
