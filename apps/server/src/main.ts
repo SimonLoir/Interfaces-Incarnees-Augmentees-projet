@@ -11,6 +11,8 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.env.PORT || 3001;
+const Kinect2 = require('kinect2');
+const kinect = new Kinect2();
 
 (async () => {
     try {
@@ -28,6 +30,21 @@ const port = process.env.PORT || 3001;
             io.emit('time', new Date().toISOString());
         }, 1000);
 
+        const startKinect = () => {
+            if (kinect.open()) {
+                kinect.openBodyReader();
+                //@ts-ignore
+                kinect.on('bodyFrame', (bodyFrame) => {
+                    //drawBodyFrame(bodyFrame);
+                    console.log("hi")
+                });
+        
+        
+            }
+        };
+
+        startKinect();
+
         server.all('*', (req: Request, res: Response) => {
             return handle(req, res);
         });
@@ -38,6 +55,7 @@ const port = process.env.PORT || 3001;
                 `> Ready on localhost:${port} - env ${process.env.NODE_ENV}`
             );
         });
+
     } catch (e) {
         console.error(e);
         process.exit(1);
