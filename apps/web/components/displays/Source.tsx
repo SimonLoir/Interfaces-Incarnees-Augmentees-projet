@@ -11,13 +11,13 @@ export default function Source({
 }) {
     
     return (
-        <button onClick={onClick}
+        <div onClick={onClick}
             className={
                 style.source + ' ' + (selected ? style.selected : style.other)
             }
         >
             <img src={source.thumbnail} alt='' />
             <div>{source.name.slice(0, 30)}</div>
-        </button>
+        </div>
     );
 }
