@@ -24,8 +24,5 @@
     "engines": {
         "node": ">=14.0.0"
     },
-    "dependencies": {
-        "kinect2": "^0.2.6"
-    },
     "packageManager": "npm@7.24.0"
 }
