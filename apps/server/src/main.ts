@@ -3,8 +3,10 @@ import { existsSync } from 'fs';
 import Server from './Server';
 if (existsSync('.env.local')) dotenv.config({ path: '.env.local' });
 
-const server = Server.getInstance().start();
-console.log(server);
+(async () => {
+    const server = await Server.getInstance().start();
+    console.log(server);
+})();
 //const Kinect2 = require('kinect2');
 //const kinect = new Kinect2();
 
