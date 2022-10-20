@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import Source from './Source';
 import style from '@style/DisplayChooser.module.scss';
-
-function getAt<T>(array: T[], index: number): T {
-    //Python style negative indexing
-    if (index < 0) {
-        index = array.length + index;
-    }
-    return array[index%array.length];
-}
+import { getAt } from '@utils/global';
 
 export default function DisplayChooser({
     sources,
@@ -29,13 +22,18 @@ export default function DisplayChooser({
     const index = sources.findIndex((s) => s.id === selected.id);
     const previousSource = getAt(sources, index - 1);
     const nextSource = getAt(sources, index + 1);
-    
 
     return (
         <div className={style.main}>
-            <Source source={previousSource} onClick={() => setSelected(previousSource)} />
-            <Source source={selected} selected={true} onClick={()=>{}} />
-            <Source source={nextSource} onClick={() => setSelected(nextSource)} />
+            <Source
+                source={previousSource}
+                onClick={() => setSelected(previousSource)}
+            />
+            <Source source={selected} selected={true} onClick={() => {}} />
+            <Source
+                source={nextSource}
+                onClick={() => setSelected(nextSource)}
+            />
         </div>
     );
 }

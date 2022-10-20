@@ -52,7 +52,7 @@ export default class Server {
 
     private setupSocketConnection() {
         setInterval(() => {
-            this.io.emit('time', new Date().toISOString());
+            this.sendNextView();
         }, 1000);
     }
 
@@ -61,5 +61,12 @@ export default class Server {
             Server.instance = new Server();
         }
         return Server.instance;
+    }
+
+    private sendNextView() {
+        this.io.emit('next-view');
+    }
+    private sendPreviousView() {
+        this.io.emit('previous-view');
     }
 }
