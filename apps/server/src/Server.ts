@@ -8,31 +8,31 @@ import KinectServer from './KinectServer';
 
 export default class Server {
     private static instance: Server;
-    private app: NextServer;
+    private nextServer: NextServer;
     private handle: RequestHandler;
     private port: number;
     private io: SocketIOServer;
     private kinect: Kinect2;
     private httpServer: HTTPServer;
-    private server: express.Express;
+    private expressServer: express.Express;
     private KinectServer: KinectServer;
 
     private constructor() {
-        this.app = next({ dev: process.env.NODE_ENV !== 'production' });
-        this.handle = this.app.getRequestHandler();
+        this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
+        this.handle = this.nextServer.getRequestHandler();
         this.port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
         this.kinect = new Kinect2();
-        this.server = express();
-        this.httpServer = createServer(this.server);
+        this.expressServer = express();
+        this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
         this.KinectServer = new KinectServer(this.kinect, this);
     }
 
     public async start() {
         try {
-            await this.app.prepare();
+            await this.nextServer.prepare();
 
-            this.server.all('*', (req: Request, res: Response) => {
+            this.expressServer.all('*', (req: Request, res: Response) => {
                 return this.handle(req, res);
             });
 
