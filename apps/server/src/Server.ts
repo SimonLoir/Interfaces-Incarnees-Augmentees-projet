@@ -15,7 +15,7 @@ export default class Server {
     private kinect: Kinect2;
     private httpServer: HTTPServer;
     private expressServer: express.Express;
-    private KinectServer: KinectServer;
+    private kinectServer: KinectServer;
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -25,7 +25,7 @@ export default class Server {
         this.expressServer = express();
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
-        this.KinectServer = new KinectServer(this.kinect, this);
+        this.kinectServer = new KinectServer(this.kinect, this);
     }
 
     public async start() {
