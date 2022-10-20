@@ -1,0 +1,43 @@
+.main {
+    display: grid;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    $height: 85px;
+    grid-template-rows: 1fr $height;
+    &:nth-child(1) {
+        line-height: $height;
+        text-align: center;
+    }
+}
+
+.item {
+    cursor: pointer;
+    user-select: none;
+    $color: rgb(104, 104, 104);
+    position: relative;
+    padding: 8px 16px;
+    border-radius: 15px;
+    border: 3px solid $color;
+    color: $color;
+
+    & + .item {
+        margin-left: 30px;
+        &::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            width: 30px;
+            height: 0;
+            border-top: 3px solid $color;
+        }
+    }
+    &.active {
+        background-color: $color;
+        color: white;
+    }
+}

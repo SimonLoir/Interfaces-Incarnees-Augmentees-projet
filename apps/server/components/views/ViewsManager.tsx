@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSocketContext } from '../../pages/_app';
+import QuizMultiChoice from './QuizMultiChoice';
+import QuizSingleChoice from './QuizSingleChoice';
 import ScreenShareView from './ScreenShareView';
 import StudentsScreenShareView from './StudentsScreenShareView';
+import style from '@style/ViewManager.module.scss';
 
 const views = [
     { name: 'Partager mon écran', component: ScreenShareView },
+    { name: 'Sondage', component: QuizSingleChoice },
+    { name: 'QCM', component: QuizMultiChoice },
     { name: "Partage d'écran d'étudiants", component: StudentsScreenShareView },
 ];
 
@@ -34,8 +39,24 @@ export default function ViewManager() {
 
     const View = views[viewID].component;
     return (
-        <>
-            <View />
-        </>
+        <div className={style.main}>
+            <div>
+                <View />
+            </div>
+            <div>
+                {views.map((v, i) => (
+                    <span
+                        key={i}
+                        className={
+                            style.item +
+                            (i === viewID ? ' ' + style.active : '')
+                        }
+                        onClick={() => setViewID(i)}
+                    >
+                        {v.name}
+                    </span>
+                ))}
+            </div>
+        </div>
     );
 }

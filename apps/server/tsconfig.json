@@ -7,5 +7,11 @@
         "tsconfig.server.json",
         "**/*.d.ts"
     ],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@style/*": ["./style/*"]
+        }
+    },
     "exclude": ["node_modules"]
 }
