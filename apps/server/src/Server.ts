@@ -50,11 +50,7 @@ export default class Server {
         }
     }
 
-    private setupSocketConnection() {
-        setInterval(() => {
-            this.sendNextView();
-        }, 1000);
-    }
+    private setupSocketConnection() {}
 
     public static getInstance(): Server {
         if (!Server.instance) {
