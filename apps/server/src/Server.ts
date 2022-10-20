@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express';
 import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+import KinectServer from './KinectServer';
 
 export default class Server {
     private static instance: Server;
@@ -14,6 +15,7 @@ export default class Server {
     private kinect: Kinect2;
     private httpServer: HTTPServer;
     private server: express.Express;
+    private KinectServer: KinectServer;
 
     private constructor() {
         this.app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -23,6 +25,7 @@ export default class Server {
         this.server = express();
         this.httpServer = createServer(this.server);
         this.io = new SocketIOServer(this.httpServer);
+        this.KinectServer = new KinectServer(this.kinect, this);
     }
 
     public async start() {
