@@ -1,0 +1,19 @@
+{
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 4,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.formatOnSave": true,
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}

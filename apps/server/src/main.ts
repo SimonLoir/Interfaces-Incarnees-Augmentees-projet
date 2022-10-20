@@ -35,11 +35,8 @@ const kinect = new Kinect2();
                 kinect.openBodyReader();
                 //@ts-ignore
                 kinect.on('bodyFrame', (bodyFrame) => {
-                    //drawBodyFrame(bodyFrame);
-                    console.log("hi")
+                    console.log('hi');
                 });
-        
-        
             }
         };
 
@@ -55,7 +52,6 @@ const kinect = new Kinect2();
                 `> Ready on localhost:${port} - env ${process.env.NODE_ENV}`
             );
         });
-
     } catch (e) {
         console.error(e);
         process.exit(1);
