@@ -4,4 +4,5 @@ module.exports = {
     rules: {
         'turbo/no-undeclared-env-vars': 'off',
     },
+    ignorePatterns: ['**/*.d.ts'],
 };
