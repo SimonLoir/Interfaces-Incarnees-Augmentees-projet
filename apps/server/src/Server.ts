@@ -42,10 +42,18 @@ export default class Server {
                     `> Ready on localhost:${this.port} - env ${process.env.NODE_ENV}`
                 );
             });
+            this.setupSocketConnection();
+            return this;
         } catch (e) {
             console.error(e);
             process.exit(1);
         }
+    }
+
+    private setupSocketConnection() {
+        setInterval(() => {
+            this.io.emit('time', new Date().toISOString());
+        }, 1000);
     }
 
     public static getInstance(): Server {

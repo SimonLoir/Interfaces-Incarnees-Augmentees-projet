@@ -3,7 +3,9 @@
     "compilerOptions": {
         "module": "commonjs",
         "outDir": "dist",
-        "noEmit": false
+        "noEmit": false,
+        "typeRoots": ["./interfaces"]
     },
-    "include": ["src", "**/*.d.ts"]
+    "include": ["src", "interfaces/*.d.ts"],
+    "exclude": ["node_modules"]
 }
