@@ -33,13 +33,9 @@ const kinect = new Kinect2();
         const startKinect = () => {
             if (kinect.open()) {
                 kinect.openBodyReader();
-                //@ts-ignore
-                kinect.on('bodyFrame', (bodyFrame) => {
-                    //drawBodyFrame(bodyFrame);
-                    console.log("hi")
+                kinect.on('bodyFrame', (bodyFrame: any) => {
+                    drawBodyFrame(bodyFrame);
                 });
-        
-        
             }
         };
 
@@ -61,3 +57,18 @@ const kinect = new Kinect2();
         process.exit(1);
     }
 })();
+
+let drawBodyFrame = (bodyFrame: any) => {
+    let bodyIndex = 0
+    bodyFrame.array.forEach((body: any) => {
+        console.log("Body nb " + bodyIndex);
+        if(body.tracked) {
+            for(const jointType in body.joints){
+                const joint = body.joints[jointType];
+                if(joint.trackingState > Kinect2.TrackingState.notTracked) {
+                    console.log("hi2");
+                }
+            }
+        }
+    });
+};
