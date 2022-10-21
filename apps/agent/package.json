@@ -1,28 +1,37 @@
 {
-    "name": "web",
+    "name": "agent",
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
+        "dev": "nodemon --watch \"src/**\" --ext \"ts,json\"  --exec \"ts-node --project tsconfig.server.json src/main.ts\"",
         "lint": "next lint"
-    },
-    "dependencies": {
-        "next": "12.3.1",
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "sass": "^1.55.0",
-        "@utils/global": "*"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
-        "@types/node": "^17.0.12",
-        "@types/react": "18.0.17",
+        "@types/express": "^4.17.14",
+        "@types/node": "^18.8.5",
+        "@types/react": "^18.0.21",
         "eslint": "7.32.0",
         "eslint-config-custom": "*",
-        "next-transpile-modules": "9.0.0",
-        "tsconfig": "*",
-        "typescript": "^4.5.3"
+        "leapjs-types": "*",
+        "nodemon": "^2.0.20",
+        "ts-node": "^10.9.1",
+        "tsc-watch": "^5.0.3",
+        "typescript": "^4.8.4"
+    },
+    "dependencies": {
+        "@types/ws": "^8.5.3",
+        "@utils/global": "*",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "leapjs": "^1.1.1",
+        "next": "^12.3.1",
+        "next-transpile-modules": "^9.1.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "sass": "^1.55.0",
+        "socket.io": "^4.5.3",
+        "socket.io-client": "^4.5.3",
+        "sqlite3": "^5.1.2"
     }
 }
