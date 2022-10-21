@@ -1,4 +1,3 @@
-//import * as Leap from 'leapjs';
 import { app, BrowserWindow, desktopCapturer, ipcMain } from 'electron';
 import serve from 'electron-serve';
 import * as path from 'path';
