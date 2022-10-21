@@ -19,7 +19,8 @@ export default function ViewManager() {
     const socket = useSocketContext();
     const [viewID, setViewID] = useState<number | null>(null);
     useEffect(() => {
-        if (viewID === null && views.length > 0) setViewID(0);
+        if (viewID === null && views.length > 0)
+            setViewID(Math.floor(views.length / 2));
         socket.on('next-view', () => {
             if (viewID === null) return;
             setViewID((viewID + 1) % views.length);
