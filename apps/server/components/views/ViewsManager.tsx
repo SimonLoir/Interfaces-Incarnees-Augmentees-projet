@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useSocketContext } from '@utils/global';
-import QuizMultiChoice from './QuizMultiChoice';
-import QuizSingleChoice from './QuizSingleChoice';
+import QuizMultiChoice from './QuizMultiChoiceView';
+import QuizSingleChoice from './QuizSingleChoiceView';
 import ScreenShareView from './ScreenShareView';
 import StudentsScreenShareView from './StudentsScreenShareView';
 import style from '@style/ViewManager.module.scss';
+import HomeView from './HomeView';
 
 const views = [
     { name: 'Partager mon écran', component: ScreenShareView },
     { name: 'Sondage', component: QuizSingleChoice },
+    { name: 'Accueil', component: HomeView },
     { name: 'QCM', component: QuizMultiChoice },
     { name: "Partage d'écran d'étudiants", component: StudentsScreenShareView },
 ];
