@@ -16,6 +16,10 @@ export function useSocket() {
         s.on('disconnect', () => {
             setConnected(false);
         });
+        return () => {
+            s.off('disconnect');
+            s.off('connect');
+        };
     }, []);
 
     return { connected, socket };
