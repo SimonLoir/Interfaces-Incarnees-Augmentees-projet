@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSocketContext } from '../../pages/_app';
+import { useSocketContext } from '@utils/global';
 import QuizMultiChoice from './QuizMultiChoice';
 import QuizSingleChoice from './QuizSingleChoice';
 import ScreenShareView from './ScreenShareView';
