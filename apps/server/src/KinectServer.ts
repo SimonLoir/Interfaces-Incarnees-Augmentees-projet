@@ -4,6 +4,8 @@ import Server from './Server';
 export default class KinectServer {
     constructor(private kinect: Kinect2, private server: Server) {
         console.log(kinect, server);
+        // The Kinect2 server can use the server's socket connection to send data to the client
+        // exemple: this.server.sendNextView() and this.server.sendPreviousView()
     }
 }
 

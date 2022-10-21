@@ -59,10 +59,10 @@ export default class Server {
         return Server.instance;
     }
 
-    private sendNextView() {
+    public sendNextView() {
         this.io.emit('next-view');
     }
-    private sendPreviousView() {
+    public sendPreviousView() {
         this.io.emit('previous-view');
     }
 }
