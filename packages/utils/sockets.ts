@@ -20,7 +20,7 @@ export function useSocket(url: string = 'http://localhost:3001') {
             s.off('disconnect');
             s.off('connect');
         };
-    }, []);
+    }, [url]);
 
     return { connected, socket };
 }
