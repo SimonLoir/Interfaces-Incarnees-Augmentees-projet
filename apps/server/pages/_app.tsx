@@ -1,4 +1,5 @@
-import '../style/index.scss';
+import '@style/index.scss';
+import '@style/loader.scss';
 import { useSocket, SocketContext } from '@utils/global';
 
 export default function MyApp({ Component, pageProps }: any) {

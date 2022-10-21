@@ -33,6 +33,11 @@ export default class Server {
             await this.nextServer.prepare();
 
             this.expressServer.all('*', (req: Request, res: Response) => {
+                if (req.url === '/test-screen-share') {
+                    this.sendScreenShareProposition('hello_world');
+                    return res.send('ok');
+                }
+                console.log(req.url);
                 return this.handle(req, res);
             });
 
@@ -64,5 +69,8 @@ export default class Server {
     }
     public sendPreviousView() {
         this.io.emit('previous-view');
+    }
+    public sendScreenShareProposition(sharer_id: string) {
+        this.io.emit('screen-share-proposition', sharer_id);
     }
 }
