@@ -43,7 +43,7 @@ export default function ViewManager() {
             <div>
                 <View />
             </div>
-            <div>
+            <div className={style.controls}>
                 {views.map((v, i) => (
                     <span
                         key={i}

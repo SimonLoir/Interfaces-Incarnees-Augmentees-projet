@@ -7,7 +7,7 @@
     bottom: 0;
     $height: 85px;
     grid-template-rows: 1fr $height;
-    &:nth-child(1) {
+    & .controls {
         line-height: $height;
         text-align: center;
     }
