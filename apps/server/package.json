@@ -5,8 +5,7 @@
     "private": true,
     "main": "dist/main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "ts-node --project tsconfig.server.json src/main.ts",
+        "dev": "nodemon --watch \"src/**\" --ext \"ts,json\"  --exec \"ts-node --project tsconfig.server.json src/main.ts\"",
         "lint": "next lint"
     },
     "devDependencies": {
@@ -17,6 +16,7 @@
         "eslint": "7.32.0",
         "eslint-config-custom": "*",
         "leapjs-types": "*",
+        "nodemon": "^2.0.20",
         "ts-node": "^10.9.1",
         "tsc-watch": "^5.0.3",
         "typescript": "^4.8.4"
