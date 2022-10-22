@@ -13,6 +13,7 @@
         "@types/express": "^4.17.14",
         "@types/node": "^18.8.5",
         "@types/react": "^18.0.21",
+        "@types/three": "^0.144.0",
         "eslint": "7.32.0",
         "eslint-config-custom": "*",
         "leapjs-types": "*",
@@ -23,6 +24,7 @@
     },
     "dependencies": {
         "@components/global": "*",
+        "@react-three/fiber": "^8.8.10",
         "@types/ws": "^8.5.3",
         "@utils/global": "*",
         "dotenv": "^16.0.3",
@@ -38,6 +40,7 @@
         "sass": "^1.55.0",
         "socket.io": "^4.5.3",
         "socket.io-client": "^4.5.3",
-        "sqlite3": "^5.1.2"
+        "sqlite3": "^5.1.2",
+        "three": "^0.145.0"
     }
 }
