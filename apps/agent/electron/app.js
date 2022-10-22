@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, desktopCapturer, ipcMain } = require('electron');
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -13,4 +13,12 @@ const createWindow = () => {
 app.whenReady().then(() => {
     console.log('test');
     createWindow();
+});
+
+ipcMain.on('get-sources', (event) => {
+    desktopCapturer
+        .getSources({ types: ['window', 'screen'] })
+        .then((sources) => {
+            event.sender.send('sources', sources);
+        });
 });

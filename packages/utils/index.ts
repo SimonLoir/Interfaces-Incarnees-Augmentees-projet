@@ -1,4 +1,6 @@
 export * from './sockets';
+export * from './peer';
+
 export function getAt<T>(array: T[], index: number): T {
     //Python style negative indexing
     if (index < 0) {

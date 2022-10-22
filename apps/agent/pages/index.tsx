@@ -1,3 +1,8 @@
+import { ScreenSelector } from '@components/global';
 export default function Index() {
-    return <>Hello world</>;
+    return (
+        <>
+            <ScreenSelector />
+        </>
+    );
 }
