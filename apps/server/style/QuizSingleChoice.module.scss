@@ -24,32 +24,45 @@
             width: 120px;
             justify-self: center;
             margin-bottom: 2rem;
-            border: 1px solid skyblue;
+            border: 1px solid rgb(175, 48, 51);
             border-radius: 3px;
-            background-color: skyblue;
+            background-color: rgb(175, 48, 51);
+            color: white;
         }
     }
 
     div {
+        display: grid;
         grid-area: q-list;
+        grid: 'qlist' 'next';
+        grid-template-columns: 100%;
+        grid-template-rows: 85% 15%;
         div {
-            max-height: 85%;
-            max-width: 80%;
+            grid-area: qlist;
             margin-inline: 10%;
             overflow-y: scroll;
             border: 1px solid grey;
             border-radius: 5px;
             p {
+                margin-inline: 1.25%;
+                max-width: 97.5%;
+                height: fit-content;
+                border: 1px solid rgb(175, 48, 51);
+                border-radius: 5px;
+                padding: 1rem;
             }
         }
         button {
-            position: relative;
+            grid-area: next;
+            justify-self: center;
             width: 120px;
             height: 30px;
+            margin: 2rem;
             margin-inline: 1rem;
-            border: 1px solid lightgreen;
+            border: 1px solid rgb(175, 48, 51);
             border-radius: 3px;
-            background-color: lightgreen;
+            background-color: rgb(175, 48, 51);
+            color: white;
         }
     }
 }
