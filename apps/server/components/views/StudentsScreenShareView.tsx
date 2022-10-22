@@ -8,38 +8,24 @@ export default function StudentsScreenShareView() {
     const socket = useSocketContext();
     const peer = usePeerContext();
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [current, setCurrent] = useState<current_state>('sharing');
+    const [current, setCurrent] = useState<current_state>('waiting');
+    const [queue, setQueue] = useState<any[]>([]);
 
     useEffect(() => {
-        socket.on('screen-share-proposition', (e) => {
-            if (current === 'sharing') return;
-            console.log(e);
-            setCurrent('incoming');
-        });
+        if (queue.length === 0 && current !== 'sharing') setCurrent('waiting');
+
         peer.on('call', (call: any) => {
             console.log('call incoming', call);
-            call.answer();
-            call.on('stream', (stream: any) => {
-                console.log('stream incoming', stream);
-                if (videoRef.current !== null) {
-                    videoRef.current.srcObject = stream;
-                    videoRef.current.onloadedmetadata = () =>
-                        videoRef.current?.play();
-                }
-            });
+            if (current === 'sharing') return;
+            setQueue((q) => [...q, call]);
+            setCurrent('incoming');
         });
-
-        peer.on('open', (id: string) => {
-            console.log(id);
-        });
-        console.log(peer);
 
         return () => {
             socket.off('screen_share_proposition');
             peer.off('call');
-            peer.off('open');
         };
-    }, [current, socket, peer]);
+    }, [current, socket, peer, queue]);
 
     if (current === 'waiting')
         return (
@@ -48,6 +34,39 @@ export default function StudentsScreenShareView() {
                 <p>En attente d&apos;une demande de partage</p>
             </div>
         );
+    else if (current === 'incoming') {
+        const call = queue[0];
+        return (
+            <div className={style.center}>
+                <p>{call.peer} veut partager son écran</p>
+                <button
+                    onClick={() => {
+                        call.answer();
+                        call.on('stream', (stream: any) => {
+                            if (videoRef.current !== null) {
+                                videoRef.current.srcObject = stream;
+                                videoRef.current.onloadedmetadata = () =>
+                                    videoRef.current?.play();
+                            }
+                        });
+                        console.log('call answer', call);
+                        setCurrent('sharing');
+                        setQueue((q) => q.slice(1));
+                    }}
+                >
+                    Accepter
+                </button>
+                <button
+                    onClick={() => {
+                        setQueue((q) => q.slice(1));
+                    }}
+                >
+                    Refuser
+                </button>
+            </div>
+        );
+    }
+
     return (
         <>
             <video ref={videoRef}></video>
