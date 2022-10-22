@@ -5,8 +5,7 @@
     "private": true,
     "main": "dist/main.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "ts-node --project tsconfig.server.json src/main.ts",
+        "dev": "nodemon --watch \"src/**\" --ext \"ts,json\"  --exec \"ts-node --project tsconfig.server.json src/main.ts\"",
         "lint": "next lint"
     },
     "devDependencies": {
@@ -14,25 +13,34 @@
         "@types/express": "^4.17.14",
         "@types/node": "^18.8.5",
         "@types/react": "^18.0.21",
+        "@types/three": "^0.144.0",
         "eslint": "7.32.0",
         "eslint-config-custom": "*",
+        "leapjs-types": "*",
+        "nodemon": "^2.0.20",
         "ts-node": "^10.9.1",
         "tsc-watch": "^5.0.3",
         "typescript": "^4.8.4"
     },
     "dependencies": {
+        "@components/global": "*",
+        "@react-three/fiber": "^8.8.10",
         "@types/ws": "^8.5.3",
+        "@utils/global": "*",
         "dotenv": "^16.0.3",
+        "electron": "^21.2.0",
         "express": "^4.18.2",
         "kinect2": "^0.2.6",
         "leapjs": "^1.1.1",
         "next": "^12.3.1",
+        "next-transpile-modules": "^9.1.0",
+        "peer": "^0.6.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "sass": "^1.55.0",
         "socket.io": "^4.5.3",
         "socket.io-client": "^4.5.3",
         "sqlite3": "^5.1.2",
-        "@utils/global": "*"
+        "three": "^0.145.0"
     }
 }

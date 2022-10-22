@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSocketContext } from '../../pages/_app';
-import QuizMultiChoice from './QuizMultiChoice';
-import QuizSingleChoice from './QuizSingleChoice';
+import { useSocketContext } from '@utils/global';
+import QuizMultiChoice from './QuizMultiChoiceView';
+import QuizSingleChoice from './QuizSingleChoiceView';
 import ScreenShareView from './ScreenShareView';
 import StudentsScreenShareView from './StudentsScreenShareView';
 import style from '@style/ViewManager.module.scss';
+import HomeView from './HomeView';
 
 const views = [
     { name: 'Partager mon écran', component: ScreenShareView },
     { name: 'Sondage', component: QuizSingleChoice },
+    { name: 'Accueil', component: HomeView },
     { name: 'QCM', component: QuizMultiChoice },
     { name: "Partage d'écran d'étudiants", component: StudentsScreenShareView },
 ];
@@ -17,7 +19,8 @@ export default function ViewManager() {
     const socket = useSocketContext();
     const [viewID, setViewID] = useState<number | null>(null);
     useEffect(() => {
-        if (viewID === null && views.length > 0) setViewID(0);
+        if (viewID === null && views.length > 0)
+            setViewID(Math.floor(views.length / 2));
         socket.on('next-view', () => {
             if (viewID === null) return;
             setViewID((viewID + 1) % views.length);
@@ -43,7 +46,7 @@ export default function ViewManager() {
             <div>
                 <View />
             </div>
-            <div>
+            <div className={style.controls}>
                 {views.map((v, i) => (
                     <span
                         key={i}

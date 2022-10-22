@@ -1,16 +1,11 @@
 {
+    "extends": "tsconfig/nextjs.json",
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"],
     "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "es6",
-        "noImplicitAny": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
         "baseUrl": ".",
         "paths": {
-            "*": ["node_modules/*"]
+            "@style/*": ["./style/*"]
         }
-    },
-    "include": ["src/**/*", "interfaces/**/*"]
+    }
 }

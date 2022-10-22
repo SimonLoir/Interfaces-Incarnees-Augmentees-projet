@@ -1,0 +1,11 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "outDir": "dist",
+        "noEmit": false,
+        "typeRoots": ["./interfaces"]
+    },
+    "include": ["src", "interfaces/*.d.ts"],
+    "exclude": ["node_modules"]
+}

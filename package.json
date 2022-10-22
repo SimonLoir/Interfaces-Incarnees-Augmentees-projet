@@ -12,9 +12,7 @@
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "dev:main": "turbo run dev --filter=main",
-        "dev:server": "turbo run dev --filter=main",
-        "dev:agent": "turbo run dev --filter=!main --parallel",
-        "dev:agentweb": "turbo run dev --filter=web"
+        "dev:agent": "turbo run dev --filter=agent"
     },
     "devDependencies": {
         "eslint-config-custom": "*",

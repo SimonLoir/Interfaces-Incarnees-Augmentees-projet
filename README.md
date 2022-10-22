@@ -36,8 +36,12 @@ npm run dev:main
 
 ## Start the IronProf client
 
-The client runs on port 3000. It also uses Electron to create an app. To start it, run:
+The client runs on port 3000. To start it, run:
 
 ```bash
 npm run dev:agent
 ```
+
+## Packages directory
+
+The packages directory contains the packages that are common to multiple workspaces. For example, the `@utils/global` package is used by both the `server` and `agent-gui` workspaces. The `@utils/global` package contains common functions and hooks that are used by both workspaces.
