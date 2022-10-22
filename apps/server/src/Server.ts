@@ -5,6 +5,7 @@ import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import KinectServer from './KinectServer';
+import { PeerServer } from 'peer';
 
 export default class Server {
     private static instance: Server;
@@ -26,6 +27,7 @@ export default class Server {
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
         this.kinectServer = new KinectServer(this.kinect, this);
+        PeerServer({ port: 3002, path: '/' });
     }
 
     public async start() {
