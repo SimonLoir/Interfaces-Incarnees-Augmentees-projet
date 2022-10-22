@@ -37,7 +37,6 @@ export default class Server {
                     this.sendScreenShareProposition('hello_world');
                     return res.send('ok');
                 }
-                console.log(req.url);
                 return this.handle(req, res);
             });
 
