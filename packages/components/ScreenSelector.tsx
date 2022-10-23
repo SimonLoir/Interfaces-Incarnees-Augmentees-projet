@@ -5,9 +5,7 @@ import style from './style/DisplayChooser.module.scss';
 
 export interface VideoSource {
     name: string;
-
     id: string;
-
     thumbnail: string;
 }
 

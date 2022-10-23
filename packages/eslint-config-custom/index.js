@@ -6,7 +6,7 @@ module.exports = {
         indent: ['error', 4],
         'no-var': 'error',
         'prefer-const': 'warn',
-        'no-unused-vars': 'error',
+        'no-unused-vars': 'off',
         'func-call-spacing': ['error', 'never'],
         'key-spacing': [2, { beforeColon: false, afterColon: true }],
         'no-debugger': 'error',
