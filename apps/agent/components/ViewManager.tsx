@@ -1,9 +1,10 @@
 import { useSocketContext } from '@utils/global';
 import { useEffect, useState } from 'react';
 import StudentsScreenSharingView from './StudentScreenSharingView';
+import TeacherScreenSharingView from './TeacherScreenSharingView';
 
 const views = {
-    teacher_screen_share: <></>,
+    teacher_screen_share: <TeacherScreenSharingView></TeacherScreenSharingView>,
     poll: <></>,
     home: <></>,
     student_screen_share: (

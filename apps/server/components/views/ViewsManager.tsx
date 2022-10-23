@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSocketContext } from '@utils/global';
 import QuizMultiChoice from './QuizMultiChoiceView';
 import QuizSingleChoice from './QuizSingleChoiceView';
-import ScreenShareView from './ScreenShareView';
+import TeacherScreenShareView from './TeacherScreenShareView';
 import StudentsScreenShareView from './StudentsScreenShareView';
 import style from '@style/ViewManager.module.scss';
 import HomeView from './HomeView';
@@ -11,7 +11,7 @@ const views = [
     {
         id: 'teacher_screen_share',
         name: 'Partager mon écran',
-        component: ScreenShareView,
+        component: TeacherScreenShareView,
     },
     {
         id: 'poll',
@@ -30,10 +30,13 @@ const views = [
 export default function ViewManager() {
     const socket = useSocketContext();
     const [viewID, setVID] = useState<number | null>(null);
-    const setViewID = (id: number) => {
-        setVID(id);
-        socket.emit('setView', views[id].id);
-    };
+    const setViewID = useCallback(
+        (id: number) => {
+            setVID(id);
+            socket.emit('setView', views[id].id);
+        },
+        [socket]
+    );
     useEffect(() => {
         if (viewID === null && views.length > 0)
             setViewID(Math.floor(views.length / 2));
@@ -51,12 +54,13 @@ export default function ViewManager() {
             socket.off('next-view');
             socket.off('previous-view');
         };
-    }, [viewID, socket]);
+    }, [viewID, socket, setViewID]);
 
     if (viewID === null)
         return <>Une erreur est survenue : aucune vue n&apos;a été trouvée</>;
 
-    const View = views[viewID].component;
+    const View = views[viewID].component as unknown as () => JSX.Element;
+
     return (
         <div className={style.main}>
             <div>
