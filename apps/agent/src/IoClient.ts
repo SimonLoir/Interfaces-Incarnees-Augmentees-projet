@@ -14,5 +14,9 @@ export default class IoClient {
         this.io.on('screen_share_refused', (sharer_id: string) => {
             server.refuseScreenShare(sharer_id);
         });
+        this.io.on('setView', (view: string) => {
+            console.log('agent:setView', view);
+            server.setView(view);
+        });
     }
 }

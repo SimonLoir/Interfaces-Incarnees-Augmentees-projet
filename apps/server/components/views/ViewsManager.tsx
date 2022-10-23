@@ -8,16 +8,32 @@ import style from '@style/ViewManager.module.scss';
 import HomeView from './HomeView';
 
 const views = [
-    { name: 'Partager mon écran', component: ScreenShareView },
-    { name: 'Sondage', component: QuizSingleChoice },
-    { name: 'Accueil', component: HomeView },
-    { name: 'QCM', component: QuizMultiChoice },
-    { name: "Partage d'écran d'étudiants", component: StudentsScreenShareView },
+    {
+        id: 'teacher_screen_share',
+        name: 'Partager mon écran',
+        component: ScreenShareView,
+    },
+    {
+        id: 'poll',
+        name: 'Sondage',
+        component: QuizSingleChoice,
+    },
+    { id: 'home', name: 'Accueil', component: HomeView },
+    { id: 'qcm', name: 'QCM', component: QuizMultiChoice },
+    {
+        id: 'student_screen_share',
+        name: "Partage d'écran d'étudiants",
+        component: StudentsScreenShareView,
+    },
 ];
 
 export default function ViewManager() {
     const socket = useSocketContext();
-    const [viewID, setViewID] = useState<number | null>(null);
+    const [viewID, setVID] = useState<number | null>(null);
+    const setViewID = (id: number) => {
+        setVID(id);
+        socket.emit('setView', views[id].id);
+    };
     useEffect(() => {
         if (viewID === null && views.length > 0)
             setViewID(Math.floor(views.length / 2));

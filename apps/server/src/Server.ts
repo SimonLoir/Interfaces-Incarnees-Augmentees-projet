@@ -68,6 +68,10 @@ export default class Server {
             socket.on('screen_share_refused', (sharer_id: string) => {
                 this.io.emit('screen_share_refused', sharer_id);
             });
+            socket.on('setView', (view: string) => {
+                console.log('setView', view);
+                this.io.emit('setView', view);
+            });
         });
     }
 
