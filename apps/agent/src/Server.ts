@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
+import IoClient from './IoClient';
 
 export default class Server {
     private static instance: Server;
@@ -12,6 +13,7 @@ export default class Server {
     private io: SocketIOServer;
     private httpServer: HTTPServer;
     private expressServer: express.Express;
+    private ioClient: IoClient;
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -20,6 +22,7 @@ export default class Server {
         this.expressServer = express();
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
+        this.ioClient = new IoClient(this);
     }
 
     public async start() {
@@ -49,5 +52,13 @@ export default class Server {
             Server.instance = new Server();
         }
         return Server.instance;
+    }
+
+    public acceptScreenShare(sharer_id: string) {
+        this.io.emit('screen_share_accepted', sharer_id);
+    }
+
+    public refuseScreenShare(sharer_id: string) {
+        this.io.emit('screen_share_refused', sharer_id);
     }
 }

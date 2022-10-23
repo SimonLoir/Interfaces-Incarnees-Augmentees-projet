@@ -56,7 +56,20 @@ export default class Server {
         }
     }
 
-    private setupSocketConnection() {}
+    private setupSocketConnection() {
+        console.log('setupSocketConnection');
+
+        this.io.on('connection', (socket) => {
+            console.log('connection');
+            socket.on('screen_share_accepted', (sharer_id: string) => {
+                console.log('screen_share_accepted', sharer_id);
+                this.io.emit('screen_share_accepted', sharer_id);
+            });
+            socket.on('screen_share_refused', (sharer_id: string) => {
+                this.io.emit('screen_share_refused', sharer_id);
+            });
+        });
+    }
 
     public static getInstance(): Server {
         if (!Server.instance) {

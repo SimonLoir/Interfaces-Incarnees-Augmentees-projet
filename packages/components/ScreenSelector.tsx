@@ -1,48 +1,69 @@
-import React, { useEffect, useRef } from 'react';
+import { getAt } from '@utils/global';
+import React, { useEffect, useState } from 'react';
+import Source from './Source';
+import style from './style/DisplayChooser.module.scss';
 
-import { usePeerContext } from '@utils/global';
+export interface VideoSource {
+    name: string;
 
-export function ScreenSelector() {
-    const peer = usePeerContext();
-    const ref = useRef<HTMLVideoElement>(null);
+    id: string;
+
+    thumbnail: string;
+}
+
+export function ScreenSelector({
+    onSelect,
+}: {
+    onSelect: (source: VideoSource) => void;
+}) {
+    const [sources, setSources] = useState<VideoSource[]>([]);
+    const [selected, setSelected] = useState<VideoSource | null>(null);
+
     useEffect(() => {
+        window.postMessage({ type: 'get-sources' });
         const listener = async ({ data }: any) => {
             if (data.type === 'sources') {
-                const { sources } = data;
-                const sourceId = sources[0].id;
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    audio: false,
-                    video: {
-                        //@ts-ignore
-                        mandatory: {
-                            chromeMediaSource: 'desktop',
-                            chromeMediaSourceId: sourceId,
-                            minWidth: 1280,
-                            maxWidth: 1280,
-                            minHeight: 720,
-                            maxHeight: 720,
-                        },
-                    },
-                });
-                peer.call('teacher', stream);
-                if (ref.current !== null) {
-                    ref.current.srcObject = stream;
-                    ref.current.onloadedmetadata = () => ref.current?.play();
-                }
+                setSources(data.sources);
+                console.log(data.sources);
             }
-            console.log('s:', data.sources);
         };
+
         window.addEventListener('message', listener);
         return () => {
             window.removeEventListener('message', listener);
         };
-    }, [peer]);
+    }, []);
+
+    useEffect(() => {
+        if (sources.length === 0) return setSelected(null);
+        if (selected === null) return setSelected(sources[0]);
+        if (sources.find((s) => s.id === selected.id) === undefined)
+            return setSelected(sources[0]);
+    }, [sources, selected]);
+
+    if (selected === null) return <div>Impossible de trouver un écran</div>;
+
+    const index = sources.findIndex((s) => s.id === selected.id);
+    const previousSource = getAt(sources, index - 1);
+    const nextSource = getAt(sources, index + 1);
+
     return (
-        <>
-            <button onClick={() => window.postMessage({ type: 'get-sources' })}>
-                test
-            </button>
-            <video src='' ref={ref}></video>
-        </>
+        <div className={style.main}>
+            <Source
+                source={previousSource}
+                onClick={() => setSelected(previousSource)}
+            />
+            <Source
+                source={selected}
+                selected={true}
+                onClick={() => {
+                    onSelect(selected);
+                }}
+            />
+            <Source
+                source={nextSource}
+                onClick={() => setSelected(nextSource)}
+            />
+        </div>
     );
 }

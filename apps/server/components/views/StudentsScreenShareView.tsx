@@ -42,6 +42,7 @@ export default function StudentsScreenShareView() {
                 <button
                     onClick={() => {
                         call.answer();
+                        socket.emit('screen_share_accepted', call.peer);
                         call.on('stream', (stream: any) => {
                             if (videoRef.current !== null) {
                                 videoRef.current.srcObject = stream;
@@ -59,6 +60,9 @@ export default function StudentsScreenShareView() {
                 <button
                     onClick={() => {
                         setQueue((q) => q.slice(1));
+                        if (queue.length === 1) setCurrent('waiting');
+
+                        socket.emit('screen_share_refused', call.peer);
                     }}
                 >
                     Refuser
