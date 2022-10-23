@@ -72,8 +72,8 @@ export default function StudentsScreenShareView() {
     }
 
     return (
-        <>
+        <div className={style.videoMain}>
             <video ref={videoRef}></video>
-        </>
+        </div>
     );
 }
