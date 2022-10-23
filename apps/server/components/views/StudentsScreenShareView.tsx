@@ -12,8 +12,6 @@ export default function StudentsScreenShareView() {
     const [queue, setQueue] = useState<any[]>([]);
 
     useEffect(() => {
-        if (queue.length === 0 && current !== 'sharing') setCurrent('waiting');
-
         peer.on('call', (call: any) => {
             console.log('call incoming', call);
             if (current === 'sharing') return;
@@ -25,7 +23,11 @@ export default function StudentsScreenShareView() {
             socket.off('screen_share_proposition');
             peer.off('call');
         };
-    }, [current, socket, peer, queue]);
+    }, [current, socket, peer]);
+
+    useEffect(() => {
+        if (queue.length === 0 && current !== 'sharing') setCurrent('waiting');
+    }, [queue, current]);
 
     if (current === 'waiting')
         return (
