@@ -10,7 +10,7 @@ export default function QuizSingleChoice() {
 
     if (currentState === 'awaiting') {
         return (
-            <div className={style.main}>
+            <div className={style.mainAwaiting}>
                 <p>Waiting for people to connect</p>
                 <div>
                     <div>
@@ -18,6 +18,9 @@ export default function QuizSingleChoice() {
                             return <p>{question}</p>;
                         })}
                     </div>
+                    <button onClick={() => setCurrentState('creation')}>
+                        back
+                    </button>
                     <button onClick={() => setCurrentState('ongoing')}>
                         start poll
                     </button>
@@ -44,6 +47,15 @@ export default function QuizSingleChoice() {
                                     </tr>
                                 </table>
                             </div>
+                            {currentQuestionIndex > 0 && (
+                                <button
+                                    onClick={() =>
+                                        setCurrentQuestionIndex((i) => i - 1)
+                                    }
+                                >
+                                    back
+                                </button>
+                            )}
                             <button
                                 onClick={() =>
                                     setCurrentQuestionIndex((i) => i + 1)
@@ -53,6 +65,9 @@ export default function QuizSingleChoice() {
                             </button>
                         </div>
                     )}
+                    <button onClick={() => setCurrentState('creation')}>
+                        exit
+                    </button>
                 </div>
             </div>
         );
@@ -77,7 +92,7 @@ export default function QuizSingleChoice() {
                         required={true}
                         name='question_input'
                         type='text'
-                        placeholder='Poll name'
+                        placeholder='question'
                     ></input>
                     <button type='submit'>add question</button>
                 </form>
