@@ -27,6 +27,6 @@ export default function ViewManager() {
             socket.off('setView');
         };
     }, [socket]);
-
+    console.log('render :' + viewID);
     return views[viewID];
 }
