@@ -6,6 +6,8 @@ import TeacherScreenShareView from './TeacherScreenShareView';
 import StudentsScreenShareView from './StudentsScreenShareView';
 import style from '@style/ViewManager.module.scss';
 import HomeView from './HomeView';
+import Object3dView from './Object3dView';
+import DocumentSharingView from './DocumentSharingView';
 
 const views = [
     {
@@ -18,7 +20,9 @@ const views = [
         name: 'Sondage',
         component: QuizSingleChoice,
     },
+    { id: 'object3D', name: 'Objet 3D', component: Object3dView },
     { id: 'home', name: 'Accueil', component: HomeView },
+    { id: 'document', name: 'Document Share', component: DocumentSharingView },
     { id: 'qcm', name: 'QCM', component: QuizMultiChoice },
     {
         id: 'student_screen_share',
