@@ -6,7 +6,9 @@ export default function TeacherScreenSharingView() {
     const video = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
-        fetch('http://localhost:3001/connect/' + peer.id);
+        const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
+        const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+        fetch(`http://${host}:${port}/connect/` + peer.id);
     }, [peer]);
 
     useEffect(() => {
@@ -14,7 +16,6 @@ export default function TeacherScreenSharingView() {
             console.log('call');
             call.answer();
             call.on('stream', (stream: MediaStream) => {
-                console.log('stream');
                 if (!video.current) return;
                 video.current.srcObject = stream;
                 video.current.play();
