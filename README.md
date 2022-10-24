@@ -45,3 +45,15 @@ npm run dev:agent
 ## Packages directory
 
 The packages directory contains the packages that are common to multiple workspaces. For example, the `@utils/global` package is used by both the `server` and `agent-gui` workspaces. The `@utils/global` package contains common functions and hooks that are used by both workspaces.
+
+## Custom environment variables
+
+You can create `apps/agent/.env.local` and `apps/server/.env.local` files to override environment variables. For example, you can create `apps/agent/.env.local` and add the following line to it:
+
+```bash
+ELECTRON=true
+```
+
+This will enable the Electron version of the agent.
+
+You can also use `NEXT_PUBLIC_SERVER_HOST`, `NEXT_PUBLIC_SERVER_PORT`, `NEXT_PUBLIC_PEER_HOST` and `NEXT_PUBLIC_PEER_PORT` to override the default server and peer host and port.
