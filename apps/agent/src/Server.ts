@@ -61,4 +61,8 @@ export default class Server {
     public refuseScreenShare(sharer_id: string) {
         this.io.emit('screen_share_refused', sharer_id);
     }
+
+    public setView(view: string) {
+        this.io.emit('setView', view);
+    }
 }

@@ -1,18 +1,27 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-export function usePeer(id: string) {
+export function usePeer(
+    id: string,
+    options?: { host?: string; port?: number; path?: string; secure?: boolean }
+) {
     const [peer, setPeer] = useState<any>();
 
     useEffect(() => {
+        console.log('usePeer', id);
         (async () => {
             const Peer = (await import('peerjs')).default;
-            const p = new Peer(id);
+            const p = new Peer(id, options);
+            console.log(Peer, p);
             p.on('open', (id) => {
                 console.log('My peer ID is: ' + id);
                 setPeer(p);
             });
+
+            p.on('error', (err) => {
+                console.error(err);
+            });
         })();
-    }, [id]);
+    }, [id, options]);
 
     return peer;
 }

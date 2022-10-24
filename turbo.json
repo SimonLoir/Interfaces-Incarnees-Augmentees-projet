@@ -14,6 +14,15 @@
             "cache": false
         }
     },
-    "globalEnv": ["NODE_ENV", "POST", "HOST", "ELECTRON"],
+    "globalEnv": [
+        "NODE_ENV",
+        "POST",
+        "HOST",
+        "ELECTRON",
+        "NEXT_PUBLIC_SERVER_PORT",
+        "NEXT_PUBLIC_SERVER_HOST",
+        "NEXT_PUBLIC_PEER_PORT",
+        "NEXT_PUBLIC_PEER_HOST"
+    ],
     "globalDependencies": []
 }

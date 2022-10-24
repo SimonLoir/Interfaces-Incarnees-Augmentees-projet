@@ -6,6 +6,7 @@ import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import KinectServer from './KinectServer';
 import { PeerServer } from 'peer';
+import cors from 'cors';
 
 export default class Server {
     private static instance: Server;
@@ -24,6 +25,7 @@ export default class Server {
         this.port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
         this.kinect = new Kinect2();
         this.expressServer = express();
+        this.expressServer.use(cors({ origin: '*' }));
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
         this.kinectServer = new KinectServer(this.kinect, this);
@@ -35,9 +37,11 @@ export default class Server {
             await this.nextServer.prepare();
 
             this.expressServer.all('*', (req: Request, res: Response) => {
-                if (req.url === '/test-screen-share') {
-                    this.sendScreenShareProposition('hello_world');
-                    return res.send('ok');
+                if (req.url.indexOf('/connect') === 0) {
+                    const id = req.url.replace('/connect/', '');
+                    this.io.emit('new-peer', id);
+                    console.log('new-peer', id);
+                    return res.send(id);
                 }
                 return this.handle(req, res);
             });
@@ -67,6 +71,10 @@ export default class Server {
             });
             socket.on('screen_share_refused', (sharer_id: string) => {
                 this.io.emit('screen_share_refused', sharer_id);
+            });
+            socket.on('setView', (view: string) => {
+                console.log('setView', view);
+                this.io.emit('setView', view);
             });
         });
     }
