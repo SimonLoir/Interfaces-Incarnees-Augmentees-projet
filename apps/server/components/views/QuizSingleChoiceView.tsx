@@ -14,7 +14,7 @@ export default function QuizSingleChoice() {
     useEffect(() => {
         if (currentState !== 'creation') {
             socket.on('new-poll-participation', (id) => {
-                console.log(id);
+                console.log('new poll participant : ' + id);
             });
             if (currentState === 'ongoing') {
                 socket.on('approval', (id) => {
@@ -32,6 +32,10 @@ export default function QuizSingleChoice() {
                     ]);
                 });
             }
+        } else {
+            socket.off('new-poll-participation');
+            socket.off('approval');
+            socket.off('refusal');
         }
     }, [socket]);
 
