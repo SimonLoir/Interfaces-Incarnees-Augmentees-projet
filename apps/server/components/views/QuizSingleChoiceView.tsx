@@ -32,13 +32,15 @@ export default function QuizSingleChoice() {
     if (currentState === 'ongoing') {
         return (
             <div className={style.mainOngoing}>
-                <div className={style.question}>
-                    <p>{questionList[currentQuestionIndex]}</p>
-                </div>
+                {!(currentQuestionIndex >= questionList.length) && (
+                    <div className={style.question}>
+                        <p>{questionList[currentQuestionIndex]}</p>
+                    </div>
+                )}
                 <div className={style.menu}>
-                    {!(currentQuestionIndex >= questionList.length) && (
+                    <div>
                         <div>
-                            <div>
+                            {!(currentQuestionIndex >= questionList.length) && (
                                 <table>
                                     <tr>
                                         <th>answers : </th>
@@ -46,28 +48,48 @@ export default function QuizSingleChoice() {
                                         <th>wrong</th>
                                     </tr>
                                 </table>
-                            </div>
-                            {currentQuestionIndex > 0 && (
-                                <button
-                                    onClick={() =>
-                                        setCurrentQuestionIndex((i) => i - 1)
-                                    }
-                                >
-                                    back
-                                </button>
                             )}
+                        </div>
+                        <div>
+                            <div>
+                                {!(
+                                    currentQuestionIndex >= questionList.length
+                                ) &&
+                                    currentQuestionIndex > 0 && (
+                                        <button
+                                            onClick={() =>
+                                                setCurrentQuestionIndex(
+                                                    (i) => i - 1
+                                                )
+                                            }
+                                        >
+                                            back
+                                        </button>
+                                    )}
+                                {!(
+                                    currentQuestionIndex >= questionList.length
+                                ) && (
+                                    <button
+                                        onClick={() =>
+                                            setCurrentQuestionIndex(
+                                                (i) => i + 1
+                                            )
+                                        }
+                                    >
+                                        next
+                                    </button>
+                                )}
+                            </div>
                             <button
-                                onClick={() =>
-                                    setCurrentQuestionIndex((i) => i + 1)
-                                }
+                                onClick={() => {
+                                    setCurrentState('creation');
+                                    setCurrentQuestionIndex(0);
+                                }}
                             >
-                                next
+                                exit
                             </button>
                         </div>
-                    )}
-                    <button onClick={() => setCurrentState('creation')}>
-                        exit
-                    </button>
+                    </div>
                 </div>
             </div>
         );
@@ -98,11 +120,11 @@ export default function QuizSingleChoice() {
                 </form>
                 <div>
                     {questionList.length > 0 && (
-                        <div>
+                        <ul>
                             {questionList.map((question) => {
-                                return <p>{question}</p>;
+                                return <li>{question}</li>;
                             })}
-                        </div>
+                        </ul>
                     )}
 
                     {questionList.length !== 0 && (

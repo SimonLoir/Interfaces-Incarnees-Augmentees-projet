@@ -35,18 +35,21 @@
         display: grid;
         grid-area: q-list;
         grid: 'qlist' 'next';
-        grid-template-columns: 100%;
+        grid-template-columns: 100% 50%;
         grid-template-rows: 85% 15%;
-        div {
+        ul {
+            display: grid;
             grid-area: qlist;
             margin-inline: 10%;
             overflow-y: scroll;
             border: 1px solid grey;
             border-radius: 5px;
-            p {
-                margin-inline: 1.25%;
-                max-width: 97.5%;
+            li {
+                display: grid;
+                max-width: 100%;
                 height: fit-content;
+                margin: 1rem;
+                max-width: 97.5%;
                 border: 1px solid rgb(175, 48, 51);
                 border-radius: 5px;
                 padding: 1rem;
@@ -107,36 +110,65 @@
                     }
                 }
             }
-            > button {
+            div + div {
+                display: grid;
                 grid-area: buttons;
-                display: flex;
-                justify-self: center;
-                justify-content: center;
-                align-content: center;
-                width: 120px;
-                height: 30px;
-                margin: 2rem;
-                margin-inline: 1rem;
-                border: 1px solid rgb(175, 48, 51);
-                border-radius: 3px;
-                background-color: rgb(175, 48, 51);
-                color: white;
+                grid: 'exit nav';
+                grid-template-columns: 33% 66%;
+                grid-template-rows: 100%;
+                > div {
+                    display: grid;
+                    grid-area: nav;
+                    grid: 'nav-l nav-r';
+                    grid-template-columns: 50% 50%;
+                    grid-template-rows: 100%;
+                    > button {
+                        display: grid;
+                        grid-area: nav-l;
+                        justify-self: center;
+                        justify-content: center;
+                        align-content: center;
+                        width: 120px;
+                        height: 30px;
+                        margin: 2rem;
+                        margin-inline: 1rem;
+                        border: 1px solid rgb(175, 48, 51);
+                        border-radius: 3px;
+                        background-color: rgb(175, 48, 51);
+                        color: white;
+                    }
+                    > button + button {
+                        display: grid;
+                        grid-area: nav-r;
+                        justify-self: center;
+                        justify-content: center;
+                        align-content: center;
+                        width: 120px;
+                        height: 30px;
+                        margin: 2rem;
+                        margin-inline: 1rem;
+                        border: 1px solid rgb(175, 48, 51);
+                        border-radius: 3px;
+                        background-color: rgb(175, 48, 51);
+                        color: white;
+                    }
+                }
+                > button {
+                    display: grid;
+                    grid-area: exit;
+                    justify-self: center;
+                    justify-content: center;
+                    align-content: center;
+                    width: 120px;
+                    height: 30px;
+                    margin: 2rem;
+                    margin-inline: 1rem;
+                    border: 1px solid rgb(175, 48, 51);
+                    border-radius: 3px;
+                    background-color: rgb(175, 48, 51);
+                    color: white;
+                }
             }
-        }
-        > button {
-            grid-area: buttons;
-            display: flex;
-            justify-self: center;
-            justify-content: center;
-            align-content: center;
-            width: 120px;
-            height: 30px;
-            margin: 2rem;
-            margin-inline: 1rem;
-            border: 1px solid rgb(175, 48, 51);
-            border-radius: 3px;
-            background-color: rgb(175, 48, 51);
-            color: white;
         }
     }
 }
