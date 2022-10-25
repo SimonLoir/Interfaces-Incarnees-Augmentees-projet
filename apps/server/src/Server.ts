@@ -7,6 +7,7 @@ import { Server as SocketIOServer } from 'socket.io';
 import KinectServer from './KinectServer';
 import { PeerServer } from 'peer';
 import cors from 'cors';
+import GestureServer from './GestureServer';
 
 export default class Server {
     private static instance: Server;
@@ -18,6 +19,7 @@ export default class Server {
     private httpServer: HTTPServer;
     private expressServer: express.Express;
     private kinectServer: KinectServer;
+    private gestureServer: GestureServer;
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -30,6 +32,7 @@ export default class Server {
         this.io = new SocketIOServer(this.httpServer);
         this.kinectServer = new KinectServer(this.kinect, this);
         PeerServer({ port: 3002, path: '/' });
+        this.gestureServer = new GestureServer(this);
     }
 
     public async start() {
