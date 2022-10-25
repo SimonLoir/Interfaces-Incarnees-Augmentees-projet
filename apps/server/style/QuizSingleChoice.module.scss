@@ -89,6 +89,14 @@
             font-size: large;
         }
     }
+    > .end {
+        display: grid;
+        grid-area: question;
+        font-size: large;
+        justify-content: center;
+        align-content: center;
+        color: rgb(175, 48, 51);
+    }
     > .menu {
         display: grid;
         grid-area: poll-menu;

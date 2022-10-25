@@ -1,12 +1,39 @@
 import { ReactElement, useEffect, useState } from 'react';
 import style from '@style/QuizSingleChoice.module.scss';
+import { useSocketContext } from '@utils/global';
 
 type stateType = 'creation' | 'awaiting' | 'ongoing';
 
 export default function QuizSingleChoice() {
     const [questionList, setQuestionList] = useState<Array<string>>([]);
+    const [answerCounter, setAnswerCounter] = useState<number[]>([0, 0]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const socket = useSocketContext();
+
+    useEffect(() => {
+        if (currentState !== 'creation') {
+            socket.on('new-poll-participation', (id) => {
+                console.log(id);
+            });
+            if (currentState === 'ongoing') {
+                socket.on('approval', (id) => {
+                    console.log('user ' + id + ' approved');
+                    setAnswerCounter(([approval, refusal]) => [
+                        approval + 1,
+                        refusal,
+                    ]);
+                });
+                socket.on('refusal', (id) => {
+                    console.log('user ' + id + ' refused');
+                    setAnswerCounter(([approval, refusal]) => [
+                        approval,
+                        refusal + 1,
+                    ]);
+                });
+            }
+        }
+    }, [socket]);
 
     if (currentState === 'awaiting') {
         return (
@@ -37,6 +64,9 @@ export default function QuizSingleChoice() {
                         <p>{questionList[currentQuestionIndex]}</p>
                     </div>
                 )}
+                {currentQuestionIndex >= questionList.length && (
+                    <div className={style.end}>Current poll ended</div>
+                )}
                 <div className={style.menu}>
                     <div>
                         <div>
@@ -44,8 +74,8 @@ export default function QuizSingleChoice() {
                                 <table>
                                     <tr>
                                         <th>answers : </th>
-                                        <th>right</th>
-                                        <th>wrong</th>
+                                        <th>{answerCounter[0]}</th>
+                                        <th>{answerCounter[1]}</th>
                                     </tr>
                                 </table>
                             )}
@@ -57,11 +87,12 @@ export default function QuizSingleChoice() {
                                 ) &&
                                     currentQuestionIndex > 0 && (
                                         <button
-                                            onClick={() =>
+                                            onClick={() => {
                                                 setCurrentQuestionIndex(
                                                     (i) => i - 1
-                                                )
-                                            }
+                                                );
+                                                setAnswerCounter([0, 0]);
+                                            }}
                                         >
                                             back
                                         </button>
@@ -70,11 +101,12 @@ export default function QuizSingleChoice() {
                                     currentQuestionIndex >= questionList.length
                                 ) && (
                                     <button
-                                        onClick={() =>
+                                        onClick={() => {
                                             setCurrentQuestionIndex(
                                                 (i) => i + 1
-                                            )
-                                        }
+                                            );
+                                            setAnswerCounter([0, 0]);
+                                        }}
                                     >
                                         next
                                     </button>
