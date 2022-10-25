@@ -5,12 +5,12 @@ import TeacherScreenSharingView from './TeacherScreenSharingView';
 
 const views = {
     teacher_screen_share: <TeacherScreenSharingView></TeacherScreenSharingView>,
-    poll: <></>,
-    home: <></>,
+    poll: <>Sondage</>,
+    home: <>Iron Prof - Home Page</>,
     student_screen_share: (
         <StudentsScreenSharingView></StudentsScreenSharingView>
     ),
-    qcm: <></>,
+    qcm: <>QCM</>,
 };
 
 export default function ViewManager() {
@@ -19,7 +19,6 @@ export default function ViewManager() {
 
     useEffect(() => {
         socket.on('setView', (view) => {
-            console.log(view);
             setViewID(view);
         });
 
@@ -27,6 +26,6 @@ export default function ViewManager() {
             socket.off('setView');
         };
     }, [socket]);
-    console.log('render :' + viewID);
+
     return views[viewID];
 }
