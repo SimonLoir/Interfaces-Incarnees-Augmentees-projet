@@ -8,6 +8,8 @@ export default function StudentsScreenSharingView() {
     const peer = usePeerContext();
     const socket = useSocketContext();
     const [call, setCall] = useState<any>(null);
+    const [stream, setStream] = useState<MediaStream>();
+
     useEffect(() => {
         socket.on('screen_share_accepted', (shared_id) => {
             if (shared_id === peer.id) setStatus('streaming');
@@ -26,6 +28,13 @@ export default function StudentsScreenSharingView() {
             call?.close();
         };
     }, [socket, peer, call]);
+
+    useEffect(() => {
+        return () => {
+            stream?.getTracks().forEach((track) => track.stop());
+            call?.close();
+        };
+    }, []);
 
     if (status === 'sent') {
         return (
@@ -58,6 +67,7 @@ export default function StudentsScreenSharingView() {
                             });
                         setCall(peer.call('teacher', stream));
                         setStatus('sent');
+                        setStream(stream);
                     }}
                 />
             </>

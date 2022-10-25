@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 export default function TeacherScreenShareView() {
     const [peers, setPeers] = useState<string[]>([]);
+    const [calls, setCalls] = useState<any[]>([]);
+    const [streamx, setStream] = useState<MediaStream>();
     const peer = usePeerContext();
     const socket = useSocketContext();
 
@@ -12,13 +14,19 @@ export default function TeacherScreenShareView() {
             setPeers((peers) =>
                 peers.indexOf(peerid) >= 0 ? peers : [...peers, peerid]
             );
-            console.log(peerid);
         });
 
         return () => {
             socket.off('new-peer');
         };
     }, [socket]);
+
+    useEffect(() => {
+        return () => {
+            streamx?.getTracks().forEach((track) => track.stop());
+            calls.map((call) => call.close());
+        };
+    }, []);
 
     return (
         <>
@@ -39,9 +47,18 @@ export default function TeacherScreenShareView() {
                             },
                         },
                     });
+
+                    if (calls.length > 0) {
+                        calls.forEach((c) => c.close());
+                        setCalls([]);
+                    }
+
+                    if (streamx) streamx.getTracks().forEach((t) => t.stop());
+
                     peers.forEach((peerid) => {
                         const call = peer.call(peerid, stream);
                         call.on('stream', (stream: MediaStream) => {});
+                        setCalls((calls) => [...calls, call]);
                     });
                 }}
             />
