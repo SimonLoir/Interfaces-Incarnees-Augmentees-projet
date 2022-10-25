@@ -46,6 +46,12 @@ export default class Server {
                     console.log('new-peer', id);
                     return res.send(id);
                 }
+                if (req.url.indexOf('/poll-connect') === 0) {
+                    const id = req.url.replace('/poll-connect/', '');
+                    this.io.emit('new-poll-participation', id);
+                    console.log('new-poll-participation', id);
+                    return res.send(id);
+                }
                 return this.handle(req, res);
             });
 
