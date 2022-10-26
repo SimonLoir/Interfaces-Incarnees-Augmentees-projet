@@ -10,9 +10,25 @@ export default function PollStudents() {
                 <div>
                     {question}
                     <button
-                        style={{
-                            backgroundColor: status === true ? 'green' : 'gray',
-                        }}
+                        style={
+                            status === undefined
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'white',
+                                      pointerEvents: 'none',
+                                  }
+                                : status === true
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'goldenrod',
+                                      pointerEvents: 'none',
+                                  }
+                                : {
+                                      backgroundColor: 'gray',
+                                      color: 'white',
+                                      pointerEvents: 'auto',
+                                  }
+                        }
                         onClick={() => {
                             setStatus(true);
                         }}
@@ -20,11 +36,27 @@ export default function PollStudents() {
                         Vrai
                     </button>
                     <button
-                        style={{
-                            backgroundColor: status === false ? 'red' : 'gray',
-                        }}
+                        style={
+                            status === undefined
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'white',
+                                      pointerEvents: 'auto',
+                                  }
+                                : status === false
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'goldenrod',
+                                      pointerEvents: 'none',
+                                  }
+                                : {
+                                      backgroundColor: 'gray',
+                                      color: 'white',
+                                      pointerEvents: 'auto',
+                                  }
+                        }
                         onClick={() => {
-                            setStatus(true);
+                            setStatus(false);
                         }}
                     >
                         Faux
