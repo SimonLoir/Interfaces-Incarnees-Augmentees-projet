@@ -90,17 +90,17 @@ export default function QuizSingleChoice() {
                                     currentQuestionIndex >= questionList.length
                                 ) &&
                                     currentQuestionIndex > 0 && (
-                                        <button
-                                            onClick={() => {
-                                                setCurrentQuestionIndex(
-                                                    (i) => i - 1
-                                                );
-                                                setAnswerCounter([0, 0]);
-                                            }}
-                                        >
+                                    <button
+                                        onClick={() => {
+                                            setCurrentQuestionIndex(
+                                                (i) => i - 1
+                                            );
+                                            setAnswerCounter([0, 0]);
+                                        }}
+                                    >
                                             back
-                                        </button>
-                                    )}
+                                    </button>
+                                )}
                                 {!(
                                     currentQuestionIndex >= questionList.length
                                 ) && (

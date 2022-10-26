@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "nodemon --watch \"src/**\" --ext \"ts,json\"  --exec \"ts-node --project tsconfig.server.json src/main.ts\"",
-        "lint": "next lint"
+        "lint": "next lint --fix"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
