@@ -14,5 +14,6 @@ module.exports = {
         'no-with': 'error',
         eqeqeq: ['error', 'always'],
         '@next/next/no-img-element': 'off',
+        quotes: ['error', 'single', { avoidEscape: true }],
     },
 };
