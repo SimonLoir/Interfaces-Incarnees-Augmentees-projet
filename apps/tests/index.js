@@ -4,9 +4,10 @@ const controller = new Leap.Controller();
 
 let started = false;
 let out = [];
+const finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'];
 
 controller.on('frame', function (frame) {
-    const { hands, id, timestamp, valid } = frame;
+    let { hands, id, timestamp, valid } = frame;
     console.log(
         'Frame id: ' +
             id +
@@ -16,7 +17,7 @@ controller.on('frame', function (frame) {
             hands.length
     );
     hands = hands.map((hand) => {
-        const {
+        let {
             confidence,
             direction,
             grabStrength,
@@ -32,8 +33,18 @@ controller.on('frame', function (frame) {
             timeVisible,
             type,
             yaw,
+            fingers,
         } = hand;
-
+        fingers = fingers.map((finger) => {
+            let { type, extended, hand } = finger;
+            type = finger_names[type];
+            try {
+                hand = hand().id;
+            } catch (e) {
+                hand = null;
+            }
+            return { type, extended, hand };
+        });
         return {
             confidence,
             direction,
@@ -42,14 +53,15 @@ controller.on('frame', function (frame) {
             palmNormal,
             palmPosition,
             palmVelocity,
-            pitch: pitch(),
-            roll: roll(),
+            //pitch: pitch(),
+            //roll: roll(),
             sphereCenter,
             sphereRadius,
             stabilizedPalmPosition,
             timeVisible,
             type,
-            yaw: yaw(),
+            //yaw: yaw(),
+            fingers,
         };
     });
 
