@@ -11,6 +11,9 @@ export default function PollStudents() {
     const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
 
     useEffect(() => {
+        socket.on('pollConnected', (msg) => {
+            setPollConnection(true);
+        });
         if (!pollConnection) {
             fetch(`http://${host}:${port}/poll-connect/`);
         }
@@ -21,6 +24,7 @@ export default function PollStudents() {
         });
         return () => {
             socket.off('pollQuestion');
+            socket.off('pollConnected');
         };
     });
 
