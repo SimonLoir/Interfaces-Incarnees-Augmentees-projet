@@ -36,14 +36,47 @@ controller.on('frame', function (frame) {
             fingers,
         } = hand;
         fingers = fingers.map((finger) => {
-            let { type, extended, hand } = finger;
+            let {
+                type,
+                extended,
+                carpPosition,
+                dipPosition,
+                mcpPosition,
+                pipPosition,
+                invalid,
+                direction,
+                id,
+                length,
+                stabilizedTipPosition,
+                timeVisible,
+                tipPosition,
+                tipVelocity,
+                tool,
+                touchDistance,
+                touchZone,
+            } = finger;
+
             type = finger_names[type];
-            try {
-                hand = hand().id;
-            } catch (e) {
-                hand = null;
-            }
-            return { type, extended, hand };
+
+            return {
+                type,
+                extended,
+                carpPosition,
+                dipPosition,
+                mcpPosition,
+                pipPosition,
+                invalid,
+                direction,
+                id,
+                length,
+                stabilizedTipPosition,
+                timeVisible,
+                tipPosition,
+                tipVelocity,
+                tool,
+                touchDistance,
+                touchZone,
+            };
         });
         return {
             confidence,
