@@ -18,5 +18,12 @@ export default class IoClient {
             console.log('agent:setView', view);
             server.setView(view);
         });
+        this.io.on('pollQuestion', (pollQuestion: string) => {
+            server.showPollQuestion(pollQuestion);
+        });
+
+        this.io.on('new-poll-participation', (msg: string) => {
+            server.setPollConnection('connected');
+        });
     }
 }

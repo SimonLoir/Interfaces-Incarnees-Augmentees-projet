@@ -16,7 +16,7 @@ const views = {
 
 export default function ViewManager() {
     const socket = useSocketContext();
-    const [viewID, setViewID] = useState<keyof typeof views>('home');
+    const [viewID, setViewID] = useState<keyof typeof views>('poll');
 
     useEffect(() => {
         socket.on('setView', (view) => {

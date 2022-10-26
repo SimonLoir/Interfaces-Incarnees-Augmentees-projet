@@ -62,15 +62,15 @@ export default class Server {
         this.io.emit('screen_share_refused', sharer_id);
     }
 
-    public pollAcceptionAnswer(sharer_id: string) {
-        this.io.emit('approval', sharer_id);
-    }
-
-    public pollRefusalAnswer(sharer_id: string) {
-        this.io.emit('refusal', sharer_id);
-    }
-
     public setView(view: string) {
         this.io.emit('setView', view);
+    }
+
+    public showPollQuestion(pollQuestion: string) {
+        this.io.emit('pollQuestion', pollQuestion);
+    }
+
+    public setPollConnection(msg: string) {
+        this.io.emit('pollConnected', msg);
     }
 }

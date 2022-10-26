@@ -1,8 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Socket } from 'socket.io-client';
+import { useSocketContext } from '@utils/global';
 
 export default function PollStudents() {
     const [status, setStatus] = useState<boolean | undefined>();
     const [question, setQuestion] = useState<string>();
+    const socket = useSocketContext();
+    const [pollConnection, setPollConnection] = useState<Boolean>(false);
+    const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
+    const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+
+    useEffect(() => {
+        if (!pollConnection) {
+            fetch(`http://${host}:${port}/poll-connect/`);
+        }
+
+        socket.on('pollQuestion', (pollQuestion) => {
+            setQuestion(pollQuestion);
+            setStatus(undefined);
+        });
+        return () => {
+            socket.off('pollQuestion');
+        };
+    });
 
     return (
         <div>
@@ -15,7 +35,7 @@ export default function PollStudents() {
                                 ? {
                                       backgroundColor: 'rgb(175, 48, 51)',
                                       color: 'white',
-                                      pointerEvents: 'none',
+                                      pointerEvents: 'auto',
                                   }
                                 : status === true
                                 ? {
@@ -26,11 +46,12 @@ export default function PollStudents() {
                                 : {
                                       backgroundColor: 'gray',
                                       color: 'white',
-                                      pointerEvents: 'auto',
+                                      pointerEvents: 'none',
                                   }
                         }
                         onClick={() => {
                             setStatus(true);
+                            fetch(`http://${host}:${port}/approval/`);
                         }}
                     >
                         Vrai
@@ -52,11 +73,12 @@ export default function PollStudents() {
                                 : {
                                       backgroundColor: 'gray',
                                       color: 'white',
-                                      pointerEvents: 'auto',
+                                      pointerEvents: 'none',
                                   }
                         }
                         onClick={() => {
                             setStatus(false);
+                            fetch(`http://${host}:${port}/refusal/`);
                         }}
                     >
                         Faux
