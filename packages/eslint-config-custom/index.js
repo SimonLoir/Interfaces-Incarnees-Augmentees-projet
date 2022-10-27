@@ -22,6 +22,17 @@ module.exports = {
             'allow-with-description',
         ],
         '@typescript-eslint/ban-types': 'error',
+        '@typescript-eslint/no-require-imports': 'warn',
+        '@typescript-eslint/no-this-alias': 'error',
+        '@typescript-eslint/prefer-for-of': 'warn',
+        '@typescript-eslint/type-annotation-spacing': [
+            'error',
+            {
+                before: false,
+                after: true,
+                overrides: { arrow: { before: true } },
+            },
+        ],
     },
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
