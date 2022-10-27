@@ -5,7 +5,9 @@ export default class IoClient {
     private io: Socket;
 
     public constructor(server: Server) {
-        this.io = io('http://localhost:3001');
+        const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
+        const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+        this.io = io(`http://${host}:${port}`);
         this.io.on('screen_share_accepted', (sharer_id: string) => {
             console.log('agent:screen_share_accepted', sharer_id);
             server.acceptScreenShare(sharer_id);
