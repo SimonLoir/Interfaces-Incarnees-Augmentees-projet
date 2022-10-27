@@ -5,7 +5,7 @@ type stateType = 'creation' | 'awaiting' | 'ongoing';
 
 
 export default function QuizMultiChoice() {
-    const [questionList, setQuestionList] = useState<Array<string>>([]);
+    const [questionList, setQuestionList] = useState<string[]>([]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 

@@ -10,7 +10,7 @@ export default function PollStudents() {
         question: '',
     });
     const socket = useSocketContext();
-    const [pollConnection, setPollConnection] = useState<Boolean>(false);
+    const [pollConnection, setPollConnection] = useState<boolean>(false);
     const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
     const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
 

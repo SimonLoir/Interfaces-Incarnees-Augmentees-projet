@@ -7,7 +7,7 @@ type stateType = 'creation' | 'awaiting' | 'ongoing';
 
 export default function QuizSingleChoice() {
     const [inputValue, setInputValue] = useState<string>('');
-    const [questionList, setQuestionList] = useState<Array<string>>([]);
+    const [questionList, setQuestionList] = useState<string[]>([]);
     // id = index of the question, [number,number] = results (left: approval, right: refusal)
     // to keep historic for teacher
     const [answerCounter, setAnswerCounter] = useState<{

@@ -16,6 +16,12 @@ module.exports = {
         quotes: ['error', 'single', { avoidEscape: true }],
         'no-unused-vars': 'off',
         '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/array-type': 'error',
+        '@typescript-eslint/ban-ts-comment': [
+            'error',
+            'allow-with-description',
+        ],
+        '@typescript-eslint/ban-types': 'error',
     },
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
