@@ -18,5 +18,9 @@ export default class IoClient {
             console.log('agent:setView', view);
             server.setView(view);
         });
+        this.io.on('poll_set_question', (payload: { question: string }) => {
+            console.log('agent:poll_set_question', payload);
+            server.setPollQuestion(payload);
+        });
     }
 }

@@ -73,4 +73,8 @@ export default class Server {
     public setView(view: string) {
         this.io.emit('setView', view);
     }
+
+    public setPollQuestion(payload: { question: string }) {
+        this.io.emit('poll_set_question', payload);
+    }
 }
