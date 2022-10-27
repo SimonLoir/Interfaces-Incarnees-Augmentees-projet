@@ -1,30 +1,32 @@
-import { useSocketContext } from '@utils/global';
 import { useState, useEffect } from 'react';
+import { Socket } from 'socket.io-client';
+import { useSocketContext } from '@utils/global';
 
 export default function PollStudents() {
     const [status, setStatus] = useState<boolean | undefined>();
     const [question, setQuestion] = useState<string>();
     const socket = useSocketContext();
+    const [pollConnection, setPollConnection] = useState<Boolean>(false);
+    const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
+    const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
 
-    //Bi-directionnal channel with teacher (to send a student's answer to a question)
     useEffect(() => {
-        if (socket && status !== undefined) {
-            socket.emit('poll_answer', { question, answer: status });
+        socket.on('pollConnected', (msg) => {
+            setPollConnection(true);
+        });
+        if (!pollConnection) {
+            fetch(`http://${host}:${port}/poll-connect/`);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [status, socket]);
 
-    //Bi-directionnal channel with teacher (to recieve questions from the teacher)
-    useEffect(() => {
-        if (socket) {
-            socket.on('poll_set_question', ({ question }) => {
-                setQuestion(question);
-            });
-            return () => {
-                socket.off('poll_set_question');
-            };
-        }
-    }, [socket]);
+        socket.on('pollQuestion', (pollQuestion) => {
+            setQuestion(pollQuestion);
+            setStatus(undefined);
+        });
+        return () => {
+            socket.off('pollQuestion');
+            socket.off('pollConnected');
+        };
+    });
 
     return (
         <div>
@@ -32,21 +34,55 @@ export default function PollStudents() {
                 <div>
                     {question}
                     <button
-                        style={{
-                            backgroundColor: status === true ? 'green' : 'gray',
-                        }}
+                        style={
+                            status === undefined
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'white',
+                                      pointerEvents: 'auto',
+                                  }
+                                : status === true
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'goldenrod',
+                                      pointerEvents: 'none',
+                                  }
+                                : {
+                                      backgroundColor: 'gray',
+                                      color: 'white',
+                                      pointerEvents: 'none',
+                                  }
+                        }
                         onClick={() => {
                             setStatus(true);
+                            fetch(`http://${host}:${port}/approval/`);
                         }}
                     >
                         Vrai
                     </button>
                     <button
-                        style={{
-                            backgroundColor: status === false ? 'red' : 'gray',
-                        }}
+                        style={
+                            status === undefined
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'white',
+                                      pointerEvents: 'auto',
+                                  }
+                                : status === false
+                                ? {
+                                      backgroundColor: 'rgb(175, 48, 51)',
+                                      color: 'goldenrod',
+                                      pointerEvents: 'none',
+                                  }
+                                : {
+                                      backgroundColor: 'gray',
+                                      color: 'white',
+                                      pointerEvents: 'none',
+                                  }
+                        }
                         onClick={() => {
-                            setStatus(true);
+                            setStatus(false);
+                            fetch(`http://${host}:${port}/refusal/`);
                         }}
                     >
                         Faux

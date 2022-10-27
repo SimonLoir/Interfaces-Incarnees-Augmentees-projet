@@ -46,10 +46,22 @@ export default class Server {
                     console.log('new-peer', id);
                     return res.send(id);
                 }
+                if (req.url.indexOf('/approval') === 0) {
+                    const id = req.url.replace('/approval/', '');
+                    this.io.emit('approval', id);
+                    console.log('+1 approval', id);
+                    return res.send(id);
+                }
+                if (req.url.indexOf('/refusal') === 0) {
+                    const id = req.url.replace('/refusal/', '');
+                    this.io.emit('refusal', id);
+                    console.log('+1 refusal', id);
+                    return res.send(id);
+                }
                 if (req.url.indexOf('/poll-connect') === 0) {
                     const id = req.url.replace('/poll-connect/', '');
-                    this.io.emit('new-poll-participation', id);
-                    console.log('new-poll-participation', id);
+                    this.io.emit('new-poll-participation', 'hi student');
+                    console.log('new-poll-participation');
                     return res.send(id);
                 }
                 return this.handle(req, res);
@@ -84,6 +96,9 @@ export default class Server {
             socket.on('setView', (view: string) => {
                 console.log('setView', view);
                 this.io.emit('setView', view);
+            });
+            socket.on('pollQuestion', (pollQuestion: string) => {
+                this.io.emit('pollQuestion', pollQuestion);
             });
         });
     }

@@ -14,30 +14,39 @@ export default function QuizSingleChoice() {
     useEffect(() => {
         if (currentState !== 'creation') {
             socket.on('new-poll-participation', (id) => {
-                console.log('new poll participant : ' + id);
+                console.log('new poll participant');
             });
             if (currentState === 'ongoing') {
+                if (currentQuestionIndex < questionList.length) {
+                    socket.emit(
+                        'pollQuestion',
+                        questionList[currentQuestionIndex]
+                    );
+                    console.log('emitted question');
+                }
+
                 socket.on('approval', (id) => {
-                    console.log('user ' + id + ' approved');
+                    console.log('user approved');
                     setAnswerCounter(([approval, refusal]) => [
                         approval + 1,
                         refusal,
                     ]);
                 });
                 socket.on('refusal', (id) => {
-                    console.log('user ' + id + ' refused');
+                    console.log('user refused');
                     setAnswerCounter(([approval, refusal]) => [
                         approval,
                         refusal + 1,
                     ]);
                 });
             }
-        } else {
+        }
+        return () => {
             socket.off('new-poll-participation');
             socket.off('approval');
             socket.off('refusal');
-        }
-    }, [socket]);
+        };
+    }, [currentQuestionIndex, currentState, questionList, socket]);
 
     if (currentState === 'awaiting') {
         return (
@@ -90,17 +99,17 @@ export default function QuizSingleChoice() {
                                     currentQuestionIndex >= questionList.length
                                 ) &&
                                     currentQuestionIndex > 0 && (
-                                    <button
-                                        onClick={() => {
-                                            setCurrentQuestionIndex(
-                                                (i) => i - 1
-                                            );
-                                            setAnswerCounter([0, 0]);
-                                        }}
-                                    >
+                                        <button
+                                            onClick={() => {
+                                                setCurrentQuestionIndex(
+                                                    (i) => i - 1
+                                                );
+                                                setAnswerCounter([0, 0]);
+                                            }}
+                                        >
                                             back
-                                    </button>
-                                )}
+                                        </button>
+                                    )}
                                 {!(
                                     currentQuestionIndex >= questionList.length
                                 ) && (
