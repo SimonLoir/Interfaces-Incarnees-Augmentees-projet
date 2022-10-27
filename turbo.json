@@ -14,7 +14,7 @@
     },
     "globalEnv": [
         "NODE_ENV",
-        "POST",
+        "PORT",
         "HOST",
         "ELECTRON",
         "NEXT_PUBLIC_SERVER_PORT",

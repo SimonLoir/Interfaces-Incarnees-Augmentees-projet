@@ -6,7 +6,6 @@ module.exports = {
         indent: ['error', 4],
         'no-var': 'error',
         'prefer-const': 'warn',
-        'no-unused-vars': 'off',
         'func-call-spacing': ['error', 'never'],
         'key-spacing': [2, { beforeColon: false, afterColon: true }],
         'no-debugger': 'error',
@@ -15,5 +14,9 @@ module.exports = {
         eqeqeq: ['error', 'always'],
         '@next/next/no-img-element': 'off',
         quotes: ['error', 'single', { avoidEscape: true }],
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': 'warn',
     },
+    parser: '@typescript-eslint/parser',
+    plugins: ['@typescript-eslint'],
 };
