@@ -2,7 +2,6 @@ import { io, Socket } from 'socket.io-client';
 import Server from './Server';
 
 export default class IoClient {
-    private static instance: IoClient;
     private io: Socket;
 
     public constructor(private server: Server) {
