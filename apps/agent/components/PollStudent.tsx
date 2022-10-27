@@ -1,10 +1,14 @@
+/* eslint-disable indent */
 import { useState, useEffect } from 'react';
 import { Socket } from 'socket.io-client';
 import { useSocketContext } from '@utils/global';
 
 export default function PollStudents() {
     const [status, setStatus] = useState<boolean | undefined>();
-    const [question, setQuestion] = useState<string>();
+    const [question, setQuestion] = useState<{ id: string; question: string }>({
+        id: '',
+        question: '',
+    });
     const socket = useSocketContext();
     const [pollConnection, setPollConnection] = useState<Boolean>(false);
     const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
@@ -18,8 +22,8 @@ export default function PollStudents() {
             fetch(`http://${host}:${port}/poll-connect/`);
         }
 
-        socket.on('pollQuestion', (pollQuestion) => {
-            setQuestion(pollQuestion);
+        socket.on('pollQuestion', ([id, question]) => {
+            setQuestion({ id, question });
             setStatus(undefined);
         });
         return () => {
@@ -30,9 +34,9 @@ export default function PollStudents() {
 
     return (
         <div>
-            {question ? (
+            {question.question ? (
                 <div>
-                    {question}
+                    {question.question}
                     <button
                         style={
                             status === undefined
@@ -55,7 +59,9 @@ export default function PollStudents() {
                         }
                         onClick={() => {
                             setStatus(true);
-                            fetch(`http://${host}:${port}/approval/`);
+                            fetch(
+                                `http://${host}:${port}/approval/${question.id}`
+                            );
                         }}
                     >
                         Vrai
@@ -82,7 +88,9 @@ export default function PollStudents() {
                         }
                         onClick={() => {
                             setStatus(false);
-                            fetch(`http://${host}:${port}/refusal/`);
+                            fetch(
+                                `http://${host}:${port}/refusal/${question.id}`
+                            );
                         }}
                     >
                         Faux

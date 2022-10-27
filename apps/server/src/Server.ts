@@ -38,32 +38,46 @@ export default class Server {
     public async start() {
         try {
             await this.nextServer.prepare();
-
-            this.expressServer.all('*', (req: Request, res: Response) => {
-                if (req.url.indexOf('/connect') === 0) {
-                    const id = req.url.replace('/connect/', '');
+            this.expressServer.get(
+                '/connect/:id',
+                (req: Request, res: Response) => {
+                    const id = req.params.id;
                     this.io.emit('new-peer', id);
                     console.log('new-peer', id);
                     return res.send(id);
                 }
-                if (req.url.indexOf('/approval') === 0) {
-                    const id = req.url.replace('/approval/', '');
+            );
+
+            this.expressServer.get(
+                '/approval/:id',
+                (req: Request, res: Response) => {
+                    const id = req.params.id;
                     this.io.emit('approval', id);
                     console.log('+1 approval', id);
                     return res.send(id);
                 }
-                if (req.url.indexOf('/refusal') === 0) {
-                    const id = req.url.replace('/refusal/', '');
+            );
+
+            this.expressServer.get(
+                '/refusal/:id',
+                (req: Request, res: Response) => {
+                    const id = req.params.id;
                     this.io.emit('refusal', id);
                     console.log('+1 refusal', id);
                     return res.send(id);
                 }
-                if (req.url.indexOf('/poll-connect') === 0) {
-                    const id = req.url.replace('/poll-connect/', '');
+            );
+
+            this.expressServer.get(
+                '/poll-connect/*',
+                (req: Request, res: Response) => {
                     this.io.emit('new-poll-participation', 'hi student');
                     console.log('new-poll-participation');
-                    return res.send(id);
+                    return res.send('hi student');
                 }
+            );
+
+            this.expressServer.all('*', (req: Request, res: Response) => {
                 return this.handle(req, res);
             });
 

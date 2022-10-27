@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { ReactElement, useEffect, useState } from 'react';
 import style from '@style/QuizSingleChoice.module.scss';
 import { useSocketContext } from '@utils/global';
@@ -5,8 +6,13 @@ import { useSocketContext } from '@utils/global';
 type stateType = 'creation' | 'awaiting' | 'ongoing';
 
 export default function QuizSingleChoice() {
+    const [inputValue, setInputValue] = useState<string>('');
     const [questionList, setQuestionList] = useState<Array<string>>([]);
-    const [answerCounter, setAnswerCounter] = useState<number[]>([0, 0]);
+    // id = index of the question, [number,number] = results (left: approval, right: refusal)
+    // to keep historic for teacher
+    const [answerCounter, setAnswerCounter] = useState<{
+        [id: string]: [number, number];
+    }>({ 0: [0, 0] });
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const socket = useSocketContext();
@@ -18,26 +24,24 @@ export default function QuizSingleChoice() {
             });
             if (currentState === 'ongoing') {
                 if (currentQuestionIndex < questionList.length) {
-                    socket.emit(
-                        'pollQuestion',
-                        questionList[currentQuestionIndex]
-                    );
+                    socket.emit('pollQuestion', [
+                        currentQuestionIndex,
+                        questionList[currentQuestionIndex],
+                    ]);
                     console.log('emitted question');
                 }
 
                 socket.on('approval', (id) => {
                     console.log('user approved');
-                    setAnswerCounter(([approval, refusal]) => [
-                        approval + 1,
-                        refusal,
-                    ]);
+                    const answers = { ...answerCounter };
+                    answers[id][0] = answers[id][0] + 1;
+                    setAnswerCounter(answers);
                 });
                 socket.on('refusal', (id) => {
                     console.log('user refused');
-                    setAnswerCounter(([approval, refusal]) => [
-                        approval,
-                        refusal + 1,
-                    ]);
+                    const answers = { ...answerCounter };
+                    answers[id][1] = answers[id][1] + 1;
+                    setAnswerCounter(answers);
                 });
             }
         }
@@ -54,8 +58,8 @@ export default function QuizSingleChoice() {
                 <p>Waiting for people to connect</p>
                 <div>
                     <div>
-                        {questionList.map((question) => {
-                            return <p>{question}</p>;
+                        {questionList.map((question, i) => {
+                            return <p key={i}>{question}</p>;
                         })}
                     </div>
                     <button onClick={() => setCurrentState('creation')}>
@@ -83,15 +87,42 @@ export default function QuizSingleChoice() {
                 <div className={style.menu}>
                     <div>
                         <div>
-                            {!(currentQuestionIndex >= questionList.length) && (
-                                <table>
+                            <table>
+                                <thead>
                                     <tr>
-                                        <th>answers : </th>
-                                        <th>{answerCounter[0]}</th>
-                                        <th>{answerCounter[1]}</th>
+                                        <th>Question</th>
+                                        <th>Réponses favorables</th>
+                                        <th>Réponses défavorables</th>
                                     </tr>
-                                </table>
-                            )}
+                                </thead>
+                                <tbody>
+                                    {questionList.map((question, i) => (
+                                        <tr
+                                            key={i}
+                                            style={{
+                                                backgroundColor:
+                                                    currentQuestionIndex === i
+                                                        ? 'rgba(255,255,0, 0.5)'
+                                                        : '',
+                                            }}
+                                        >
+                                            <th>
+                                                #{i + 1} {question}
+                                            </th>
+                                            <th>
+                                                {answerCounter[i]
+                                                    ? answerCounter[i][0]
+                                                    : 0}
+                                            </th>
+                                            <th>
+                                                {answerCounter[i]
+                                                    ? answerCounter[i][1]
+                                                    : 0}
+                                            </th>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                         <div>
                             <div>
@@ -101,10 +132,15 @@ export default function QuizSingleChoice() {
                                     currentQuestionIndex > 0 && (
                                         <button
                                             onClick={() => {
+                                                const i =
+                                                    currentQuestionIndex - 1;
+                                                setAnswerCounter((answers) => {
+                                                    answers[i] = [0, 0];
+                                                    return { ...answers };
+                                                });
                                                 setCurrentQuestionIndex(
                                                     (i) => i - 1
                                                 );
-                                                setAnswerCounter([0, 0]);
                                             }}
                                         >
                                             back
@@ -115,10 +151,15 @@ export default function QuizSingleChoice() {
                                 ) && (
                                     <button
                                         onClick={() => {
+                                            const i = currentQuestionIndex + 1;
+                                            //Resets the given answers of the students to allow them to re-answer to that question
+                                            setAnswerCounter((answers) => {
+                                                answers[i + 1] = [0, 0];
+                                                return { ...answers };
+                                            });
                                             setCurrentQuestionIndex(
                                                 (i) => i + 1
                                             );
-                                            setAnswerCounter([0, 0]);
                                         }}
                                     >
                                         next
@@ -147,12 +188,12 @@ export default function QuizSingleChoice() {
                     name='questions'
                     onSubmit={(e) => {
                         e.preventDefault();
-                        setQuestionList((list) => [
-                            ...list,
-                            document.forms.questions.elements.question_input
-                                .value,
-                        ]);
-                        console.log(questionList);
+                        setAnswerCounter((answers) => {
+                            answers[questionList.length + 1] = [0, 0];
+                            return { ...answers };
+                        });
+                        setQuestionList((list) => [...list, inputValue]);
+                        setInputValue('');
                     }}
                 >
                     <input
@@ -160,14 +201,16 @@ export default function QuizSingleChoice() {
                         name='question_input'
                         type='text'
                         placeholder='question'
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
                     ></input>
                     <button type='submit'>add question</button>
                 </form>
                 <div>
                     {questionList.length > 0 && (
                         <ul>
-                            {questionList.map((question) => {
-                                return <li>{question}</li>;
+                            {questionList.map((question, i) => {
+                                return <li key={i}>{question}</li>;
                             })}
                         </ul>
                     )}
