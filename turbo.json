@@ -6,9 +6,7 @@
             "outputs": ["dist/**", ".next/**"]
         },
         "lint": {
-            "dependsOn": [],
-            "outputs": [],
-            "env": ["NODE_ENV", "PORT", "HOST"]
+            "cache": false
         },
         "dev": {
             "cache": false
