@@ -4,7 +4,7 @@ import Server from './Server';
 export default class IoClient {
     private io: Socket;
 
-    public constructor(private server: Server) {
+    public constructor(server: Server) {
         this.io = io('http://localhost:3001');
         this.io.on('screen_share_accepted', (sharer_id: string) => {
             console.log('agent:screen_share_accepted', sharer_id);
