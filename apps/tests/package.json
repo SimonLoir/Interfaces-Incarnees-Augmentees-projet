@@ -2,10 +2,21 @@
     "name": "project-test",
     "version": "1.0.0",
     "scripts": {
-        "dev": "node index.js",
+        "dev": "nodemon --watch \"src/**\" --ext \"ts,json\"  --exec \"ts-node --project tsconfig.json src/index.ts\"",
         "lint": "eslint . --fix"
     },
     "devDependencies": {
-        "eslint": "^8.26.0"
+        "@types/node": "^18.8.5",
+        "eslint": "^8.26.0",
+        "eslint-config-custom": "*",
+        "gestures-controller": "*",
+        "leapjs-types": "*",
+        "nodemon": "^2.0.20",
+        "ts-node": "^10.9.1",
+        "tsconfig": "*",
+        "typescript": "^4.8.4"
+    },
+    "dependencies": {
+        "leapjs": "^1.1.1"
     }
 }
