@@ -1,11 +1,14 @@
 import Leap from 'leapjs';
+import HandDiff from './HandDiff';
 export default class FrameDiff {
     /* The delta between the number of hands in the first frame and in the second frame */
-    private handCountDiff: number;
+    private handCountDiff: number = 0;
     /* The ids of the hands that are common to both frames */
     private commonHands: string[] = [];
     /* The delta between the number of fingers in the first frame and in the second frame */
-    private fingerCountDiff: number;
+    private fingerCountDiff: number = 0;
+
+    private handDiffs: { [id: string]: HandDiff } = {};
 
     constructor(private frame1: Leap.Frame, private frame2: Leap.Frame) {
         this.handsDiff();
@@ -22,6 +25,7 @@ export default class FrameDiff {
             this.frame2.hands.forEach((hand2) => {
                 if (hand1.id === hand2.id) {
                     this.commonHands.push(hand1.id);
+                    this.handDiffs[hand1.id] = new HandDiff(hand1, hand2);
                 }
             });
         });
