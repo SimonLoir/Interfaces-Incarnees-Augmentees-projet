@@ -6,7 +6,7 @@
         "lint": "eslint . --fix"
     },
     "devDependencies": {
-        "@types/node": "^18.8.5",
+        "@types/node": "^18.11.7",
         "eslint": "^8.26.0",
         "eslint-config-custom": "*",
         "gestures-controller": "*",
