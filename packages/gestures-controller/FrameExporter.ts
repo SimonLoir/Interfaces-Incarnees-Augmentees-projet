@@ -1,24 +1,42 @@
 import Leap from 'leapjs';
 export default class FrameExporter {
+    public fingerNames = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'];
     constructor(private Frame: Leap.Frame) {}
+
+    private exportHandData(hand: Leap.Hand) {
+        return {
+            type: hand.type,
+            direction: hand.direction,
+            palmNormal: hand.palmNormal,
+            palmPosition: hand.palmPosition,
+            palmVelocity: hand.palmVelocity,
+            grabStrength: hand.grabStrength,
+            pinchStrength: hand.pinchStrength,
+            stabilizedPalmPosition: hand.stabilizedPalmPosition,
+            sphereCenter: hand.sphereCenter,
+            sphereRadius: hand.sphereRadius,
+            fingers: hand.fingers.map(this.exportFingerData),
+        };
+    }
+
+    private exportFingerData(finger: Leap.Finger) {
+        return {
+            type: this.fingerNames[finger.type],
+            direction: finger.direction,
+            stabilizedTipPosition: finger.stabilizedTipPosition,
+            length: finger.length,
+            width: finger.width,
+            timeVisible: finger.timeVisible,
+            tipPosition: finger.tipPosition,
+            tipVelocity: finger.tipVelocity,
+        };
+    }
+
     public export() {
         return {
             id: this.Frame.id,
             timestamp: this.Frame.timestamp,
-            hands: this.Frame.hands.map((hand) => {
-                return {
-                    id: hand.id,
-                    palmPosition: hand.palmPosition,
-                    fingers: hand.fingers.map((finger: Leap.Finger) => {
-                        return {
-                            id: finger.id,
-                            tipPosition: finger.tipPosition,
-                            type: finger.type,
-                            extended: finger.extended,
-                        };
-                    }),
-                };
-            }),
+            hands: this.Frame.hands.map(this.exportHandData),
         };
     }
 }
