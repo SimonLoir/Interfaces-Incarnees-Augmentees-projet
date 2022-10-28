@@ -54,12 +54,12 @@ export default class Server {
         return Server.instance;
     }
 
-    public acceptScreenShare(sharer_id: string) {
-        this.io.emit('screen_share_accepted', sharer_id);
+    public acceptScreenShare(sharerId: string) {
+        this.io.emit('screen_share_accepted', sharerId);
     }
 
-    public refuseScreenShare(sharer_id: string) {
-        this.io.emit('screen_share_refused', sharer_id);
+    public refuseScreenShare(sharerId: string) {
+        this.io.emit('screen_share_refused', sharerId);
     }
 
     public setView(view: string) {

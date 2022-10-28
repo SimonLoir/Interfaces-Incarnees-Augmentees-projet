@@ -8,12 +8,12 @@ export default class IoClient {
         const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
         const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
         this.io = io(`http://${host}:${port}`);
-        this.io.on('screen_share_accepted', (sharer_id: string) => {
-            console.log('agent:screen_share_accepted', sharer_id);
-            server.acceptScreenShare(sharer_id);
+        this.io.on('screen_share_accepted', (sharerId: string) => {
+            console.log('agent:screen_share_accepted', sharerId);
+            server.acceptScreenShare(sharerId);
         });
-        this.io.on('screen_share_refused', (sharer_id: string) => {
-            server.refuseScreenShare(sharer_id);
+        this.io.on('screen_share_refused', (sharerId: string) => {
+            server.refuseScreenShare(sharerId);
         });
         this.io.on('setView', (view: string) => {
             console.log('agent:setView', view);

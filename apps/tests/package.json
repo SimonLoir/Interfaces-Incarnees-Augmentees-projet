@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "scripts": {
         "dev": "node index.js",
-        "lint": "eslint ."
+        "lint": "eslint . --fix"
     },
     "devDependencies": {
         "eslint": "^8.26.0"

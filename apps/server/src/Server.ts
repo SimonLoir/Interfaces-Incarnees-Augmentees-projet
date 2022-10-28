@@ -100,12 +100,12 @@ export default class Server {
 
         this.io.on('connection', (socket) => {
             console.log('connection');
-            socket.on('screen_share_accepted', (sharer_id: string) => {
-                console.log('screen_share_accepted', sharer_id);
-                this.io.emit('screen_share_accepted', sharer_id);
+            socket.on('screen_share_accepted', (sharerId: string) => {
+                console.log('screen_share_accepted', sharerId);
+                this.io.emit('screen_share_accepted', sharerId);
             });
-            socket.on('screen_share_refused', (sharer_id: string) => {
-                this.io.emit('screen_share_refused', sharer_id);
+            socket.on('screen_share_refused', (sharerId: string) => {
+                this.io.emit('screen_share_refused', sharerId);
             });
             socket.on('setView', (view: string) => {
                 console.log('setView', view);
@@ -130,7 +130,7 @@ export default class Server {
     public sendPreviousView() {
         this.io.emit('previous-view');
     }
-    public sendScreenShareProposition(sharer_id: string) {
-        this.io.emit('screen-share-proposition', sharer_id);
+    public sendScreenShareProposition(sharerId: string) {
+        this.io.emit('screen-share-proposition', sharerId);
     }
 }

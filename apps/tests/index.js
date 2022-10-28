@@ -4,7 +4,7 @@ const controller = new Leap.Controller();
 
 let started = false;
 let out = [];
-const finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'];
+const fingeNames = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'];
 
 controller.on('frame', function (frame) {
     let { hands, id, timestamp, valid } = frame;
@@ -56,7 +56,7 @@ controller.on('frame', function (frame) {
                 touchZone,
             } = finger;
 
-            type = finger_names[type];
+            type = fingeNames[type];
 
             return {
                 type,

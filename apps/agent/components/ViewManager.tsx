@@ -4,6 +4,7 @@ import StudentsScreenSharingView from './StudentScreenSharingView';
 import TeacherScreenSharingView from './TeacherScreenSharingView';
 import PollStudent from './PollStudent';
 
+/* eslint-disable camelcase */
 const views = {
     teacher_screen_share: <TeacherScreenSharingView></TeacherScreenSharingView>,
     poll: <PollStudent />,
@@ -13,6 +14,7 @@ const views = {
     ),
     qcm: <>QCM</>,
 };
+/* eslint-enable camelcase */
 
 export default function ViewManager() {
     const socket = useSocketContext();

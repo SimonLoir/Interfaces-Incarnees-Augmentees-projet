@@ -11,15 +11,15 @@ export default function StudentsScreenSharingView() {
     const [stream, setStream] = useState<MediaStream>();
 
     useEffect(() => {
-        socket.on('screen_share_accepted', (shared_id) => {
-            if (shared_id === peer.id) setStatus('streaming');
+        socket.on('screen_share_accepted', (sharerId) => {
+            if (sharerId === peer.id) setStatus('streaming');
             else {
                 setStatus('waiting');
             }
         });
 
-        socket.on('screen_share_refused', (shared_id) => {
-            if (shared_id === peer.id) setStatus('waiting');
+        socket.on('screen_share_refused', (sharerId) => {
+            if (sharerId === peer.id) setStatus('waiting');
         });
 
         return () => {

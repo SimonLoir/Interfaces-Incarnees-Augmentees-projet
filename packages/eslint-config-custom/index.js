@@ -33,6 +33,7 @@ module.exports = {
                 overrides: { arrow: { before: true } },
             },
         ],
+        camelcase: 2,
     },
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],

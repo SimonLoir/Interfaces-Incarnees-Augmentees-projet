@@ -2,7 +2,7 @@
     "name": "gestures-controller",
     "main": "index.ts",
     "scripts": {
-        "lint": "eslint . --ext .ts"
+        "lint": "eslint . --ext .ts --fix"
     },
     "devDependencies": {
         "eslint": "^8.26.0",
