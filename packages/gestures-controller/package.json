@@ -1,0 +1,14 @@
+{
+    "name": "gestures-controller",
+    "main": "index.ts",
+    "scripts": {
+        "lint": "eslint . --ext .ts"
+    },
+    "devDependencies": {
+        "eslint": "^8.26.0"
+    },
+    "dependencies": {
+        "leapjs": "^1.1.1",
+        "leapjs-types": "*"
+    }
+}

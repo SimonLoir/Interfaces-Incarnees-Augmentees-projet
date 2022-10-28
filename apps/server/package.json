@@ -43,6 +43,7 @@
         "socket.io": "^4.5.3",
         "socket.io-client": "^4.5.3",
         "sqlite3": "^5.1.2",
-        "three": "^0.145.0"
+        "three": "^0.145.0",
+        "gestures-controller": "*"
     }
 }
