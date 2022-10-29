@@ -1,15 +1,40 @@
 import GestureController, { FrameExporter } from 'gestures-controller';
+import express from 'express';
 import Leap from 'leapjs';
 import * as fs from 'fs';
+
 class Controller extends GestureController {
     private frameRate = 3;
     private frameStoreLength = this.frameRate * 3; // 3 seconds
     private frameStore: Leap.Frame[] = [];
+    private listen = false;
     constructor() {
-        console.log('Hello world from server');
+        const app = express();
+
+        app.get('/toggle-listen', (req, res) => {
+            this.listen = !this.listen;
+            console.log('Listening: ' + this.listen);
+            return res.send('Listening: ' + this.listen);
+        });
+
+        app.listen(8080);
         const controller = new Leap.Controller({});
         super(controller);
         controller.on('frame', (frame) => {
+            if (this.listen === false) {
+                if (this.frameStore.length > 0) {
+                    fs.writeFileSync(
+                        'frame.json',
+                        JSON.stringify(
+                            this.frameStore.map((f) =>
+                                new FrameExporter(f).export()
+                            )
+                        )
+                    );
+                    this.frameStore = [];
+                }
+                return;
+            }
             if (
                 frame.id %
                     Math.floor(frame.currentFrameRate / this.frameRate) !==
@@ -21,19 +46,6 @@ class Controller extends GestureController {
             this.frameStore.push(frame);
             if (this.frameStore.length > this.frameStoreLength)
                 this.frameStore.shift();
-        });
-        controller.connect();
-        process.on('SIGINT', () => {
-            console.log('hello world');
-            fs.writeFileSync(
-                'data.json',
-                JSON.stringify(
-                    this.frameStore.map((frame) =>
-                        new FrameExporter(frame).export()
-                    )
-                )
-            );
-            controller.disconnect();
         });
     }
 }
