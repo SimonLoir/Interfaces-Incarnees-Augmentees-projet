@@ -7,7 +7,7 @@ export default class FrameDiff {
     private commonHands: string[] = [];
     /* The delta between the number of fingers in the first frame and in the second frame */
     private fingerCountDiff: number = 0;
-
+    /* Store of HandDiffs for the hands in common */
     private handDiffs: { [id: string]: HandDiff } = {};
 
     constructor(private frame1: Leap.Frame, private frame2: Leap.Frame) {
