@@ -10,7 +10,6 @@ function updateInputs(list: string[], value: string, index: number) {
 }
 
 export default function QuizMultiChoice() {
-    const [inputValues, setInputValues] = useState<string[]>([]);
     const [questionList, setQuestionList] = useState<string[][]>([]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -22,7 +21,46 @@ export default function QuizMultiChoice() {
                 <div>
                     <ul>
                         {questionList.map((question) => {
-                            return <li>{question}</li>;
+                            return (
+                                <li>
+                                    <p
+                                        style={{
+                                            color: 'rgb(175, 48, 51)',
+                                            border: 'none',
+                                        }}
+                                    >
+                                        {question[0]}
+                                    </p>
+                                    <p
+                                        style={{
+                                            color: 'blue',
+                                        }}
+                                    >
+                                        {question[1]}
+                                    </p>
+                                    <p
+                                        style={{
+                                            color: 'blue',
+                                        }}
+                                    >
+                                        {question[2]}
+                                    </p>
+                                    <p
+                                        style={{
+                                            color: 'blue',
+                                        }}
+                                    >
+                                        {question[3]}
+                                    </p>
+                                    <p
+                                        style={{
+                                            color: 'blue',
+                                        }}
+                                    >
+                                        {question[4]}
+                                    </p>
+                                </li>
+                            );
                         })}
                     </ul>
                     <button onClick={() => setCurrentState('creation')}>
@@ -140,7 +178,7 @@ export default function QuizMultiChoice() {
                 )}
                 <div>
                     {questionList.length > 0 && (
-                        <ul id='renderedList'>
+                        <ul>
                             {questionList.map((question) => {
                                 return (
                                     <li>
