@@ -57,11 +57,11 @@ export default function QuizSingleChoice() {
             <div className={style.mainAwaiting}>
                 <p>Waiting for people to connect</p>
                 <div>
-                    <div>
+                    <ul>
                         {questionList.map((question, i) => {
-                            return <p key={i}>{question}</p>;
+                            return <li key={i}>{question}</li>;
                         })}
-                    </div>
+                    </ul>
                     <button onClick={() => setCurrentState('creation')}>
                         back
                     </button>
