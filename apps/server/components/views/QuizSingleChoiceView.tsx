@@ -125,6 +125,14 @@ export default function QuizSingleChoice() {
                             </table>
                         </div>
                         <div>
+                            <button
+                                onClick={() => {
+                                    setCurrentState('creation');
+                                    setCurrentQuestionIndex(0);
+                                }}
+                            >
+                                exit
+                            </button>
                             <div>
                                 {!(
                                     currentQuestionIndex >= questionList.length
@@ -166,14 +174,6 @@ export default function QuizSingleChoice() {
                                     </button>
                                 )}
                             </div>
-                            <button
-                                onClick={() => {
-                                    setCurrentState('creation');
-                                    setCurrentQuestionIndex(0);
-                                }}
-                            >
-                                exit
-                            </button>
                         </div>
                     </div>
                 </div>

@@ -119,42 +119,25 @@
                 }
             }
             div + div {
-                display: grid;
+                display: flex;
                 grid-area: buttons;
-                grid: 'exit nav';
-                grid-template-columns: 33% 66%;
-                grid-template-rows: 100%;
+                align-items: center;
                 > div {
-                    display: grid;
-                    grid-area: nav;
-                    grid: 'nav-l nav-r';
-                    grid-template-columns: 50% 50%;
-                    grid-template-rows: 100%;
                     > button {
-                        display: grid;
-                        grid-area: nav-l;
-                        justify-self: center;
                         justify-content: center;
-                        align-content: center;
                         width: 120px;
                         height: 30px;
-                        margin: 2rem;
-                        margin-inline: 1rem;
+                        margin: 1rem;
                         border: 1px solid rgb(175, 48, 51);
                         border-radius: 3px;
                         background-color: rgb(175, 48, 51);
                         color: white;
                     }
                     > button + button {
-                        display: grid;
-                        grid-area: nav-r;
-                        justify-self: center;
                         justify-content: center;
-                        align-content: center;
                         width: 120px;
                         height: 30px;
-                        margin: 2rem;
-                        margin-inline: 1rem;
+                        margin: 1rem;
                         border: 1px solid rgb(175, 48, 51);
                         border-radius: 3px;
                         background-color: rgb(175, 48, 51);
@@ -162,11 +145,10 @@
                     }
                 }
                 button {
-                    grid-area: next;
-                    justify-self: center;
+                    justify-content: center;
                     width: 120px;
                     height: 30px;
-                    margin-inline: 1rem;
+                    margin: 1rem;
                     border: 1px solid rgb(175, 48, 51);
                     border-radius: 3px;
                     background-color: rgb(175, 48, 51);

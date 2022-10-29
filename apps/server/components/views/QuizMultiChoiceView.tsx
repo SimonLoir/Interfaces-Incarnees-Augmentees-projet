@@ -18,6 +18,7 @@ export default function QuizMultiChoice() {
         return (
             <div className={style.mainAwaiting}>
                 <p>Waiting for people to connect</p>
+                <p className={style.presetName}>Unnamed preset</p>
                 <div>
                     <ul>
                         {questionList.map((question) => {
@@ -77,44 +78,106 @@ export default function QuizMultiChoice() {
         return (
             <div className={style.mainOngoing}>
                 <div className={style.question}>
-                    <p>{questionList[currentQuestionIndex]}</p>
+                    <p>{questionList[currentQuestionIndex][0]}</p>
                 </div>
                 <div className={style.menu}>
-                    {!(currentQuestionIndex >= questionList.length) && (
+                    <div>
                         <div>
-                            <div>
-                                <table>
+                            <table>
+                                <thead>
                                     <tr>
-                                        <th>answers : </th>
-                                        <th>Answer 1</th>
-                                        <th>Answer 2</th>
-                                        <th>Answer 3</th>
-                                        <th>Answer 4</th>
-                                        <th>Answer 5</th>
+                                        <th>
+                                            {
+                                                questionList[
+                                                    currentQuestionIndex
+                                                ][1]
+                                            }
+                                        </th>
+                                        <th>
+                                            {
+                                                questionList[
+                                                    currentQuestionIndex
+                                                ][2]
+                                            }
+                                        </th>
+                                        <th>
+                                            {
+                                                questionList[
+                                                    currentQuestionIndex
+                                                ][3]
+                                            }
+                                        </th>
+                                        <th>
+                                            {
+                                                questionList[
+                                                    currentQuestionIndex
+                                                ][4]
+                                            }
+                                        </th>
                                     </tr>
-                                </table>
-                            </div>
-                            {currentQuestionIndex > 0 && (
-                                <button
-                                    onClick={() =>
-                                        setCurrentQuestionIndex((i) => i - 1)
-                                    }
-                                >
-                                    back
-                                </button>
-                            )}
-                            <button
-                                onClick={() =>
-                                    setCurrentQuestionIndex((i) => i + 1)
-                                }
-                            >
-                                next
-                            </button>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>0</th>
+                                        <th>0</th>
+                                        <th>0</th>
+                                        <th>0</th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    )}
-                    <button onClick={() => setCurrentState('creation')}>
-                        exit
-                    </button>
+                        <div>
+                            <button
+                                onClick={() => {
+                                    setCurrentState('creation');
+                                    setCurrentQuestionIndex(0);
+                                }}
+                            >
+                                exit
+                            </button>
+                            <div>
+                                {!(
+                                    currentQuestionIndex >= questionList.length
+                                ) &&
+                                    currentQuestionIndex > 0 && (
+                                        <button
+                                            onClick={() => {
+                                                const i =
+                                                    currentQuestionIndex - 1;
+                                                /*setAnswerCounter((answers) => {
+                                                    answers[i] = [0, 0];
+                                                    return { ...answers };
+                                                });*/
+                                                setCurrentQuestionIndex(
+                                                    (i) => i - 1
+                                                );
+                                            }}
+                                        >
+                                            back
+                                        </button>
+                                    )}
+                                {!(
+                                    currentQuestionIndex >= questionList.length
+                                ) && (
+                                    <button
+                                        onClick={() => {
+                                            const i = currentQuestionIndex + 1;
+                                            //Resets the given answers of the students to allow them to re-answer to that question
+                                            /*setAnswerCounter((answers) => {
+                                                answers[i + 1] = [0, 0];
+                                                return { ...answers };
+                                            });*/
+                                            setCurrentQuestionIndex(
+                                                (i) => i + 1
+                                            );
+                                        }}
+                                    >
+                                        next
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
