@@ -1,6 +1,5 @@
 /* eslint-disable indent */
 import { useState, useEffect } from 'react';
-import { Socket } from 'socket.io-client';
 import { useSocketContext } from '@utils/global';
 
 export default function PollStudents() {

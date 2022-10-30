@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import StudentsScreenSharingView from './StudentScreenSharingView';
 import TeacherScreenSharingView from './TeacherScreenSharingView';
 import PollStudent from './PollStudent';
+import QCMStudent from './QCMStudent';
 
 /* eslint-disable camelcase */
 const views = {
@@ -12,7 +13,7 @@ const views = {
     student_screen_share: (
         <StudentsScreenSharingView></StudentsScreenSharingView>
     ),
-    qcm: <>QCM</>,
+    qcm: <QCMStudent />,
 };
 /* eslint-enable camelcase */
 

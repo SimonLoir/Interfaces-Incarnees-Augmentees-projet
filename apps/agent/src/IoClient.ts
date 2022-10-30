@@ -23,6 +23,10 @@ export default class IoClient {
             server.showPollQuestion(pollQuestion);
         });
 
+        this.io.on('QCMQuestion', (QCMQuestion: string) => {
+            server.showQCMQuestion(QCMQuestion);
+        });
+
         this.io.on('new-poll-participation', (msg: string) => {
             server.setPollConnection('connected');
         });

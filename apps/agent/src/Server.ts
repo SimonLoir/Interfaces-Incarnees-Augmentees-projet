@@ -70,6 +70,10 @@ export default class Server {
         this.io.emit('pollQuestion', pollQuestion);
     }
 
+    public showQCMQuestion(QCMQuestion: string) {
+        this.io.emit('QCMQuestion', QCMQuestion);
+    }
+
     public setPollConnection(msg: string) {
         this.io.emit('pollConnected', msg);
     }

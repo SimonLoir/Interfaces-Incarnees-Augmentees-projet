@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react';
 import style from '@style/QuizMultiChoice.module.scss';
-import { listenerCount } from 'process';
+import { useSocketContext } from '@utils/global';
 
 type stateType = 'creation' | 'awaiting' | 'ongoing';
 
@@ -13,6 +13,55 @@ export default function QuizMultiChoice() {
     const [questionList, setQuestionList] = useState<string[][]>([]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [answerCounter, setAnswerCounter] = useState<{
+        [id: string]: [number, number, number, number];
+    }>({ 0: [0, 0, 0, 0] });
+    const socket = useSocketContext();
+
+    useEffect(() => {
+        if (currentState !== 'creation') {
+            if (currentState === 'ongoing') {
+                if (currentQuestionIndex < questionList.length) {
+                    socket.emit('QCMQuestion', [
+                        currentQuestionIndex,
+                        questionList[currentQuestionIndex],
+                    ]);
+                    console.log('emitted question');
+                }
+
+                socket.on('answer1', (id) => {
+                    console.log('user answered 1');
+                    const answers = { ...answerCounter };
+                    answers[id][1] = answers[id][1] + 1;
+                    setAnswerCounter(answers);
+                });
+                socket.on('answer2', (id) => {
+                    console.log('user answered 2');
+                    const answers = { ...answerCounter };
+                    answers[id][2] = answers[id][2] + 1;
+                    setAnswerCounter(answers);
+                });
+                socket.on('answer3', (id) => {
+                    console.log('user answered 1');
+                    const answers = { ...answerCounter };
+                    answers[id][3] = answers[id][3] + 1;
+                    setAnswerCounter(answers);
+                });
+                socket.on('answer4', (id) => {
+                    console.log('user answered 2');
+                    const answers = { ...answerCounter };
+                    answers[id][4] = answers[id][4] + 1;
+                    setAnswerCounter(answers);
+                });
+            }
+        }
+        return () => {
+            socket.off('answer1');
+            socket.off('answer2');
+            socket.off('answer3');
+            socket.off('answer4');
+        };
+    }, [currentQuestionIndex, currentState, questionList, socket]);
 
     if (currentState === 'awaiting') {
         return (
@@ -77,54 +126,61 @@ export default function QuizMultiChoice() {
     if (currentState === 'ongoing') {
         return (
             <div className={style.mainOngoing}>
-                <div className={style.question}>
-                    <p>{questionList[currentQuestionIndex][0]}</p>
-                </div>
+                {!(currentQuestionIndex >= questionList.length) && (
+                    <div className={style.question}>
+                        <p>{questionList[currentQuestionIndex][0]}</p>
+                    </div>
+                )}
+                {currentQuestionIndex >= questionList.length && (
+                    <div className={style.end}>Current poll ended</div>
+                )}
                 <div className={style.menu}>
                     <div>
                         <div>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            {
-                                                questionList[
-                                                    currentQuestionIndex
-                                                ][1]
-                                            }
-                                        </th>
-                                        <th>
-                                            {
-                                                questionList[
-                                                    currentQuestionIndex
-                                                ][2]
-                                            }
-                                        </th>
-                                        <th>
-                                            {
-                                                questionList[
-                                                    currentQuestionIndex
-                                                ][3]
-                                            }
-                                        </th>
-                                        <th>
-                                            {
-                                                questionList[
-                                                    currentQuestionIndex
-                                                ][4]
-                                            }
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>0</th>
-                                        <th>0</th>
-                                        <th>0</th>
-                                        <th>0</th>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            {!(currentQuestionIndex >= questionList.length) && (
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                {
+                                                    questionList[
+                                                        currentQuestionIndex
+                                                    ][1]
+                                                }
+                                            </th>
+                                            <th>
+                                                {
+                                                    questionList[
+                                                        currentQuestionIndex
+                                                    ][2]
+                                                }
+                                            </th>
+                                            <th>
+                                                {
+                                                    questionList[
+                                                        currentQuestionIndex
+                                                    ][3]
+                                                }
+                                            </th>
+                                            <th>
+                                                {
+                                                    questionList[
+                                                        currentQuestionIndex
+                                                    ][4]
+                                                }
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                         <div>
                             <button
@@ -148,10 +204,16 @@ export default function QuizMultiChoice() {
                                                     const i =
                                                         currentQuestionIndex -
                                                         1;
-                                                    /*setAnswerCounter((answers) => {
-                                                    answers[i] = [0, 0];
-                                                    return { ...answers };
-                                                });*/
+                                                    setAnswerCounter(
+                                                        (answers) => {
+                                                            answers[i] = [
+                                                                0, 0, 0, 0,
+                                                            ];
+                                                            return {
+                                                                ...answers,
+                                                            };
+                                                        }
+                                                    );
                                                     setCurrentQuestionIndex(
                                                         (i) => i - 1
                                                     );
@@ -171,10 +233,12 @@ export default function QuizMultiChoice() {
                                                 const i =
                                                     currentQuestionIndex + 1;
                                                 //Resets the given answers of the students to allow them to re-answer to that question
-                                                /*setAnswerCounter((answers) => {
-                                                answers[i + 1] = [0, 0];
-                                                return { ...answers };
-                                            });*/
+                                                setAnswerCounter((answers) => {
+                                                    answers[i + 1] = [
+                                                        0, 0, 0, 0,
+                                                    ];
+                                                    return { ...answers };
+                                                });
                                                 setCurrentQuestionIndex(
                                                     (i) => i + 1
                                                 );
@@ -207,9 +271,9 @@ export default function QuizMultiChoice() {
                         if (e.target.answer2.value !== '')
                             inputs.push(e.target.answer2.value);
                         if (e.target.answer3.value !== '')
-                            inputs.push(e.target.answer3.value);
+                            inputs.push(e.target.answer3?.value);
                         if (e.target.answer4.value !== '')
-                            inputs.push(e.target.answer4.value);
+                            inputs.push(e.target.answer4?.value);
                         setQuestionList((list) => [...list, inputs]);
                         console.log(questionList);
                     }}
@@ -233,13 +297,13 @@ export default function QuizMultiChoice() {
                         placeholder='answer 2'
                     ></input>
                     <input
-                        required={true}
+                        required={false}
                         name='answer3'
                         type='text'
                         placeholder='answer 3'
                     ></input>
                     <input
-                        required={true}
+                        required={false}
                         name='answer4'
                         type='text'
                         placeholder='answer 4'

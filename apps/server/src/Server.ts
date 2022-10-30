@@ -69,6 +69,17 @@ export default class Server {
             );
 
             this.expressServer.get(
+                '/answer/:num/:id',
+                (req: Request, res: Response) => {
+                    const id = req.params.id;
+                    const num = req.params.num;
+                    this.io.emit('answer' + num, id);
+                    console.log('+1 answer ' + num + ' ', id);
+                    return res.send(id);
+                }
+            );
+
+            this.expressServer.get(
                 '/poll-connect/*',
                 (req: Request, res: Response) => {
                     this.io.emit('new-poll-participation', 'hi student');
@@ -113,6 +124,9 @@ export default class Server {
             });
             socket.on('pollQuestion', (pollQuestion: string) => {
                 this.io.emit('pollQuestion', pollQuestion);
+            });
+            socket.on('QCMQuestion', (QCMQuestion: string) => {
+                this.io.emit('QCMQuestion', QCMQuestion);
             });
         });
     }
