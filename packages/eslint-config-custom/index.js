@@ -3,7 +3,6 @@ module.exports = {
     rules: {
         '@next/next/no-html-link-for-pages': 'off',
         'react/jsx-key': 'off',
-        indent: ['error', 4],
         'no-var': 'error',
         'prefer-const': 'warn',
         'func-call-spacing': ['error', 'never'],
@@ -34,6 +33,7 @@ module.exports = {
             },
         ],
         camelcase: 2,
+        indent: 0,
     },
     parser: '@typescript-eslint/parser',
     plugins: ['@typescript-eslint'],
