@@ -135,46 +135,56 @@ export default function QuizMultiChoice() {
                             >
                                 exit
                             </button>
+
                             <div>
-                                {!(
-                                    currentQuestionIndex >= questionList.length
-                                ) &&
-                                    currentQuestionIndex > 0 && (
-                                        <button
-                                            onClick={() => {
-                                                const i =
-                                                    currentQuestionIndex - 1;
-                                                /*setAnswerCounter((answers) => {
+                                {
+                                    /* eslint-disable indent*/ !(
+                                        currentQuestionIndex >=
+                                        questionList.length
+                                    ) &&
+                                        currentQuestionIndex > 0 && (
+                                            <button
+                                                onClick={() => {
+                                                    const i =
+                                                        currentQuestionIndex -
+                                                        1;
+                                                    /*setAnswerCounter((answers) => {
                                                     answers[i] = [0, 0];
                                                     return { ...answers };
                                                 });*/
-                                                setCurrentQuestionIndex(
-                                                    (i) => i - 1
-                                                );
-                                            }}
-                                        >
-                                            back
-                                        </button>
-                                    )}
-                                {!(
-                                    currentQuestionIndex >= questionList.length
-                                ) && (
-                                    <button
-                                        onClick={() => {
-                                            const i = currentQuestionIndex + 1;
-                                            //Resets the given answers of the students to allow them to re-answer to that question
-                                            /*setAnswerCounter((answers) => {
+                                                    setCurrentQuestionIndex(
+                                                        (i) => i - 1
+                                                    );
+                                                }}
+                                            >
+                                                back
+                                            </button>
+                                        )
+                                }
+                                {
+                                    !(
+                                        currentQuestionIndex >=
+                                        questionList.length
+                                    ) && (
+                                        <button
+                                            onClick={() => {
+                                                const i =
+                                                    currentQuestionIndex + 1;
+                                                //Resets the given answers of the students to allow them to re-answer to that question
+                                                /*setAnswerCounter((answers) => {
                                                 answers[i + 1] = [0, 0];
                                                 return { ...answers };
                                             });*/
-                                            setCurrentQuestionIndex(
-                                                (i) => i + 1
-                                            );
-                                        }}
-                                    >
-                                        next
-                                    </button>
-                                )}
+                                                setCurrentQuestionIndex(
+                                                    (i) => i + 1
+                                                );
+                                            }}
+                                        >
+                                            next
+                                        </button>
+                                    )
+                                    /* eslint-enable indent*/
+                                }
                             </div>
                         </div>
                     </div>
@@ -190,7 +200,7 @@ export default function QuizMultiChoice() {
                     name='questions'
                     onSubmit={(e) => {
                         e.preventDefault();
-                        let inputs: string[] = [];
+                        const inputs: string[] = [];
                         inputs.push(e.target.question.value);
                         if (e.target.answer1.value !== '')
                             inputs.push(e.target.answer1.value);
