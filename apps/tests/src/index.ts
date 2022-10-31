@@ -56,7 +56,9 @@ class Controller extends GestureController {
             )
                 return;
 
-            //console.log(this.frameStore.map((f) => f.id));
+            console.log(
+                this.extractFromFrames(this.frameStore).map((x) => x.name)
+            );
             this.frameStore.push(frame);
             if (this.frameStore.length > this.frameStoreLength)
                 this.frameStore.shift();

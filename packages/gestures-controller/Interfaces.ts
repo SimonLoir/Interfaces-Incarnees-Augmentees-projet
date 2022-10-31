@@ -5,30 +5,29 @@ export interface Gesture<T extends 'static' | 'dynamic'> {
     data: T extends 'static' ? Model : Model[];
 }
 
+export type FingersModel =
+    | {
+          minExtended?: never;
+          maxExtended?: never;
+          exactExtended: number;
+      }
+    | {
+          minExtended?: number;
+          maxExtended?: number;
+          exactExtended?: never;
+      };
 export interface Model {
     minDuration: number;
     maxDuration?: number;
     hands?: HandModel[];
-    exactExtendedFingers?: number;
-    minExtendedFingers?: number;
-    maxExtendedFingers?: number;
+    fingers?: FingersModel;
     handsCount?: number;
 }
 
 export interface HandModel {
     type?: 'left' | 'right';
 
-    fingers?:
-        | {
-              minExtended?: never;
-              maxExtended?: never;
-              exactExtended: number;
-          }
-        | {
-              minExtended?: number;
-              maxExtended?: number;
-              exactExtended?: never;
-          };
+    fingers?: FingersModel;
 
     palmPosition?: {
         minX?: number;

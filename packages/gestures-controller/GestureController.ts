@@ -41,6 +41,7 @@ export default abstract class GesturesController {
                 allowedGestures.includes(gesture.name)
             );
         }
+        console.log(this.staticGestures);
     }
 
     public frameDiff(from: Leap.Frame, to: Leap.Frame) {
@@ -85,13 +86,13 @@ export default abstract class GesturesController {
         gesture: Gesture<'static'>,
         frames: Leap.Frame[]
     ): boolean {
+        if (frames.length < 3) return false;
         // Gets the last frame in the buffer
         const lastFrame = frames[frames.length - 1];
 
         // Checks that the last frame matches the model. If it does not, the gesture does not match
         if (!this.checkStaticPropertiesForModel(gesture.data, lastFrame))
             return false;
-
         // Retrieves the minimum duration of the gesture from the model
         const { minDuration } = gesture.data;
 
@@ -101,7 +102,7 @@ export default abstract class GesturesController {
         // Gets the first frame that matches the model's duration
         while (
             firstFrame &&
-            firstFrame.timestamp - lastFrame.timestamp < minDuration
+            lastFrame.timestamp - firstFrame.timestamp > minDuration
         ) {
             i--;
             firstFrame = frames[frames.length + i];
