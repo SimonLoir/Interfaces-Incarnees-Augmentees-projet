@@ -1,4 +1,5 @@
 import Leap from 'leapjs';
+import { FingerDiffExport } from './Interfaces';
 
 export default class FingerDiff {
     private extend: boolean = false;
@@ -13,7 +14,7 @@ export default class FingerDiff {
         }
     }
 
-    public export() {
+    public export(): FingerDiffExport {
         return {
             ...(this.extend && { extend: this.extend }),
             ...(this.retract && { retract: this.retract }),

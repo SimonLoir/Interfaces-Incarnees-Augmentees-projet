@@ -1,5 +1,6 @@
 import Leap from 'leapjs';
 import FingerDiff from './FingerDiff';
+import { HandDiffExport } from './Interfaces';
 
 export default class HandDiff {
     /* The delta between the number of fingers in the first hand and in the second hand */
@@ -45,21 +46,19 @@ export default class HandDiff {
             this.hand2.palmPosition[1] - this.hand1.palmPosition[1],
             this.hand2.palmPosition[2] - this.hand1.palmPosition[2],
         ];
-        console.log(this.palmPositionDiff);
-        console.log(this.timeDiff);
+
         this.velocity = this.palmPositionDiff.map(
             (value) => (value / this.timeDiff) * 1_000_000
         ) as [number, number, number];
-        console.log(this.velocity);
     }
 
     /**
      * Exports the data stored in the HandDiff
      */
-    public export() {
+    public export(): HandDiffExport {
         return {
             fingerCountDiff: this.fingerCountDiff,
-            velocity: this.velocity,
+            velocityDiff: this.velocity,
             commonFingers: this.commonFingers,
             palmPositionDiff: this.palmPositionDiff,
             fingerDiff: Object.fromEntries(
