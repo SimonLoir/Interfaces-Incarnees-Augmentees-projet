@@ -57,6 +57,7 @@ export default class HandDiff {
      */
     public export(): HandDiffExport {
         return {
+            type: this.hand1.type as 'left' | 'right',
             fingerCountDiff: this.fingerCountDiff,
             velocityDiff: this.velocity,
             commonFingers: this.commonFingers,

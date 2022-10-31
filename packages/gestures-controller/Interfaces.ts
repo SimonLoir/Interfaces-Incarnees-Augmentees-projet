@@ -2,20 +2,20 @@ export interface Gesture<T extends 'static' | 'dynamic'> {
     name: string;
     type: T;
     description: string;
-    data: T extends 'static' ? Features : Features[];
+    data: T extends 'static' ? Model : Model[];
 }
 
-export interface Features {
-    minDuration?: number;
+export interface Model {
+    minDuration: number;
     maxDuration?: number;
-    hands?: HandFeatures[];
+    hands?: HandModel[];
     exactExtendedFingers?: number;
     minExtendedFingers?: number;
     maxExtendedFingers?: number;
     handsCount?: number;
 }
 
-export interface HandFeatures {
+export interface HandModel {
     type?: 'left' | 'right';
 
     fingers?:
@@ -60,6 +60,7 @@ export interface FrameDiffExport {
 }
 
 export interface HandDiffExport {
+    type: 'left' | 'right';
     fingerCountDiff: number;
     velocityDiff: [number, number, number];
     commonFingers: string[];
