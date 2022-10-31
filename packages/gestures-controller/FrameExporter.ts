@@ -4,6 +4,7 @@ export default class FrameExporter {
     constructor(private Frame: Leap.Frame) {}
 
     private exportHandData(hand: Leap.Hand) {
+        console.log(this);
         return {
             type: hand.type,
             direction: hand.direction,
@@ -15,7 +16,7 @@ export default class FrameExporter {
             stabilizedPalmPosition: hand.stabilizedPalmPosition,
             sphereCenter: hand.sphereCenter,
             sphereRadius: hand.sphereRadius,
-            fingers: hand.fingers.map(this.exportFingerData),
+            fingers: hand.fingers.map(this.exportFingerData.bind(this)),
         };
     }
 
@@ -33,10 +34,11 @@ export default class FrameExporter {
     }
 
     public export() {
+        console.log(this.Frame.hands);
         return {
             id: this.Frame.id,
             timestamp: this.Frame.timestamp,
-            hands: this.Frame.hands.map(this.exportHandData),
+            hands: this.Frame.hands.map(this.exportHandData.bind(this)),
         };
     }
 }

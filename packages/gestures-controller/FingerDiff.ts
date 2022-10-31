@@ -13,7 +13,7 @@ export default class FingerDiff {
         }
     }
 
-    private export() {
+    public export() {
         return {
             ...(this.extend && { extend: this.extend }),
             ...(this.retract && { retract: this.retract }),

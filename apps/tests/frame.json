@@ -1,0 +1,1545 @@
+{
+    "frames": [
+        {
+            "id": 377964,
+            "timestamp": 436802202531,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.246444, 0.504232, -0.827657],
+                    "palmNormal": [0.005157, -0.854667, -0.519152],
+                    "palmPosition": [-34.254498, 241.781372, 2.944892],
+                    "palmVelocity": [20.286152, -14.943094, 7.840934],
+                    "grabStrength": 1,
+                    "pinchStrength": 0.628725,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.189778, 0.058496, -0.980083],
+                            "length": 43.140491,
+                            "width": 19.098549,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [4.51114, 214.446991, -30.022617]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [-0.490997, -0.424254, 0.760875],
+                            "length": 48.695969,
+                            "width": 18.242933,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-20.363132, 211.451416, -3.096021]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [-0.330939, -0.452431, 0.828122],
+                            "length": 55.490978,
+                            "width": 17.916985,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-32.079983, 208.773087, -0.670248]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.244058, -0.548896, 0.799468],
+                            "length": 53.353783,
+                            "width": 17.049147,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-47.808975, 209.761429, -2.668287]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.056597, -0.524016, 0.849826],
+                            "length": 41.817623,
+                            "width": 15.144385,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-59.175468, 215.856339, -1.732023]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378000,
+            "timestamp": 436802536958,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.277215, 0.448979, -0.849453],
+                    "palmNormal": [-0.023321, -0.880698, -0.473104],
+                    "palmPosition": [-30.7202, 239.185913, 2.971598],
+                    "palmVelocity": [9.371808, -24.964127, -64.145988],
+                    "grabStrength": 1,
+                    "pinchStrength": 0.629039,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.179822, 0.009675, -0.983652],
+                            "length": 43.374229,
+                            "width": 19.086128,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [5.40318, 209.728485, -28.963604]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [-0.51986, -0.353929, 0.777483],
+                            "length": 48.951683,
+                            "width": 18.23107,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-18.35409, 207.995163, -0.987185]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [-0.354972, -0.389784, 0.849743],
+                            "length": 55.782166,
+                            "width": 17.905333,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-29.857969, 205.785477, 1.424622]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.281123, -0.489428, 0.825488],
+                            "length": 53.645241,
+                            "width": 17.038059,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-45.737259, 207.312851, -0.841704]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.096755, -0.473408, 0.875513],
+                            "length": 42.049622,
+                            "width": 15.134536,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-56.814594, 213.881638, -0.528257]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378036,
+            "timestamp": 436802862390,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.092192, 0.03742, -0.995038],
+                    "palmNormal": [0.298488, -0.954378, -0.008236],
+                    "palmPosition": [-53.741512, 206.71666, -17.514759],
+                    "palmVelocity": [-64.207504, -44.0005, 17.683531],
+                    "grabStrength": 0,
+                    "pinchStrength": 0,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.807295, -0.202588, -0.554286],
+                            "length": 45.305325,
+                            "width": 19.106251,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [36.875248, 186.448212, -12.822067]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [0.329514, -0.183575, -0.926132],
+                            "length": 51.120686,
+                            "width": 18.250292,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-10.003362, 214.620651, -103.867348]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [0.147997, -0.098478, -0.984073],
+                            "length": 58.150219,
+                            "width": 17.924212,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-42.065174, 211.919785, -118.184677]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.132671, -0.114446, -0.984531],
+                            "length": 55.991699,
+                            "width": 17.056023,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-82.953209, 202.855331, -109.841347]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.415708, -0.274349, -0.867133],
+                            "length": 43.919289,
+                            "width": 15.150493,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-115.009552, 186.149719, -80.754807]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378072,
+            "timestamp": 436803187664,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.056394, -0.026328, -0.998061],
+                    "palmNormal": [0.378919, -0.924296, 0.045793],
+                    "palmPosition": [-54.670944, 203.064148, -17.666311],
+                    "palmVelocity": [7.807327, 10.889959, -2.875619],
+                    "grabStrength": 0,
+                    "pinchStrength": 0,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.906729, -0.076294, -0.414755],
+                            "length": 45.162437,
+                            "width": 19.114483,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [46.02496, 198.212677, -1.444405]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [0.366457, -0.325745, -0.87155],
+                            "length": 50.888241,
+                            "width": 18.258154,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-11.06476, 202.062561, -103.338898]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [0.203005, -0.117098, -0.972151],
+                            "length": 58.022293,
+                            "width": 17.931934,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-40.449482, 204.859161, -118.046371]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.18726, -0.023454, -0.98203],
+                            "length": 55.808407,
+                            "width": 17.063372,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-87.678131, 201.284378, -108.646172]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.588119, -0.190346, -0.786056],
+                            "length": 43.75005,
+                            "width": 15.157021,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-123.97583, 181.932358, -73.819771]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378108,
+            "timestamp": 436803513151,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.063968, -0.008233, -0.997918],
+                    "palmNormal": [0.350625, -0.936029, 0.030198],
+                    "palmPosition": [-52.60041, 205.498596, -19.381283],
+                    "palmVelocity": [11.824362, 33.202621, -12.214476],
+                    "grabStrength": 0,
+                    "pinchStrength": 0,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.889892, -0.10429, -0.444089],
+                            "length": 45.409351,
+                            "width": 19.113678,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [46.647156, 196.979355, -5.34556]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [0.338095, -0.289889, -0.895352],
+                            "length": 51.170994,
+                            "width": 18.257385,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-9.772997, 206.300598, -106.046059]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [0.172646, -0.138418, -0.97521],
+                            "length": 58.336197,
+                            "width": 17.931179,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-40.193111, 206.410583, -120.276756]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.172463, -0.076698, -0.982025],
+                            "length": 56.116402,
+                            "width": 17.062653,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-84.949638, 201.44136, -110.919144]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.526721, -0.229072, -0.818591],
+                            "length": 44.042271,
+                            "width": 15.156383,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-119.458542, 184.059006, -78.160408]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378144,
+            "timestamp": 436803838498,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.216796, 0.473586, -0.853649],
+                    "palmNormal": [0.07597, -0.879978, -0.468899],
+                    "palmPosition": [-33.844143, 244.820282, -18.367476],
+                    "palmVelocity": [76.469231, 99.325233, 72.210266],
+                    "grabStrength": 1,
+                    "pinchStrength": 0.448488,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.507358, 0.016736, -0.861573],
+                            "length": 41.933624,
+                            "width": 19.152262,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [27.008717, 216.90625, -38.899242]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [-0.414565, -0.501112, 0.75962],
+                            "length": 47.352009,
+                            "width": 18.294241,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-14.739011, 215.346527, -25.480288]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [-0.263614, -0.502223, 0.823577],
+                            "length": 53.921993,
+                            "width": 17.967375,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-26.842764, 212.131744, -23.801662]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.087387, -0.622287, 0.777896],
+                            "length": 51.83041,
+                            "width": 17.097097,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-40.82724, 211.884827, -28.007233]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [0.108747, -0.591186, 0.79917],
+                            "length": 40.639675,
+                            "width": 15.186977,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-53.753826, 216.142868, -26.643295]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378180,
+            "timestamp": 436804163890,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.263771, 0.531087, -0.805215],
+                    "palmNormal": [0.138181, -0.846973, -0.513364],
+                    "palmPosition": [-30.856863, 245.725357, -6.156003],
+                    "palmVelocity": [-18.63727, -1.947953, -12.242277],
+                    "grabStrength": 1,
+                    "pinchStrength": 0.649663,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.382203, 0.132859, -0.914478],
+                            "length": 42.602119,
+                            "width": 19.126169,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [17.416063, 225.439011, -34.223274]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [-0.459527, -0.555747, 0.692806],
+                            "length": 48.105732,
+                            "width": 18.269316,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-10.772031, 216.595383, -13.613729]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [-0.346971, -0.491528, 0.798756],
+                            "length": 54.797394,
+                            "width": 17.942896,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-24.775274, 213.71167, -9.666837]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.236393, -0.572387, 0.78517],
+                            "length": 52.691444,
+                            "width": 17.073803,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-40.071247, 213.170349, -12.702232]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.056927, -0.523784, 0.849947],
+                            "length": 41.304459,
+                            "width": 15.166286,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-52.177029, 218.020264, -12.87929]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378216,
+            "timestamp": 436804498109,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.251039, 0.52323, -0.814377],
+                    "palmNormal": [0.162003, -0.852163, -0.497568],
+                    "palmPosition": [-34.07761, 245.618088, -10.40089],
+                    "palmVelocity": [31.616924, 29.690924, -47.717487],
+                    "grabStrength": 1,
+                    "pinchStrength": 0.579782,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.442386, 0.167014, -0.881136],
+                            "length": 42.447102,
+                            "width": 19.133556,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [18.893124, 229.343094, -35.106724]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [-0.450847, -0.555281, 0.698856],
+                            "length": 47.899158,
+                            "width": 18.276373,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-13.321798, 217.121445, -17.386587]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [-0.321588, -0.496863, 0.806045],
+                            "length": 54.552795,
+                            "width": 17.949827,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-26.55312, 213.798172, -13.765121]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [-0.195406, -0.582152, 0.78925],
+                            "length": 52.42812,
+                            "width": 17.080399,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-41.441536, 212.801819, -17.286251]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [-0.033396, -0.536952, 0.842952],
+                            "length": 41.078407,
+                            "width": 15.172145,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [-54.345291, 216.931183, -17.524998]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 378252,
+            "timestamp": 436804823657,
+            "hands": [
+                {
+                    "type": "left",
+                    "direction": [0.550238, 0.338091, -0.7635],
+                    "palmNormal": [0.413781, -0.904602, -0.10237],
+                    "palmPosition": [90.204193, 141.9534, 60.030167],
+                    "palmVelocity": [705.874573, -639.710571, 359.855804],
+                    "grabStrength": 0,
+                    "pinchStrength": 0,
+                    "fingers": [
+                        {
+                            "type": "Thumb",
+                            "direction": [0.956985, -0.11602, -0.265929],
+                            "length": 45.114559,
+                            "width": 19.162508,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [166.189499, 116.250015, 95.144356]
+                        },
+                        {
+                            "type": "Index",
+                            "direction": [0.533155, 0.295594, -0.792698],
+                            "length": 50.836857,
+                            "width": 18.304028,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [154.040115, 183.375183, 3.246732]
+                        },
+                        {
+                            "type": "Middle",
+                            "direction": [0.559119, 0.149579, -0.815483],
+                            "length": 58.003067,
+                            "width": 17.976988,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [144.646622, 171.612671, -20.432137]
+                        },
+                        {
+                            "type": "Ring",
+                            "direction": [0.516227, -0.009718, -0.856397],
+                            "length": 55.848698,
+                            "width": 17.106243,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [120.476936, 152.654846, -29.940687]
+                        },
+                        {
+                            "type": "Pinky",
+                            "direction": [0.558912, -0.125747, -0.819637],
+                            "length": 43.786182,
+                            "width": 15.195103,
+                            "timeVisible": -436800.75,
+                            "tipPosition": [96.92025, 136.045883, -21.56876]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "diff": [
+        [
+            {
+                "frame1": 377964,
+                "frame2": 378000,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 334427,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            10.5682196712586, -7.760913442993553,
+                            0.07985599248864578
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            3.5342979999999997, -2.5954590000000053,
+                            0.02670600000000034
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378036,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 659859,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -29.532087915751703, -53.13970408829768,
+                            -31.00609524155918
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -19.487014000000002, -35.064712000000014, -20.459651
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378072,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 985133,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -20.72455800384314, -39.30151969328001,
+                            -20.922254152484996
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -20.416446, -38.717224000000016, -20.611203
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378108,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1310620,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -13.99788802246265, -27.68367337595948,
+                            -17.03481939845264
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -18.345912, -36.28277600000001, -22.326175
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378144,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1635967,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            0.2508332992046879, 1.8575619190362562,
+                            -13.027382581677992
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            0.4103549999999956, 3.038909999999987, -21.312368
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378180,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1961359,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            1.7322861342569094, 2.0108429920274653,
+                            -4.640096484121469
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            3.3976349999999975, 3.943984999999998, -9.100895
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 2295578,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            0.07705597457372311, 1.6713507447797442,
+                            -5.8136913666187775
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            0.17688799999999816, 3.8367159999999956, -13.345782
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 377964,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 2621126,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            47.48291039805031, -38.0859111694745,
+                            21.778912955729712
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            124.458691, -99.82797200000002, 57.085274999999996
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378000,
+                "frame2": 378036,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 325432,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -70.74077533862682, -99.77277280660786,
+                            -62.95126785319207
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -23.021312, -32.46925300000001, -20.486357
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378000,
+                "frame2": 378072,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 650706,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -36.807320049300294, -55.511651959563935,
+                            -31.71618057924777
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -23.950744, -36.12176500000001, -20.637909
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378000,
+                "frame2": 378108,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 976193,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -22.413815710622792, -34.508869659995526,
+                            -22.89801401976863
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -21.880209999999998, -33.68731700000001, -22.352881
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378000,
+                "frame2": 378144,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1301540,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -2.400189775189394, 4.32900179787021,
+                            -16.395250242020992
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -3.123943000000004, 5.634368999999992, -21.339074
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378000,
+                "frame2": 378180,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1626932,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -0.0840004376335349, 4.019494361165681,
+                            -5.61031499779954
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -0.1366630000000022, 6.539444000000003, -9.127601
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378000,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1961151,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -1.711958946557405, 3.2797958953696074,
+                            -6.818693716088155
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -3.3574100000000016, 6.432175000000001, -13.372488
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378000,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 2286699,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            52.88163986602522, -42.520905899727076,
+                            24.952374142814598
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            120.92439300000001, -97.23251300000001, 57.058569
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378036,
+                "frame2": 378072,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 325274,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -2.8573817765944973, -11.229031524191916,
+                            -0.4659210388779884
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -0.9294319999999985, -3.6525120000000015,
+                            -0.1515519999999988
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378036,
+                "frame2": 378108,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 650761,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            1.7534886079528484, -1.8717532243020067,
+                            -2.868217363978478
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            1.1411020000000036, -1.2180639999999983,
+                            -1.8665239999999983
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378036,
+                "frame2": 378144,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 976108,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            20.384392915538033, 39.03627672347732,
+                            -0.8735887832084138
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            19.897368999999998, 38.103622, -0.8527169999999984
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378036,
+                "frame2": 378180,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1301500,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            17.58328774490972, 29.97210679984634,
+                            8.7274344986554
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            22.884649, 39.00869700000001, 11.358756000000001
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378036,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1635719,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            12.021564828677786, 23.782463858401112,
+                            4.349077683880912
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            19.663902, 38.90142800000001, 7.113869000000001
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378036,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1961267,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            73.39424208942485, -33.021133787495536,
+                            39.538179146439525
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [143.945705, -64.76326, 77.544926],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378072,
+                "frame2": 378108,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 325487,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            6.361341620402665, 7.4794016350883545,
+                            -5.268941616715873
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            2.070534000000002, 2.4344480000000033,
+                            -1.7149719999999995
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378072,
+                "frame2": 378144,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 650834,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            32.00017362338169, 64.15788665005209,
+                            -1.0773330833976091
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            20.826800999999996, 41.756134, -0.7011649999999996
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378072,
+                "frame2": 378180,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 976226,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            24.394024539399688, 43.70013603407409,
+                            11.790618156041738
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            23.814080999999998, 42.661209000000014, 11.510308
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378072,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1310445,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            15.714764068694222, 32.472892795958636,
+                            5.544239552213179
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            20.593334, 42.55394000000001, 7.265421
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378072,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1635993,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            88.55486362105461, -37.353917773486806,
+                            47.49193792393977
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [144.875137, -61.110748, 77.696478],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378108,
+                "frame2": 378144,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 325347,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            57.65003826683509, 120.86076097213129,
+                            3.1160791401180887
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            18.756266999999994, 39.321686, 1.013807
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378108,
+                "frame2": 378180,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 650739,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            33.41362205123713, 61.81704339220487,
+                            20.32347838380672
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            21.743546999999996, 40.22676100000001, 13.22528
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378108,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 984958,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            18.805674962790288, 40.7321855348147,
+                            9.11753902196845
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            18.522799999999997, 40.11949200000001, 8.980393
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": { "retract": true },
+                            "2402": { "retract": true },
+                            "2403": { "retract": true },
+                            "2404": { "retract": true }
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378108,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 1310506,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            108.96905699020071, -48.4890538463769,
+                            60.59602168933222
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            142.804603, -63.545196000000004, 79.41145
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378144,
+                "frame2": 378180,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 325392,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            9.180557604366431, 2.7814912474799955,
+                            37.528497934798644
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            2.987280000000002, 0.9050750000000107, 12.211473
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378144,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 659611,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -0.3539464927055453, 1.2095098474707189,
+                            12.077703373655078
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -0.23346699999999743, 0.7978060000000085,
+                            7.9665859999999995
+                        ],
+                        "fingerDiff": {
+                            "2400": { "retract": true },
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378144,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 985159,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            125.91707125448788, -104.41652768740883,
+                            79.57867004209473
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            124.048336, -102.866882, 78.397643
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378180,
+                "frame2": 378216,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 334219,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            -9.636636456933925, -0.32095422462517775,
+                            -12.700914669722549
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            -3.2207469999999994, -0.10726900000000228, -4.244887
+                        ],
+                        "fingerDiff": {
+                            "2400": {},
+                            "2401": {},
+                            "2402": {},
+                            "2403": {},
+                            "2404": {}
+                        }
+                    }
+                }
+            },
+            {
+                "frame1": 378180,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 659767,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            183.4906201734855, -157.2857645198987,
+                            100.31749087177747
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            121.06105600000001, -103.77195700000001, 66.18617
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "frame1": 378216,
+                "frame2": 378252,
+                "handCountDiff": 0,
+                "commonHands": [240],
+                "fingerCountDiff": 0,
+                "timeDiff": 325548,
+                "handDiffs": {
+                    "240": {
+                        "fingerCountDiff": 0,
+                        "velocity": [
+                            381.76183850000615, -318.4313465295441,
+                            216.3461517195621
+                        ],
+                        "commonFingers": [2400, 2401, 2402, 2403, 2404],
+                        "palmPositionDiff": [
+                            124.281803, -103.66468800000001, 70.431057
+                        ],
+                        "fingerDiff": {
+                            "2400": { "extend": true },
+                            "2401": { "extend": true },
+                            "2402": { "extend": true },
+                            "2403": { "extend": true },
+                            "2404": { "extend": true }
+                        }
+                    }
+                }
+            }
+        ],
+        []
+    ]
+}

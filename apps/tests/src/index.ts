@@ -21,6 +21,23 @@ class Controller extends GestureController {
                         frames: this.frameStore.map((f) =>
                             new FrameExporter(f).export()
                         ),
+                        diff: this.frameStore.map((f, i) => {
+                            const diff = [];
+
+                            for (
+                                let j = i + 1;
+                                j < this.frameStore.length;
+                                j++
+                            ) {
+                                diff.push(
+                                    this.frameDiff(
+                                        f,
+                                        this.frameStore[j]
+                                    ).export()
+                                );
+                            }
+                            return diff;
+                        }),
                     })
                 );
                 this.frameStore = [];
@@ -39,11 +56,13 @@ class Controller extends GestureController {
             )
                 return;
 
-            console.log(this.frameStore.map((f) => f.id));
+            //console.log(this.frameStore.map((f) => f.id));
             this.frameStore.push(frame);
             if (this.frameStore.length > this.frameStoreLength)
                 this.frameStore.shift();
         });
+
+        controller.connect();
     }
 }
 

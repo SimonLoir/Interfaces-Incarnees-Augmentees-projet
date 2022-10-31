@@ -45,10 +45,12 @@ export default class HandDiff {
             this.hand2.palmPosition[1] - this.hand1.palmPosition[1],
             this.hand2.palmPosition[2] - this.hand1.palmPosition[2],
         ];
-
+        console.log(this.palmPositionDiff);
+        console.log(this.timeDiff);
         this.velocity = this.palmPositionDiff.map(
-            (value) => value / this.timeDiff
+            (value) => (value / this.timeDiff) * 1_000_000
         ) as [number, number, number];
+        console.log(this.velocity);
     }
 
     /**
@@ -60,6 +62,12 @@ export default class HandDiff {
             velocity: this.velocity,
             commonFingers: this.commonFingers,
             palmPositionDiff: this.palmPositionDiff,
+            fingerDiff: Object.fromEntries(
+                Object.entries(this.fingerDiffs).map(([key, value]) => [
+                    key,
+                    value.export(),
+                ])
+            ),
         };
     }
 }

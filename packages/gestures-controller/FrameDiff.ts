@@ -13,9 +13,9 @@ export default class FrameDiff {
     private timeDiff = 0;
 
     constructor(private frame1: Leap.Frame, private frame2: Leap.Frame) {
+        this.timeDiff = this.frame2.timestamp - this.frame1.timestamp;
         this.handsDiff();
         this.fingersDiff();
-        this.timeDiff = this.frame2.timestamp - this.frame1.timestamp;
     }
 
     public handsDiff() {
@@ -49,6 +49,8 @@ export default class FrameDiff {
      */
     public export() {
         return {
+            frame1: this.frame1.id,
+            frame2: this.frame2.id,
             handCountDiff: this.handCountDiff,
             commonHands: this.commonHands,
             fingerCountDiff: this.fingerCountDiff,
