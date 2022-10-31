@@ -14,6 +14,17 @@ class Controller extends GestureController {
         app.get('/toggle-listen', (req, res) => {
             this.listen = !this.listen;
             console.log('Listening: ' + this.listen);
+            if (this.listen === false && this.frameStore.length > 0) {
+                fs.writeFileSync(
+                    'frame.json',
+                    JSON.stringify({
+                        frames: this.frameStore.map((f) =>
+                            new FrameExporter(f).export()
+                        ),
+                    })
+                );
+                this.frameStore = [];
+            }
             return res.send('Listening: ' + this.listen);
         });
 
@@ -21,20 +32,6 @@ class Controller extends GestureController {
         const controller = new Leap.Controller({});
         super(controller);
         controller.on('frame', (frame) => {
-            if (this.listen === false) {
-                if (this.frameStore.length > 0) {
-                    fs.writeFileSync(
-                        'frame.json',
-                        JSON.stringify(
-                            this.frameStore.map((f) =>
-                                new FrameExporter(f).export()
-                            )
-                        )
-                    );
-                    this.frameStore = [];
-                }
-                return;
-            }
             if (
                 frame.id %
                     Math.floor(frame.currentFrameRate / this.frameRate) !==
