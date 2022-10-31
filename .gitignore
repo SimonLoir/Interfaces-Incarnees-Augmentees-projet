@@ -34,3 +34,5 @@ yarn-error.log*
 
 #main server
 dist/
+
+apps/tests/**/*.json
