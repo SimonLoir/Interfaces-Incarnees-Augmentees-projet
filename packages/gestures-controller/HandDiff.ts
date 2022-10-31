@@ -7,8 +7,13 @@ export default class HandDiff {
     private palmPositionDiff: [number, number, number] = [0, 0, 0];
     private commonFingers: string[] = [];
     private fingerDiffs: { [id: string]: FingerDiff } = {};
+    private velocity: [number, number, number] = [0, 0, 0];
 
-    constructor(private hand1: Leap.Hand, private hand2: Leap.Hand) {
+    constructor(
+        private hand1: Leap.Hand,
+        private hand2: Leap.Hand,
+        private timeDiff: number
+    ) {
         if (hand1.id !== hand2.id)
             throw new Error('The hands must have the same id');
         this.fingersDiff();
@@ -40,6 +45,10 @@ export default class HandDiff {
             this.hand2.palmPosition[1] - this.hand1.palmPosition[1],
             this.hand2.palmPosition[2] - this.hand1.palmPosition[2],
         ];
+
+        this.velocity = this.palmPositionDiff.map(
+            (value) => value / this.timeDiff
+        ) as [number, number, number];
     }
 
     /**
@@ -48,6 +57,9 @@ export default class HandDiff {
     public export() {
         return {
             fingerCountDiff: this.fingerCountDiff,
+            velocity: this.velocity,
+            commonFingers: this.commonFingers,
+            palmPositionDiff: this.palmPositionDiff,
         };
     }
 }

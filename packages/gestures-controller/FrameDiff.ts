@@ -10,9 +10,12 @@ export default class FrameDiff {
     /* Store of HandDiffs for the hands in common */
     private handDiffs: { [id: string]: HandDiff } = {};
 
+    private timeDiff = 0;
+
     constructor(private frame1: Leap.Frame, private frame2: Leap.Frame) {
         this.handsDiff();
         this.fingersDiff();
+        this.timeDiff = this.frame2.timestamp - this.frame1.timestamp;
     }
 
     public handsDiff() {
@@ -25,7 +28,11 @@ export default class FrameDiff {
             this.frame2.hands.forEach((hand2) => {
                 if (hand1.id === hand2.id) {
                     this.commonHands.push(hand1.id);
-                    this.handDiffs[hand1.id] = new HandDiff(hand1, hand2);
+                    this.handDiffs[hand1.id] = new HandDiff(
+                        hand1,
+                        hand2,
+                        this.timeDiff
+                    );
                 }
             });
         });
@@ -45,6 +52,13 @@ export default class FrameDiff {
             handCountDiff: this.handCountDiff,
             commonHands: this.commonHands,
             fingerCountDiff: this.fingerCountDiff,
+            timeDiff: this.timeDiff,
+            handDiffs: Object.fromEntries(
+                Object.entries(this.handDiffs).map(([key, value]) => [
+                    key,
+                    value.export(),
+                ])
+            ),
         };
     }
 }
