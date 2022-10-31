@@ -6,13 +6,47 @@ export interface Gesture<T extends 'static' | 'dynamic'> {
 }
 
 export interface Features {
+    minDuration?: number;
+    maxDuration?: number;
     hands?: HandFeatures[];
-    extendedFingersCount?: number;
+    exactExtendedFingers?: number;
+    minExtendedFingers?: number;
+    maxExtendedFingers?: number;
     handsCount?: number;
 }
 
 export interface HandFeatures {
     type?: 'left' | 'right';
+
+    fingers?:
+        | {
+              minExtended?: never;
+              maxExtended?: never;
+              exactExtended: number;
+          }
+        | {
+              minExtended?: number;
+              maxExtended?: number;
+              exactExtended?: never;
+          };
+
+    palmPosition?: {
+        minX?: number;
+        maxX?: number;
+        minY?: number;
+        maxY?: number;
+        minZ?: number;
+        maxZ?: number;
+    };
+
+    palmVelocity?: {
+        minX?: number;
+        maxX?: number;
+        minY?: number;
+        maxY?: number;
+        minZ?: number;
+        maxZ?: number;
+    };
 }
 
 export interface FrameDiffExport {
