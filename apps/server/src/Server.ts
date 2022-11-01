@@ -21,6 +21,7 @@ export default class Server {
     private expressServer: express.Express;
     private kinectServer: KinectServer;
     private gestureServer: GestureServer;
+    private currentView: string = 'home';
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -111,17 +112,17 @@ export default class Server {
         console.log('setupSocketConnection');
 
         this.io.on('connection', (socket) => {
-            console.log('connection');
+            console.log('new connection');
+            socket.emit('setView', this.currentView);
             socket.on('screen_share_accepted', (sharerId: string) => {
-                console.log('screen_share_accepted', sharerId);
                 this.io.emit('screen_share_accepted', sharerId);
             });
             socket.on('screen_share_refused', (sharerId: string) => {
                 this.io.emit('screen_share_refused', sharerId);
             });
             socket.on('setView', (view: string) => {
-                console.log('setView', view);
                 this.io.emit('setView', view);
+                this.currentView = view;
             });
             socket.on('pollQuestion', (pollQuestion: string) => {
                 this.io.emit('pollQuestion', pollQuestion);
@@ -130,6 +131,10 @@ export default class Server {
                 this.io.emit('QCMQuestion', QCMQuestion);
             });
         });
+
+        setInterval(() => {
+            this.io.emit('setView', this.currentView);
+        }, 1000);
     }
 
     public static getInstance(): Server {
