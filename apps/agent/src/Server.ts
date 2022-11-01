@@ -25,6 +25,11 @@ export default class Server {
         this.ioClient = new IoClient(this);
     }
 
+    /**
+     * Starts a web server using next and express
+     * All the API routes can be edited here
+     * @returns this
+     */
     public async start() {
         try {
             await this.nextServer.prepare();
@@ -45,8 +50,15 @@ export default class Server {
         }
     }
 
+    /**
+     * Sets up the socket connection
+     */
     private setupSocketConnection() {}
 
+    /**
+     * Returns a single instance of the server
+     * @returns
+     */
     public static getInstance(): Server {
         if (!Server.instance) {
             Server.instance = new Server();
@@ -54,14 +66,26 @@ export default class Server {
         return Server.instance;
     }
 
+    /**
+     * Tells the client that a screen share has been accepted
+     * @param sharerId The id of the sharer
+     */
     public acceptScreenShare(sharerId: string) {
         this.io.emit('screen_share_accepted', sharerId);
     }
 
+    /**
+     * Tells the client that a screen share has been rejected
+     * @param sharerId The id of the peer that was rejected
+     */
     public refuseScreenShare(sharerId: string) {
         this.io.emit('screen_share_refused', sharerId);
     }
 
+    /**
+     * Tells the client that the current view may have changed
+     * @param view The name of the view
+     */
     public setView(view: string) {
         this.io.emit('setView', view);
     }

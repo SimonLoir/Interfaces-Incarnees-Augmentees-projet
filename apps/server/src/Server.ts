@@ -37,6 +37,10 @@ export default class Server {
         this.gestureServer = new GestureServer(this);
     }
 
+    /**
+     * Starts a new server
+     * @returns this
+     */
     public async start() {
         try {
             await this.nextServer.prepare();
@@ -108,9 +112,10 @@ export default class Server {
         }
     }
 
+    /**
+     * Sets up the socket connection
+     */
     private setupSocketConnection() {
-        console.log('setupSocketConnection');
-
         this.io.on('connection', (socket) => {
             console.log('new connection');
             socket.emit('setView', this.currentView);
@@ -137,6 +142,10 @@ export default class Server {
         }, 1000);
     }
 
+    /**
+     * Gets a singleton instance of the server
+     * @returns A new server
+     */
     public static getInstance(): Server {
         if (!Server.instance) {
             Server.instance = new Server();
@@ -144,15 +153,23 @@ export default class Server {
         return Server.instance;
     }
 
+    /**
+     * Tells the client to go to the next view
+     */
     public sendNextView() {
         this.io.emit('next-view');
     }
+    /**
+     * Tells the client to go to the previous view
+     */
     public sendPreviousView() {
         this.io.emit('previous-view');
     }
-    public sendScreenShareProposition(sharerId: string) {
-        this.io.emit('screen-share-proposition', sharerId);
-    }
+
+    /**
+     * Sends a gesture to the client
+     * @param gesture The gesture to send
+     */
     public sendGesture(gesture: Gesture<any>) {
         this.io.emit('gesture', gesture);
     }
