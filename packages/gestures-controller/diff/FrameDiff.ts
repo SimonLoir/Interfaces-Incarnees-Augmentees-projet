@@ -1,6 +1,6 @@
 import Leap from 'leapjs';
 import HandDiff from './HandDiff';
-import { FrameDiffExport } from './Interfaces';
+import { FrameDiffExport } from '../Interfaces';
 export default class FrameDiff {
     /* The delta between the number of hands in the first frame and in the second frame */
     private handCountDiff: number = 0;

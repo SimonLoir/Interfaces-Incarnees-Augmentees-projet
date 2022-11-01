@@ -1,6 +1,6 @@
 import Leap from 'leapjs';
 import FingerDiff from './FingerDiff';
-import { HandDiffExport } from './Interfaces';
+import { HandDiffExport } from '../Interfaces';
 
 export default class HandDiff {
     /* The delta between the number of fingers in the first hand and in the second hand */

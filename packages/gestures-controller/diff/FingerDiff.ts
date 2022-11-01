@@ -1,5 +1,5 @@
 import Leap from 'leapjs';
-import { FingerDiffExport } from './Interfaces';
+import { FingerDiffExport } from '../Interfaces';
 
 export default class FingerDiff {
     private extend: boolean = false;

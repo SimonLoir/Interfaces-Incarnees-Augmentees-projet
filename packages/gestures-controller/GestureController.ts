@@ -13,7 +13,7 @@ import {
     fourFingersUpGesture,
     fiveFingersUpGesture,
 } from './gestures/hand-counting';
-import FrameDiff from './FrameDiff';
+import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
 
 interface EventListeners {
