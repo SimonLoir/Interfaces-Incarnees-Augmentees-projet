@@ -8,6 +8,7 @@ import KinectServer from './KinectServer';
 import { PeerServer } from 'peer';
 import cors from 'cors';
 import GestureServer from './GestureServer';
+import { Gesture } from 'gestures-controller';
 
 export default class Server {
     private static instance: Server;
@@ -146,5 +147,8 @@ export default class Server {
     }
     public sendScreenShareProposition(sharerId: string) {
         this.io.emit('screen-share-proposition', sharerId);
+    }
+    public sendGesture(gesture: Gesture<any>) {
+        this.io.emit('gesture', gesture);
     }
 }

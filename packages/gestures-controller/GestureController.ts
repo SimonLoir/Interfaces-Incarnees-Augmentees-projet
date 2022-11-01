@@ -15,7 +15,20 @@ import {
 } from './gestures/hand-counting';
 import FrameDiff from './FrameDiff';
 
+interface EventListeners {
+    frame: (frame: Leap.Frame) => void;
+    gesture: (gesture: Gesture<any>) => void;
+}
+
+type EventListenerStore<T extends keyof EventListeners> = [
+    T,
+    EventListeners[T]
+][];
+
 export default abstract class GesturesController {
+    private frameRate = 3;
+    private frameStoreLength = this.frameRate * 3; // 3 seconds
+    private frameStore: Leap.Frame[] = [];
     protected staticGestures: Gesture<'static'>[] = [
         oneFingerUpGesture,
         twoFingersUpGesture,
@@ -25,11 +38,14 @@ export default abstract class GesturesController {
     ];
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [];
+    protected leapController: Leap.Controller;
+    private eventListeners: EventListenerStore<keyof EventListeners> = [];
 
     constructor(
-        protected LeapController: Leap.Controller,
+        controllerOptions: Leap.ControllerOptions,
         allowedGestures: string[] = []
     ) {
+        this.leapController = new Leap.Controller(controllerOptions);
         if (allowedGestures.length !== 0) {
             // Filters the static gestures to keep only the allowed ones
             this.staticGestures = this.staticGestures.filter((gesture) =>
@@ -41,7 +57,60 @@ export default abstract class GesturesController {
                 allowedGestures.includes(gesture.name)
             );
         }
-        console.log(this.staticGestures);
+        this.initController();
+    }
+
+    private initController() {
+        this.leapController.on('frame', (frame) => {
+            if (
+                frame.id %
+                    Math.floor(frame.currentFrameRate / this.frameRate) !==
+                0
+            )
+                return;
+
+            this.frameStore.push(frame);
+            if (this.frameStore.length > this.frameStoreLength)
+                this.frameStore.shift();
+
+            this.getListeners('frame').forEach((listener) => listener(frame));
+            const gestureListeners = this.getListeners('gesture');
+            this.extractFromFrames(this.frameStore).forEach((gesture) => {
+                gestureListeners.forEach((listener) => listener(gesture));
+            });
+        });
+        this.leapController.connect();
+    }
+
+    private getListeners<T extends keyof EventListeners>(
+        type: T
+    ): EventListeners[T][] {
+        return this.eventListeners.reduce<EventListeners[T][]>(
+            (acc, [eventType, eventListener]) => {
+                if (eventType === type)
+                    acc.push(eventListener as EventListeners[T]);
+                return acc;
+            },
+            []
+        );
+    }
+
+    protected addEventListener<T extends keyof EventListeners>(
+        type: T,
+        listener: EventListeners[T]
+    ) {
+        this.eventListeners.push([type, listener]);
+        return [type, listener] as [T, EventListeners[T]];
+    }
+
+    protected removeEventListener<T extends keyof EventListeners>(
+        type: T,
+        listener: EventListeners[T]
+    ) {
+        this.eventListeners = this.eventListeners.filter(
+            ([eventType, eventListener]) =>
+                eventType !== type && eventListener !== listener
+        );
     }
 
     public frameDiff(from: Leap.Frame, to: Leap.Frame) {
