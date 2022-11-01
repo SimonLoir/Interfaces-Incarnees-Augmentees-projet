@@ -14,11 +14,6 @@ export const screenSharingGesture: Gesture<'dynamic'> = {
                         maxY: 190,
                         minY: 30,
                     },
-                    palmVelocity: {
-                        maxX: 15,
-                        maxY: 15,
-                        maxZ: 15,
-                    },
                 },
             ],
         },
