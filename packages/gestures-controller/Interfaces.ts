@@ -46,6 +46,8 @@ export interface HandModel {
         minZ?: number;
         maxZ?: number;
     };
+    minGrabStrength?: number;
+    maxGrabStrength?: number;
 }
 
 export interface FrameDiffExport {

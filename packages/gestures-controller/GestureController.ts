@@ -14,6 +14,7 @@ import {
     fiveFingersUpGesture,
 } from './gestures/hand-counting';
 import FrameDiff from './FrameDiff';
+import { screenSharingGesture } from './gestures/screen-sharing';
 
 interface EventListeners {
     frame: (frame: Leap.Frame) => void;
@@ -37,7 +38,7 @@ export default abstract class GesturesController {
         fiveFingersUpGesture,
     ];
 
-    protected dynamicGestures: Gesture<'dynamic'>[] = [];
+    protected dynamicGestures: Gesture<'dynamic'>[] = [screenSharingGesture];
     protected leapController: Leap.Controller;
     private eventListeners: EventListenerStore<keyof EventListeners> = [];
 
@@ -199,7 +200,60 @@ export default abstract class GesturesController {
         gesture: Gesture<'dynamic'>,
         frames: Leap.Frame[]
     ): boolean {
-        return false;
+        if (frames.length < 3) return false;
+
+        // Gets the last frame in the buffer
+        let last = frames[frames.length - 1];
+        const model = gesture.data[gesture.data.length - 1];
+        let lastFrameID = -2;
+        if (!this.checkStaticPropertiesForModel(model, last)) return false;
+
+        for (let i = gesture.data.length - 2; i >= 0; i--) {
+            let found: Leap.Frame | undefined = undefined;
+
+            const model = gesture.data[i];
+
+            while (found === undefined && -lastFrameID < frames.length) {
+                const frame = frames[frames.length + lastFrameID];
+                const duration = last.timestamp - frame.timestamp;
+
+                if (
+                    model.maxDuration !== undefined &&
+                    duration > model.maxDuration
+                )
+                    return false;
+
+                if (
+                    model.minDuration !== undefined &&
+                    duration < model.minDuration
+                ) {
+                    lastFrameID--;
+                    continue;
+                }
+
+                if (this.checkStaticPropertiesForModel(model, frame)) {
+                    found = frame;
+                }
+                lastFrameID--;
+            }
+
+            if (found === undefined) return false;
+
+            const frameDiff = this.frameDiff(found, last);
+
+            if (
+                !this.checkDynamicPropertiesForModel(
+                    gesture.data[i + 1],
+                    frameDiff.export()
+                )
+            ) {
+                return false;
+            }
+
+            last = found;
+        }
+
+        return true;
     }
 
     /**
@@ -256,7 +310,24 @@ export default abstract class GesturesController {
      * @returns true if the hand matches the model, false otherwise
      */
     public checkHandWithoutMotion(model: HandModel, hand: Leap.Hand): boolean {
-        const { fingers: fingersInModel } = model;
+        const {
+            fingers: fingersInModel,
+            maxGrabStrength,
+            minGrabStrength,
+            palmPosition: palmPositionModel,
+        } = model;
+
+        if (
+            maxGrabStrength !== undefined &&
+            hand.grabStrength > maxGrabStrength
+        )
+            return false;
+
+        if (
+            minGrabStrength !== undefined &&
+            hand.grabStrength < minGrabStrength
+        )
+            return false;
 
         if (fingersInModel) {
             const { exactExtended, minExtended, maxExtended } = fingersInModel;
@@ -278,6 +349,18 @@ export default abstract class GesturesController {
 
             if (maxExtended !== undefined && extendedFingers > maxExtended)
                 return false;
+        }
+
+        if (palmPositionModel) {
+            const { minX, minY, minZ, maxX, maxY, maxZ } = palmPositionModel;
+            const [x, y, z] = hand.palmPosition;
+
+            if (minX !== undefined && x < minX) return false;
+            if (minY !== undefined && y < minY) return false;
+            if (minZ !== undefined && z < minZ) return false;
+            if (maxX !== undefined && x > maxX) return false;
+            if (maxY !== undefined && y > maxY) return false;
+            if (maxZ !== undefined && z > maxZ) return false;
         }
 
         return true;
