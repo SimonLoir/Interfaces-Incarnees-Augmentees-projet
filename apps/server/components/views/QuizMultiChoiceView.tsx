@@ -32,25 +32,26 @@ export default function QuizMultiChoice() {
                 socket.on('answer1', (id) => {
                     console.log('user answered 1');
                     const answers = { ...answerCounter };
-                    answers[id][1] = answers[id][1] + 1;
+                    //answers[id][1] = answers[id][1] + 1;
+                    answers[id][0] = answers[id][0] + 1;
                     setAnswerCounter(answers);
                 });
                 socket.on('answer2', (id) => {
                     console.log('user answered 2');
                     const answers = { ...answerCounter };
-                    answers[id][2] = answers[id][2] + 1;
+                    answers[id][1] = answers[id][1] + 1;
                     setAnswerCounter(answers);
                 });
                 socket.on('answer3', (id) => {
                     console.log('user answered 1');
                     const answers = { ...answerCounter };
-                    answers[id][3] = answers[id][3] + 1;
+                    answers[id][2] = answers[id][2] + 1;
                     setAnswerCounter(answers);
                 });
                 socket.on('answer4', (id) => {
                     console.log('user answered 2');
                     const answers = { ...answerCounter };
-                    answers[id][4] = answers[id][4] + 1;
+                    answers[id][3] = answers[id][3] + 1;
                     setAnswerCounter(answers);
                 });
             }
@@ -173,10 +174,34 @@ export default function QuizMultiChoice() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
+                                            <th>
+                                                {
+                                                    answerCounter[
+                                                        currentQuestionIndex
+                                                    ][0]
+                                                }
+                                            </th>
+                                            <th>
+                                                {
+                                                    answerCounter[
+                                                        currentQuestionIndex
+                                                    ][1]
+                                                }
+                                            </th>
+                                            <th>
+                                                {
+                                                    answerCounter[
+                                                        currentQuestionIndex
+                                                    ][2]
+                                                }
+                                            </th>
+                                            <th>
+                                                {
+                                                    answerCounter[
+                                                        currentQuestionIndex
+                                                    ][3]
+                                                }
+                                            </th>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -13,7 +13,7 @@ export default function QCMStudent() {
 
     useEffect(() => {
         socket.on('QCMQuestion', ([id, question]) => {
-            console.log('received QCM');
+            console.log('received QCM question');
             setQuestion({ id, question });
             setStatus(0);
         });
