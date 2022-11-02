@@ -5,6 +5,7 @@ function gestureGenerator(direction: 'up' | 'down'): Gesture<'static'> {
         name: 'thumbs-' + direction,
         description: 'Thumbs-' + direction,
         type: 'static',
+        cooldown: 2000,
         data: {
             minDuration: 2 * 1_000_000,
 
@@ -30,7 +31,6 @@ function gestureGenerator(direction: 'up' | 'down'): Gesture<'static'> {
                 },
             ],
         },
-        cooldown: 2000,
     };
 }
 

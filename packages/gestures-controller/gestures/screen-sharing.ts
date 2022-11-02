@@ -4,6 +4,7 @@ export const screenSharingGesture: Gesture<'dynamic'> = {
     name: 'screen-sharing',
     description: 'Screen sharing',
     type: 'dynamic',
+    cooldown: 2000,
     data: [
         {
             minDuration: 0,
