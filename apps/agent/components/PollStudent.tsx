@@ -25,11 +25,37 @@ export default function PollStudents() {
             setQuestion({ id, question });
             setStatus(undefined);
         });
+
+        function handleGesture(gesture: any) {
+            //Concurrency handling for button press + thumbs up/ thumbs down
+            setStatus((status) => {
+                if (status !== undefined) return status;
+                if (gesture.name === 'thumb-position-up') {
+                    fetch(`http://${host}:${port}/approval/${question.id}`);
+                    return true;
+                } else if (gesture.name === 'thumb-position-down') {
+                    fetch(`http://${host}:${port}/refusal/${question.id}`);
+                    return false;
+                }
+            });
+        }
+
         return () => {
             socket.off('pollQuestion');
             socket.off('pollConnected');
+            socket.off('gesture', handleGesture);
         };
     });
+
+    function approval() {
+        setStatus(true);
+        fetch(`http://${host}:${port}/approval/${question.id}`);
+    }
+
+    function refusal() {
+        setStatus(false);
+        fetch(`http://${host}:${port}/refusal/${question.id}`);
+    }
 
     return (
         <div>
@@ -56,12 +82,7 @@ export default function PollStudents() {
                                       pointerEvents: 'none',
                                   }
                         }
-                        onClick={() => {
-                            setStatus(true);
-                            fetch(
-                                `http://${host}:${port}/approval/${question.id}`
-                            );
-                        }}
+                        onClick={approval}
                     >
                         Vrai
                     </button>
@@ -85,12 +106,7 @@ export default function PollStudents() {
                                       pointerEvents: 'none',
                                   }
                         }
-                        onClick={() => {
-                            setStatus(false);
-                            fetch(
-                                `http://${host}:${port}/refusal/${question.id}`
-                            );
-                        }}
+                        onClick={refusal}
                     >
                         Faux
                     </button>
