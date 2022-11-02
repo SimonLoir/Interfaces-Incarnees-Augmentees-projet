@@ -96,12 +96,12 @@ export default abstract class GesturesController {
             const gestureListeners = this.eventListeners.gesture;
 
             this.extractFromFrames(this.frameStore).forEach((gesture) => {
-                if (gesture.cooldown !== undefined) {
+                if (gesture.coolDown !== undefined) {
                     // Checks that the gesture has not been triggered recently
                     if (this.lastOccurrence[gesture.name] !== undefined) {
                         if (
                             Date.now() - this.lastOccurrence[gesture.name] <
-                            gesture.cooldown
+                            gesture.coolDown
                         ) {
                             return;
                         }

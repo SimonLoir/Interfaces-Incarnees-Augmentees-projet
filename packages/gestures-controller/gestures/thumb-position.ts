@@ -4,7 +4,7 @@ export const thumbUpGesture: Gesture<'static'> = {
     name: 'thumb-position-up',
     description: '',
     type: 'static',
-    cooldown: 2000,
+    coolDown: 2000,
     data: {
         minDuration: 1_000_000,
         hands: [
@@ -34,7 +34,7 @@ export const thumbDownGesture: Gesture<'static'> = {
     name: 'thumb-position-down',
     description: '',
     type: 'static',
-    cooldown: 2000,
+    coolDown: 2000,
     data: {
         minDuration: 1_000_000,
         hands: [

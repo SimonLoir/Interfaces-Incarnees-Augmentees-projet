@@ -3,7 +3,7 @@ export interface Gesture<T extends 'static' | 'dynamic'> {
     type: T;
     description: string;
     data: T extends 'static' ? Model : Model[];
-    cooldown?: number;
+    coolDown?: number;
 }
 
 export type FingersModel = (

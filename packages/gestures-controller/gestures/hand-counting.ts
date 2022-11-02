@@ -5,7 +5,7 @@ function gestureGenerator(count: number, countStr: string): Gesture<'static'> {
         type: 'static',
         name: countStr + '-extended-fingers',
         description: countStr + ' extended on either the left or right hand',
-        cooldown: 4000,
+        coolDown: 4000,
         data: {
             minDuration: 1 * 1_000_000,
             hands: [
