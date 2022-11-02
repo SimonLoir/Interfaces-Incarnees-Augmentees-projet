@@ -70,8 +70,12 @@ export default abstract class GesturesController {
         this.initController();
     }
 
+    /**
+     * Initializes the Leap Motion controller by adding the proper event handlers.
+     */
     private initController() {
         this.leapController.on('frame', (frame) => {
+            // Ensures a nearly steady frame rate
             if (
                 frame.id %
                     Math.floor(frame.currentFrameRate / this.frameRate) !==
@@ -79,14 +83,21 @@ export default abstract class GesturesController {
             )
                 return;
 
+            // Stores the frame in the frame buffer
             this.frameStore.push(frame);
+
+            // Removes the oldest frame if the buffer is too long
             if (this.frameStore.length > this.frameStoreLength)
                 this.frameStore.shift();
 
+            // Sends the frame to the event handlers of the frame event
             this.eventListeners.frame.forEach((listener) => listener(frame));
+
             const gestureListeners = this.eventListeners.gesture;
+
             this.extractFromFrames(this.frameStore).forEach((gesture) => {
                 if (gesture.cooldown !== undefined) {
+                    // Checks that the gesture has not been triggered recently
                     if (this.lastOccurrence[gesture.name] !== undefined) {
                         if (
                             Date.now() - this.lastOccurrence[gesture.name] <
@@ -95,31 +106,50 @@ export default abstract class GesturesController {
                             return;
                         }
                     }
+                    // Stores the last time the gesture was triggered
                     this.lastOccurrence[gesture.name] = Date.now();
                 }
+                // Sends the gesture to the event handlers of the gesture event
                 gestureListeners.forEach((listener) => listener(gesture));
             });
         });
         this.leapController.connect();
     }
 
+    /**
+     * Adds an event listener to the controller
+     * @param type The type of the event
+     * @param handler The event handler
+     * @returns A list containing the type of the event and the event handler
+     */
     protected addEventListener<T extends keyof EventListeners>(
         type: T,
-        listener: EventListeners[T]
+        handler: EventListeners[T]
     ) {
-        this.eventListeners[type].push(listener);
-        return [type, listener] as [T, EventListeners[T]];
+        this.eventListeners[type].push(handler);
+        return [type, handler] as [T, EventListeners[T]];
     }
 
+    /**
+     * Removes an event listener from the controller
+     * @param type The type of the event
+     * @param handler The event handler
+     */
     protected removeEventListener<T extends keyof EventListeners>(
         type: T,
-        listener: EventListeners[T]
+        handler: EventListeners[T]
     ) {
         this.eventListeners[type] = this.eventListeners[type].filter(
-            (l) => l !== listener
+            (l) => l !== handler
         ) as EventListenerStore[T];
     }
 
+    /**
+     * Computes the difference between two frames
+     * @param from The initial frame
+     * @param to The final frame
+     * @returns A FrameDiff object containing the difference between the two frames
+     */
     public frameDiff(from: Leap.Frame, to: Leap.Frame) {
         return new FrameDiff(from, to);
     }
