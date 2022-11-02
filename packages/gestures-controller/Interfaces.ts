@@ -37,7 +37,6 @@ export type Finger =
 
 export interface SingleFingerModel {
     direction?: VectorModel;
-    position?: VectorModel;
     extended?: boolean;
 }
 
@@ -54,23 +53,9 @@ export interface HandModel {
 
     fingers?: FingersModel;
 
-    palmPosition?: {
-        minX?: number;
-        maxX?: number;
-        minY?: number;
-        maxY?: number;
-        minZ?: number;
-        maxZ?: number;
-    };
+    palmPosition?: VectorModel;
 
-    palmVelocity?: {
-        minX?: number;
-        maxX?: number;
-        minY?: number;
-        maxY?: number;
-        minZ?: number;
-        maxZ?: number;
-    };
+    palmVelocity?: VectorModel;
     minGrabStrength?: number;
     maxGrabStrength?: number;
 }

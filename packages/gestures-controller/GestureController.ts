@@ -18,10 +18,7 @@ import {
 } from './gestures/hand-counting';
 import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
-import {
-    thumbsDownGesture,
-    thumbsUpGesture,
-} from './gestures/thumbs_up_and_down';
+import { thumbDownGesture, thumbUpGesture } from './gestures/thumb-position';
 
 interface EventListeners {
     frame: (frame: Leap.Frame) => void;
@@ -44,8 +41,8 @@ export default abstract class GesturesController {
         threeFingersUpGesture,
         fourFingersUpGesture,
         fiveFingersUpGesture,
-        thumbsUpGesture,
-        thumbsDownGesture,
+        thumbDownGesture,
+        thumbUpGesture,
     ];
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [screenSharingGesture];
@@ -337,13 +334,13 @@ export default abstract class GesturesController {
             minGrabStrength,
             palmPosition: palmPositionModel,
         } = model;
-
+        // Checks if the grabStrength is hard enough if required
         if (
             maxGrabStrength !== undefined &&
             hand.grabStrength > maxGrabStrength
         )
             return false;
-
+        // Checks if the grabStrength is soft enough if required
         if (
             minGrabStrength !== undefined &&
             hand.grabStrength < minGrabStrength
@@ -365,70 +362,66 @@ export default abstract class GesturesController {
             )
                 return false;
 
+            // Check if there are enough extended fingers
             if (minExtended !== undefined && extendedFingers < minExtended)
                 return false;
 
+            // Check if there are not too much extended fingers
             if (maxExtended !== undefined && extendedFingers > maxExtended)
                 return false;
 
+            // Map from finger name to finger id (id = index of finger in the array)
             const fingerMap: Finger[] = [
+                'thumb',
                 'indexFinger',
                 'middleFinger',
-                'pinky',
                 'ringFinger',
-                'thumb',
+                'pinky',
             ];
+
+            // Check if there is/are some fingers too inspect
             if (fingersInModel.details) {
-                for (const finger of fingerMap) {
-                    if (finger in fingersInModel.details) {
-                        const fModel = fingersInModel.details[
-                            finger
-                        ] as SingleFingerModel;
-                        //Next if for thumbs up/down
-                        if (
-                            fModel.extended !== undefined &&
-                            hand[finger].extended !== fModel.extended
-                        ) {
-                            return false;
-                        }
-                        if (
-                            fModel.direction &&
-                            !this.checkVectorModel(
-                                fModel.direction,
-                                hand[finger].direction
-                            )
-                        ) {
-                            return false;
-                        }
-                        if (
-                            fModel.position &&
-                            !this.checkVectorModel(
-                                fModel.position,
-                                hand[finger].direction
-                            )
-                        ) {
-                            return false;
-                        }
+                // For all the fingers for which we have a detail
+                for (const finger of Object.keys(
+                    fingersInModel.details
+                ) as Finger[]) {
+                    // fModel to get the SingleFingerModel of the finger
+                    const fModel = fingersInModel.details[
+                        finger as Finger
+                    ] as SingleFingerModel;
+
+                    // Check if the finger in the model and in the frame are both extended or unextended
+                    if (
+                        fModel.extended !== undefined &&
+                        hand.fingers[fingerMap.indexOf(finger)].extended !==
+                            fModel.extended
+                    ) {
+                        return false;
+                    }
+                    //Check if the direction of the finger in the frame matches with the one in the model
+                    if (
+                        fModel.direction &&
+                        !this.checkVectorModel(
+                            fModel.direction,
+                            hand.fingers[fingerMap.indexOf(finger)].direction
+                        )
+                    ) {
+                        return false;
                     }
                 }
             }
         }
 
-        if (palmPositionModel) {
-            const { minX, minY, minZ, maxX, maxY, maxZ } = palmPositionModel;
-            const [x, y, z] = hand.palmPosition;
-
-            if (minX !== undefined && x < minX) return false;
-            if (minY !== undefined && y < minY) return false;
-            if (minZ !== undefined && z < minZ) return false;
-            if (maxX !== undefined && x > maxX) return false;
-            if (maxY !== undefined && y > maxY) return false;
-            if (maxZ !== undefined && z > maxZ) return false;
-        }
-
+        // Check if the position of the palm in the frame matches the position of the one in the model
+        if (
+            palmPositionModel &&
+            !this.checkVectorModel(palmPositionModel, hand.palmPosition)
+        )
+            return false;
         return true;
     }
 
+    // Utility function to compare Vectorial[3] min/max values
     private checkVectorModel(
         vectorModel: VectorModel,
         vector: [number, number, number]
@@ -496,21 +489,12 @@ export default abstract class GesturesController {
         const { palmVelocity } = model;
 
         if (palmVelocity) {
-            // Gets the expected max and min values of velocity from the model
-            const { maxX, maxY, maxZ, minX, minY, minZ } = palmVelocity;
-            // Gets the actual velocity values from the diff
-            const {
-                velocityDiff: [velocityX, velocityY, velocityZ],
-            } = diff;
-
-            // Checks if the velocity values are in the expected range
-            if (maxX !== undefined && velocityX > maxX) return false;
-            if (maxY !== undefined && velocityY > maxY) return false;
-            if (maxZ !== undefined && velocityZ > maxZ) return false;
-            if (minX !== undefined && velocityX < minX) return false;
-            if (minY !== undefined && velocityY < minY) return false;
-            if (minZ !== undefined && velocityZ < minZ) return false;
+            if (
+                palmVelocity &&
+                !this.checkVectorModel(palmVelocity, diff.velocityDiff)
+            )
+                return false;
+            return true;
         }
-        return true;
     }
 }

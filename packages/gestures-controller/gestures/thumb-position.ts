@@ -1,22 +1,26 @@
 import { Gesture } from '../Interfaces';
 
-export const ThumbPositionUp: Gesture<'static'> = {
+export const thumbUpGesture: Gesture<'static'> = {
     name: 'thumb-position-up',
     description: '',
     type: 'static',
+    cooldown: 2000,
     data: {
-        minDuration: 1,
+        minDuration: 1_000_000,
         hands: [
             {
+                palmVelocity: {
+                    maxX: 15,
+                    maxY: 15,
+                    maxZ: 15,
+                },
                 fingers: {
                     exactExtended: 1,
                     details: {
                         thumb: {
                             extended: true,
                             direction: {
-                                //To-do: TO DEFINE WITH THE LEAPMOTION !
-
-                                minY: 0.5,
+                                minY: 0.4,
                             },
                         },
                     },
@@ -26,24 +30,26 @@ export const ThumbPositionUp: Gesture<'static'> = {
     },
 };
 
-export const ThumbPositionDown: Gesture<'static'> = {
+export const thumbDownGesture: Gesture<'static'> = {
     name: 'thumb-position-down',
     description: '',
     type: 'static',
+    cooldown: 2000,
     data: {
-        minDuration: 1,
+        minDuration: 1_000_000,
         hands: [
             {
+                palmVelocity: {
+                    maxX: 15,
+                    maxY: 15,
+                    maxZ: 15,
+                },
                 fingers: {
                     exactExtended: 1,
                     details: {
                         thumb: {
                             extended: true,
-                            direction: {
-                                ////To-do: TO DEFINE WITH THE LEAPMOTION !
-
-                                minY: -0.4,
-                            },
+                            direction: { maxY: -0.4 },
                         },
                     },
                 },

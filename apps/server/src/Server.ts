@@ -182,10 +182,10 @@ export default class Server {
             case 'screen-sharing':
                 this.io.emit('screen_share_gesture');
                 break;
-            case 'thumbs-up':
+            case 'thumb-position-up':
                 this.io.emit('thumbs_up_gesture');
                 break;
-            case 'thumbs-down':
+            case 'thumb-position-down':
                 this.io.emit('thumbs_down_gesture');
                 break;
             default:
