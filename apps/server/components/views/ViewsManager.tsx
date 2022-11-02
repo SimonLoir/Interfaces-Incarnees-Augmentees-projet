@@ -54,6 +54,12 @@ export default function ViewManager() {
             setViewID((viewID - 1 + views.length) % views.length);
         });
 
+        // socket.on('gesture', (gesture) => {
+        //     if (gesture.name === "screen-sharing") {
+        //         setViewId(0)
+        //     }
+        // })
+
         return () => {
             socket.off('next-view');
             socket.off('previous-view');

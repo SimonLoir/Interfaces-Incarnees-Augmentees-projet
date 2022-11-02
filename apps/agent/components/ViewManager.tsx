@@ -21,6 +21,17 @@ export default function ViewManager() {
     const socket = useSocketContext();
     const [viewID, setViewID] = useState<keyof typeof views>('home');
 
+    const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
+    const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+
+    useEffect(() => {
+        //Instead of broadcasting current view every second, lets the client ask for the current view
+        //To avoid delay (shorten it as much as possible)
+        fetch(`http://${host}:${port}/current-view`)
+            .then((res) => res.text())
+            .then((view) => setViewID(view as any));
+    });
+
     useEffect(() => {
         socket.on('setView', (view) => {
             setViewID(view);

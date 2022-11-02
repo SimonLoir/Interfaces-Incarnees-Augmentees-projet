@@ -5,6 +5,9 @@ import {
     HandModel,
     FrameDiffExport,
     HandDiffExport,
+    VectorModel,
+    Finger,
+    SingleFingerModel,
 } from './Interfaces';
 import {
     oneFingerUpGesture,
@@ -348,8 +351,7 @@ export default abstract class GesturesController {
             return false;
 
         if (fingersInModel) {
-            const { exactExtended, minExtended, maxExtended, fingersInfo } =
-                fingersInModel;
+            const { exactExtended, minExtended, maxExtended } = fingersInModel;
             // Computes the number of extended fingers
             const extendedFingers = hand.fingers.reduce(
                 (acc, finger) => (acc += finger.extended ? 1 : 0),
@@ -369,51 +371,45 @@ export default abstract class GesturesController {
             if (maxExtended !== undefined && extendedFingers > maxExtended)
                 return false;
 
-            if (fingersInfo !== undefined) {
-                for (const finger of fingersInfo) {
-                    const fingerFrame = hand.fingers[finger.type];
-                    const [dirX, dirY, dirZ] = fingerFrame.direction;
-                    if (fingerFrame === undefined) return false;
-                    if (
-                        finger.extended !== undefined &&
-                        fingerFrame.extended !== finger.extended
-                    )
-                        return false;
-
-                    if (
-                        finger.maxDirectionX !== undefined &&
-                        dirX > finger.maxDirectionX
-                    )
-                        return false;
-                    if (
-                        finger.minDirectionX !== undefined &&
-                        dirX < finger.minDirectionX
-                    )
-                        return false;
-
-                    if (
-                        finger.maxDirectionY !== undefined &&
-                        dirY > finger.maxDirectionY
-                    )
-                        return false;
-
-                    if (
-                        finger.minDirectionY !== undefined &&
-                        dirY < finger.minDirectionY
-                    )
-                        return false;
-
-                    if (
-                        finger.maxDirectionZ !== undefined &&
-                        dirZ > finger.maxDirectionZ
-                    )
-                        return false;
-
-                    if (
-                        finger.minDirectionZ !== undefined &&
-                        dirZ < finger.minDirectionZ
-                    )
-                        return false;
+            const fingerMap: Finger[] = [
+                'indexFinger',
+                'middleFinger',
+                'pinky',
+                'ringFinger',
+                'thumb',
+            ];
+            if (fingersInModel.details) {
+                for (const finger of fingerMap) {
+                    if (finger in fingersInModel.details) {
+                        const fModel = fingersInModel.details[
+                            finger
+                        ] as SingleFingerModel;
+                        //Next if for thumbs up/down
+                        if (
+                            fModel.extended !== undefined &&
+                            hand[finger].extended !== fModel.extended
+                        ) {
+                            return false;
+                        }
+                        if (
+                            fModel.direction &&
+                            !this.checkVectorModel(
+                                fModel.direction,
+                                hand[finger].direction
+                            )
+                        ) {
+                            return false;
+                        }
+                        if (
+                            fModel.position &&
+                            !this.checkVectorModel(
+                                fModel.position,
+                                hand[finger].direction
+                            )
+                        ) {
+                            return false;
+                        }
+                    }
                 }
             }
         }
@@ -430,6 +426,21 @@ export default abstract class GesturesController {
             if (maxZ !== undefined && z > maxZ) return false;
         }
 
+        return true;
+    }
+
+    private checkVectorModel(
+        vectorModel: VectorModel,
+        vector: [number, number, number]
+    ) {
+        const { minX, minY, minZ, maxX, maxY, maxZ } = vectorModel;
+        const [x, y, z] = vector;
+        if (minX !== undefined && x < minX) return false;
+        if (minY !== undefined && y < minY) return false;
+        if (minZ !== undefined && z < minZ) return false;
+        if (maxX !== undefined && x > maxX) return false;
+        if (maxY !== undefined && y > maxY) return false;
+        if (maxZ !== undefined && z > maxZ) return false;
         return true;
     }
 

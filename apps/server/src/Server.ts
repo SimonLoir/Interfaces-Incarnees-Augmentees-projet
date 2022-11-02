@@ -94,6 +94,13 @@ export default class Server {
                 }
             );
 
+            this.expressServer.get(
+                '/current-view',
+                (req: Request, res: Response) => {
+                    return res.send(this.currentView);
+                }
+            );
+
             this.expressServer.all('*', (req: Request, res: Response) => {
                 return this.handle(req, res);
             });
