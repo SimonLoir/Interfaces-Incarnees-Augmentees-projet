@@ -6,36 +6,16 @@ export interface Gesture<T extends 'static' | 'dynamic'> {
     cooldown?: number;
 }
 
-<<<<<<< Updated upstream
-export type FingerInfo = {
-    type: number;
-    extended: boolean;
-    minDirectionX?: number;
-    maxDirectionX?: number;
-    minDirectionY?: number;
-    maxDirectionY?: number;
-    minDirectionZ?: number;
-    maxDirectionZ?: number;
-};
-
-export type FingersModel =
-=======
 export type FingersModel = (
->>>>>>> Stashed changes
     | {
           minExtended?: never;
           maxExtended?: never;
           exactExtended: number;
-          fingersInfo?: FingerInfo[];
       }
     | {
           minExtended?: number;
           maxExtended?: number;
           exactExtended?: never;
-<<<<<<< Updated upstream
-          fingersInfo?: FingerInfo[];
-      };
-=======
       }
 ) & { [k in Finger]?: SingleFingerModel };
 
@@ -60,7 +40,6 @@ export interface SingleFingerModel {
     position?: VectorModel;
 }
 
->>>>>>> Stashed changes
 export interface Model {
     minDuration: number;
     maxDuration?: number;
