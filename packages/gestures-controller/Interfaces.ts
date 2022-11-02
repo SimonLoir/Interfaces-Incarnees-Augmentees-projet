@@ -17,7 +17,7 @@ export type FingersModel = (
           maxExtended?: number;
           exactExtended?: never;
       }
-) & { [k in Finger]?: SingleFingerModel };
+) & { details?: { [k in Finger]?: SingleFingerModel } };
 
 export interface VectorModel {
     minX?: number;
@@ -38,6 +38,7 @@ export type Finger =
 export interface SingleFingerModel {
     direction?: VectorModel;
     position?: VectorModel;
+    extended?: boolean;
 }
 
 export interface Model {

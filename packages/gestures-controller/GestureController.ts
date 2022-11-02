@@ -378,26 +378,37 @@ export default abstract class GesturesController {
                 'ringFinger',
                 'thumb',
             ];
-            for (const finger of fingerMap) {
-                if (finger in fingersInModel) {
-                    const fModel = fingersInModel[finger] as SingleFingerModel;
-                    if (
-                        fModel.direction &&
-                        !this.checkVectorModel(
-                            fModel.direction,
-                            hand[finger].direction
-                        )
-                    ) {
-                        return false;
-                    }
-                    if (
-                        fModel.position &&
-                        !this.checkVectorModel(
-                            fModel.position,
-                            hand[finger].direction
-                        )
-                    ) {
-                        return false;
+            if (fingersInModel.details) {
+                for (const finger of fingerMap) {
+                    if (finger in fingersInModel.details) {
+                        const fModel = fingersInModel.details[
+                            finger
+                        ] as SingleFingerModel;
+                        //Next if for thumbs up/down
+                        if (
+                            fModel.extended !== undefined &&
+                            hand[finger].extended !== fModel.extended
+                        ) {
+                            return false;
+                        }
+                        if (
+                            fModel.direction &&
+                            !this.checkVectorModel(
+                                fModel.direction,
+                                hand[finger].direction
+                            )
+                        ) {
+                            return false;
+                        }
+                        if (
+                            fModel.position &&
+                            !this.checkVectorModel(
+                                fModel.position,
+                                hand[finger].direction
+                            )
+                        ) {
+                            return false;
+                        }
                     }
                 }
             }
