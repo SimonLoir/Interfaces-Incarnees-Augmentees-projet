@@ -15,6 +15,10 @@ import {
 } from './gestures/hand-counting';
 import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
+import {
+    thumbsDownGesture,
+    thumbsUpGesture,
+} from './gestures/thumbs_up_and_down';
 
 interface EventListeners {
     frame: (frame: Leap.Frame) => void;
@@ -36,6 +40,8 @@ export default abstract class GesturesController {
         threeFingersUpGesture,
         fourFingersUpGesture,
         fiveFingersUpGesture,
+        thumbsUpGesture,
+        thumbsDownGesture,
     ];
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [screenSharingGesture];
@@ -330,7 +336,8 @@ export default abstract class GesturesController {
             return false;
 
         if (fingersInModel) {
-            const { exactExtended, minExtended, maxExtended } = fingersInModel;
+            const { exactExtended, minExtended, maxExtended, fingersInfo } =
+                fingersInModel;
             // Computes the number of extended fingers
             const extendedFingers = hand.fingers.reduce(
                 (acc, finger) => (acc += finger.extended ? 1 : 0),
@@ -349,6 +356,48 @@ export default abstract class GesturesController {
 
             if (maxExtended !== undefined && extendedFingers > maxExtended)
                 return false;
+
+            if (fingersInfo !== undefined) {
+                for (const finger of fingersInfo) {
+                    const fingerFrame = hand.fingers[finger.type];
+                    if (fingerFrame !== undefined) {
+                        if (
+                            finger.maxDirectionX !== undefined &&
+                            fingerFrame.direction[0] < finger.maxDirectionX
+                        )
+                            return false;
+                        if (
+                            finger.minDirectionX !== undefined &&
+                            fingerFrame.direction[0] > finger.minDirectionX
+                        )
+                            return false;
+
+                        if (
+                            finger.maxDirectionY !== undefined &&
+                            fingerFrame.direction[1] < finger.maxDirectionY
+                        )
+                            return false;
+
+                        if (
+                            finger.minDirectionY !== undefined &&
+                            fingerFrame.direction[1] > finger.minDirectionY
+                        )
+                            return false;
+
+                        if (
+                            finger.maxDirectionZ !== undefined &&
+                            fingerFrame.direction[2] < finger.maxDirectionZ
+                        )
+                            return false;
+
+                        if (
+                            finger.minDirectionZ !== undefined &&
+                            fingerFrame.direction[2] > finger.minDirectionZ
+                        )
+                            return false;
+                    }
+                }
+            }
         }
 
         if (palmPositionModel) {

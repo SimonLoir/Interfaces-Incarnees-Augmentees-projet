@@ -5,16 +5,29 @@ export interface Gesture<T extends 'static' | 'dynamic'> {
     data: T extends 'static' ? Model : Model[];
 }
 
+export type FingerInfo = {
+    type: number;
+    extended: boolean;
+    minDirectionX?: number;
+    maxDirectionX?: number;
+    minDirectionY?: number;
+    maxDirectionY?: number;
+    minDirectionZ?: number;
+    maxDirectionZ?: number;
+};
+
 export type FingersModel =
     | {
           minExtended?: never;
           maxExtended?: never;
           exactExtended: number;
+          fingersInfo?: FingerInfo[];
       }
     | {
           minExtended?: number;
           maxExtended?: number;
           exactExtended?: never;
+          fingersInfo?: FingerInfo[];
       };
 export interface Model {
     minDuration: number;
