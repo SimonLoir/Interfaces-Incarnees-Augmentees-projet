@@ -2,8 +2,8 @@ import { Gesture } from '../Interfaces';
 
 function gestureGenerator(direction: 'up' | 'down'): Gesture<'static'> {
     return {
-        name: 'thumbs-up',
-        description: 'Thumbs-up',
+        name: 'thumbs-' + direction,
+        description: 'Thumbs-' + direction,
         type: 'static',
         data: {
             minDuration: 2 * 1_000_000,
@@ -21,7 +21,9 @@ function gestureGenerator(direction: 'up' | 'down'): Gesture<'static'> {
                             {
                                 type: 0,
                                 extended: true,
-                                minDirectionY: direction === 'up' ? 0.7 : -0.7,
+                                ...(direction === 'up'
+                                    ? { minDirectionY: 0.5 }
+                                    : { maxDirectionY: -0.4 }),
                             },
                         ],
                     },

@@ -360,42 +360,49 @@ export default abstract class GesturesController {
             if (fingersInfo !== undefined) {
                 for (const finger of fingersInfo) {
                     const fingerFrame = hand.fingers[finger.type];
-                    if (fingerFrame !== undefined) {
-                        if (
-                            finger.maxDirectionX !== undefined &&
-                            fingerFrame.direction[0] < finger.maxDirectionX
-                        )
-                            return false;
-                        if (
-                            finger.minDirectionX !== undefined &&
-                            fingerFrame.direction[0] > finger.minDirectionX
-                        )
-                            return false;
+                    const [dirX, dirY, dirZ] = fingerFrame.direction;
+                    if (fingerFrame === undefined) return false;
+                    console.log(fingerFrame.direction, finger);
+                    if (
+                        finger.extended !== undefined &&
+                        fingerFrame.extended !== finger.extended
+                    )
+                        return false;
 
-                        if (
-                            finger.maxDirectionY !== undefined &&
-                            fingerFrame.direction[1] < finger.maxDirectionY
-                        )
-                            return false;
+                    if (
+                        finger.maxDirectionX !== undefined &&
+                        dirX > finger.maxDirectionX
+                    )
+                        return false;
+                    if (
+                        finger.minDirectionX !== undefined &&
+                        dirX < finger.minDirectionX
+                    )
+                        return false;
 
-                        if (
-                            finger.minDirectionY !== undefined &&
-                            fingerFrame.direction[1] > finger.minDirectionY
-                        )
-                            return false;
+                    if (
+                        finger.maxDirectionY !== undefined &&
+                        dirY > finger.maxDirectionY
+                    )
+                        return false;
 
-                        if (
-                            finger.maxDirectionZ !== undefined &&
-                            fingerFrame.direction[2] < finger.maxDirectionZ
-                        )
-                            return false;
+                    if (
+                        finger.minDirectionY !== undefined &&
+                        dirY < finger.minDirectionY
+                    )
+                        return false;
 
-                        if (
-                            finger.minDirectionZ !== undefined &&
-                            fingerFrame.direction[2] > finger.minDirectionZ
-                        )
-                            return false;
-                    }
+                    if (
+                        finger.maxDirectionZ !== undefined &&
+                        dirZ > finger.maxDirectionZ
+                    )
+                        return false;
+
+                    if (
+                        finger.minDirectionZ !== undefined &&
+                        dirZ < finger.minDirectionZ
+                    )
+                        return false;
                 }
             }
         }
