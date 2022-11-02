@@ -4,6 +4,7 @@ import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import IoClient from './IoClient';
+import { Gesture } from 'gestures-controller';
 
 export default class Server {
     private static instance: Server;
@@ -100,5 +101,9 @@ export default class Server {
 
     public setPollConnection(msg: string) {
         this.io.emit('pollConnected', msg);
+    }
+
+    public sendGesture(gesture: Gesture<any>) {
+        console.log(gesture);
     }
 }
