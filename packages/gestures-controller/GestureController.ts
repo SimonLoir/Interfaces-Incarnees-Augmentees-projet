@@ -362,7 +362,6 @@ export default abstract class GesturesController {
                     const fingerFrame = hand.fingers[finger.type];
                     const [dirX, dirY, dirZ] = fingerFrame.direction;
                     if (fingerFrame === undefined) return false;
-                    console.log(fingerFrame.direction, finger);
                     if (
                         finger.extended !== undefined &&
                         fingerFrame.extended !== finger.extended
