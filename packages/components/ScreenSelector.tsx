@@ -1,4 +1,4 @@
-import { getAt } from '@utils/global';
+import { getAt, useSocketContext } from '@utils/global';
 import React, { useEffect, useState } from 'react';
 import Source from './Source';
 import style from './style/DisplayChooser.module.scss';
@@ -14,6 +14,7 @@ export function ScreenSelector({
 }: {
     onSelect: (source: VideoSource) => void;
 }) {
+    const socket = useSocketContext();
     const [sources, setSources] = useState<VideoSource[]>([]);
     const [selected, setSelected] = useState<VideoSource | null>(null);
 
@@ -38,6 +39,15 @@ export function ScreenSelector({
         if (sources.find((s) => s.id === selected.id) === undefined)
             return setSelected(sources[0]);
     }, [sources, selected]);
+
+    useEffect(() => {
+        socket.on('screen_share_gesture', () => {
+            if (selected !== null) onSelect(selected);
+        });
+        return () => {
+            socket.off('screen_share_gesture');
+        };
+    }, [onSelect, socket, selected]);
 
     if (selected === null) return <div>Impossible de trouver un écran</div>;
 

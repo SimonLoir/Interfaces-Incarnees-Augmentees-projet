@@ -171,6 +171,18 @@ export default class Server {
      * @param gesture The gesture to send
      */
     public sendGesture(gesture: Gesture<any>) {
-        this.io.emit('gesture', gesture);
+        switch (gesture.name) {
+            case 'screen-sharing':
+                this.io.emit('screen_share_gesture', gesture.data);
+                break;
+            case 'thumbs-up':
+                this.io.emit('thumbs_up_gesture', gesture.data);
+                break;
+            case 'thumbs-down':
+                this.io.emit('thumbs_down_gesture', gesture.data);
+                break;
+            default:
+                break;
+        }
     }
 }
