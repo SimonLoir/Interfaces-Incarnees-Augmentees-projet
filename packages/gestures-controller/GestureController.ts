@@ -31,6 +31,7 @@ type EventListenerStore<T extends keyof EventListeners> = [
 ][];
 
 export default abstract class GesturesController {
+    private lastOccurrence: { [key: string]: number } = {};
     private frameRate = 3;
     private frameStoreLength = this.frameRate * 3; // 3 seconds
     private frameStore: Leap.Frame[] = [];
@@ -83,6 +84,17 @@ export default abstract class GesturesController {
             this.getListeners('frame').forEach((listener) => listener(frame));
             const gestureListeners = this.getListeners('gesture');
             this.extractFromFrames(this.frameStore).forEach((gesture) => {
+                if (gesture.cooldown !== undefined) {
+                    if (this.lastOccurrence[gesture.name] !== undefined) {
+                        if (
+                            Date.now() - this.lastOccurrence[gesture.name] <
+                            gesture.cooldown
+                        ) {
+                            return;
+                        }
+                    }
+                    this.lastOccurrence[gesture.name] = Date.now();
+                }
                 gestureListeners.forEach((listener) => listener(gesture));
             });
         });

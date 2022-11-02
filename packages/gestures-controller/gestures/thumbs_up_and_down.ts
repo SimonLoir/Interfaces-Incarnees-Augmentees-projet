@@ -30,6 +30,7 @@ function gestureGenerator(direction: 'up' | 'down'): Gesture<'static'> {
                 },
             ],
         },
+        cooldown: 2000,
     };
 }
 
