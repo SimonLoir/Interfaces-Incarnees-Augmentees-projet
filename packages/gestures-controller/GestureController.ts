@@ -20,15 +20,14 @@ import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
 import { thumbDownGesture, thumbUpGesture } from './gestures/thumb-position';
 
-interface EventListeners {
+type EventListeners = {
     frame: (frame: Leap.Frame) => void;
     gesture: (gesture: Gesture<any>) => void;
-}
+};
 
-type EventListenerStore<T extends keyof EventListeners> = [
-    T,
-    EventListeners[T]
-][];
+type EventListenerStore = {
+    [K in keyof EventListeners]: EventListeners[K][];
+};
 
 export default abstract class GesturesController {
     private lastOccurrence: { [key: string]: number } = {};
@@ -47,7 +46,10 @@ export default abstract class GesturesController {
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [screenSharingGesture];
     protected leapController: Leap.Controller;
-    private eventListeners: EventListenerStore<keyof EventListeners> = [];
+    private eventListeners: EventListenerStore = {
+        frame: [],
+        gesture: [],
+    };
 
     constructor(
         controllerOptions: Leap.ControllerOptions,
@@ -81,8 +83,8 @@ export default abstract class GesturesController {
             if (this.frameStore.length > this.frameStoreLength)
                 this.frameStore.shift();
 
-            this.getListeners('frame').forEach((listener) => listener(frame));
-            const gestureListeners = this.getListeners('gesture');
+            this.eventListeners.frame.forEach((listener) => listener(frame));
+            const gestureListeners = this.eventListeners.gesture;
             this.extractFromFrames(this.frameStore).forEach((gesture) => {
                 if (gesture.cooldown !== undefined) {
                     if (this.lastOccurrence[gesture.name] !== undefined) {
@@ -101,24 +103,11 @@ export default abstract class GesturesController {
         this.leapController.connect();
     }
 
-    private getListeners<T extends keyof EventListeners>(
-        type: T
-    ): EventListeners[T][] {
-        return this.eventListeners.reduce<EventListeners[T][]>(
-            (acc, [eventType, eventListener]) => {
-                if (eventType === type)
-                    acc.push(eventListener as EventListeners[T]);
-                return acc;
-            },
-            []
-        );
-    }
-
     protected addEventListener<T extends keyof EventListeners>(
         type: T,
         listener: EventListeners[T]
     ) {
-        this.eventListeners.push([type, listener]);
+        this.eventListeners[type].push(listener);
         return [type, listener] as [T, EventListeners[T]];
     }
 
@@ -126,10 +115,9 @@ export default abstract class GesturesController {
         type: T,
         listener: EventListeners[T]
     ) {
-        this.eventListeners = this.eventListeners.filter(
-            ([eventType, eventListener]) =>
-                eventType !== type && eventListener !== listener
-        );
+        this.eventListeners[type] = this.eventListeners[type].filter(
+            (l) => l !== listener
+        ) as EventListenerStore[T];
     }
 
     public frameDiff(from: Leap.Frame, to: Leap.Frame) {
