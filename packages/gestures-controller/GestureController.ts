@@ -551,4 +551,8 @@ export default abstract class GesturesController {
             return true;
         }
     }
+
+    public destroy() {
+        this.leapController.disconnect();
+    }
 }
