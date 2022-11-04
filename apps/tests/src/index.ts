@@ -1,10 +1,10 @@
-import GestureController from 'gestures-controller';
+import GestureController, { FrameExporter } from 'gestures-controller';
 
 class Controller extends GestureController {
     constructor() {
         super({}, []);
-        this.addEventListener('gesture', (g) => {
-            console.log(g.name, g.type);
+        this.addEventListener('frame', (f) => {
+            console.log(JSON.stringify(new FrameExporter(f).export()));
         });
     }
 }
