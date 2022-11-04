@@ -6,6 +6,7 @@ export default class FrameExporter {
     private exportHandData(hand: Leap.Hand) {
         console.log(this);
         return {
+            armBasis: hand.arm.basis,
             type: hand.type,
             direction: hand.direction,
             palmNormal: hand.palmNormal,
