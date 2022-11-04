@@ -351,6 +351,7 @@ export default abstract class GesturesController {
             maxGrabStrength,
             minGrabStrength,
             palmPosition: palmPositionModel,
+            palmNormal: palmNormalModel,
         } = model;
         // Checks if the grabStrength is hard enough if required
         if (
@@ -430,11 +431,16 @@ export default abstract class GesturesController {
             }
         }
 
-        // Check if the position of the palm in the frame matches the position of the one in the model
+        if (
+            palmNormalModel !== undefined &&
+            !this.checkVectorModel(palmNormalModel, hand.palmNormal)
+        )
+            return false;
         if (
             palmPositionModel &&
             !this.checkVectorModel(palmPositionModel, hand.palmPosition)
         )
+            // Check if the position of the palm in the frame matches the position of the one in the model
             return false;
         return true;
     }

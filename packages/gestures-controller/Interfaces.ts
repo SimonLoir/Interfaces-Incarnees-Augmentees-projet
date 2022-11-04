@@ -52,7 +52,7 @@ export interface HandModel {
     type?: 'left' | 'right';
 
     fingers?: FingersModel;
-
+    palmNormal?: VectorModel;
     palmPosition?: VectorModel;
 
     palmVelocity?: VectorModel;
