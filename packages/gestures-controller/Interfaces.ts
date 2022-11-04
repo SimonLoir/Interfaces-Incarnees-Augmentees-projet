@@ -46,6 +46,7 @@ export interface Model {
     hands?: HandModel[];
     fingers?: FingersModel;
     handsCount?: number;
+    allowOnlyOneHandMatch?: boolean;
 }
 
 export interface HandModel {

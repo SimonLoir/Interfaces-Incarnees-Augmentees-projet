@@ -310,8 +310,13 @@ export default abstract class GesturesController {
             //if (handsInGesture.length !== handsInFrame.length) return false;
 
             // Checks if there are enough hands in the frame
-            if (handsInFrame.length < handsInModel.length) return false;
+            if (
+                !model.allowOnlyOneHandMatch &&
+                handsInFrame.length < handsInModel.length
+            )
+                return false;
 
+            let inValidCount = 0;
             for (const handInModel of handsInModel) {
                 if (handInModel.type) {
                     // Gets the hand of the type specified in the model from the frame
@@ -320,21 +325,36 @@ export default abstract class GesturesController {
                     );
 
                     // If the hand of the type specified in the model is not in the frame, the gesture does not match
-                    if (!handInFrame) return false;
+                    if (!handInFrame) {
+                        inValidCount++;
+                        continue;
+                    }
 
                     // Checks if the hand matches the model
-                    if (!this.checkHandWithoutMotion(handInModel, handInFrame))
-                        return false;
+                    if (
+                        !this.checkHandWithoutMotion(handInModel, handInFrame)
+                    ) {
+                        inValidCount++;
+                        continue;
+                    }
                 } else {
                     // Checks if there is a hand in the frame that matches the model
                     if (
                         !handsInFrame.some((h) =>
                             this.checkHandWithoutMotion(handInModel, h)
                         )
-                    )
-                        return false;
+                    ) {
+                        inValidCount++;
+                        continue;
+                    }
                 }
             }
+            if (!model.allowOnlyOneHandMatch && inValidCount > 0) return false;
+            if (
+                model.allowOnlyOneHandMatch &&
+                inValidCount === handsInModel.length
+            )
+                return false;
         }
         return true;
     }
@@ -469,13 +489,14 @@ export default abstract class GesturesController {
      */
     public checkDynamicPropertiesForModel(model: Model, diff: FrameDiffExport) {
         // Gets the hands in the model
-        const { hands: handsInModel } = model;
+        const { hands: handsInModel, allowOnlyOneHandMatch: oneMatch } = model;
         // Gets the hands difference in the frames
         const {
             handDiffs: handsInDiff,
         }: { handDiffs: { [key: string]: HandDiffExport } } = diff;
 
         if (handsInModel && handsInModel.length > 0) {
+            let inValidCount = 0;
             for (const handInModel of handsInModel) {
                 if (handInModel.type) {
                     // Gets the hand of the type specified in the model from the frameDiff
@@ -483,21 +504,30 @@ export default abstract class GesturesController {
                         (h) => h.type === handInModel.type
                     );
                     // If the hand of the type specified in the model is not in the frameDiff, the gesture does not match
-                    if (!handDiff) return false;
+                    if (!handDiff) {
+                        inValidCount++;
+                        continue;
+                    }
 
                     // Checks if the hand matches the model considering the motion
-                    if (!this.checkHandWithMotion(handInModel, handDiff))
-                        return false;
+                    if (!this.checkHandWithMotion(handInModel, handDiff)) {
+                        inValidCount++;
+                        continue;
+                    }
                 } else {
                     // Checks if there is a hand in the frameDiff that matches the model considering the motion
                     if (
                         !Object.values(handsInDiff).some((h) =>
                             this.checkHandWithMotion(handInModel, h)
                         )
-                    )
-                        return false;
+                    ) {
+                        inValidCount++;
+                        continue;
+                    }
                 }
             }
+            if (oneMatch && inValidCount === handsInModel.length) return false;
+            if (!oneMatch && inValidCount > 0) return false;
         }
 
         return true;

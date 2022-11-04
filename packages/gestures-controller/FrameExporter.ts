@@ -4,7 +4,6 @@ export default class FrameExporter {
     constructor(private Frame: Leap.Frame) {}
 
     private exportHandData(hand: Leap.Hand) {
-        console.log(this);
         return {
             armBasis: hand.arm.basis,
             type: hand.type,
@@ -35,7 +34,6 @@ export default class FrameExporter {
     }
 
     public export() {
-        console.log(this.Frame.hands);
         return {
             id: this.Frame.id,
             timestamp: this.Frame.timestamp,
