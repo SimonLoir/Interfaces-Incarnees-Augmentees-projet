@@ -89,6 +89,52 @@ describe('GestureController', () => {
         expect(listener).toBeCalledTimes(1);
     });
 
+    test('buffer resize', () => {
+        const controller = new Controller();
+        //@ts-ignore
+        const emit = controller['leapController']['emit'].bind(
+            controller['leapController']
+        );
+
+        controller['frameStoreLength'] = 1;
+        controller['extractFromFrames'] = () => [];
+
+        emit('frame', {
+            id: 2,
+            currentFrameRate: controller['frameRate'] * 2,
+            timestamp: 1,
+        });
+
+        emit('frame', {
+            id: 2,
+            currentFrameRate: controller['frameRate'] * 2,
+            timestamp: 2,
+        });
+
+        expect(controller['frameStore'].length).toBe(1);
+        expect(controller['frameStore'][0].timestamp).toBe(2);
+    });
+
+    test('extract static gestures', () => {
+        const controller = new Controller([
+            'one-extended-fingers',
+            'two-extended-fingers',
+        ]);
+        controller['matchStaticGesture'] = (x, y) => true;
+        expect(controller.extractFromFrames([]).map((x) => x.name)).toEqual([
+            'one-extended-fingers',
+            'two-extended-fingers',
+        ]);
+    });
+
+    test('extract dynamic gestures', () => {
+        const controller = new Controller(['screen-sharing']);
+        controller['matchDynamicGesture'] = (x, y) => true;
+        expect(controller.extractFromFrames([]).map((x) => x.name)).toEqual([
+            'screen-sharing',
+        ]);
+    });
+
     test('empty frame diff', () => {
         const controller = new Controller();
         expect(() => controller.frameDiff({} as any, {} as any)).toThrow();

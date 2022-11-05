@@ -38,7 +38,6 @@ export default class HandDiff {
                 }
             });
         });
-        console.log(this.commonFingers);
     }
 
     private palmDiff() {
