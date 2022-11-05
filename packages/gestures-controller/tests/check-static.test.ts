@@ -2,12 +2,18 @@ import { describe, expect, test } from '@jest/globals';
 import GestureController from '..';
 import {
     frameEmpty,
+    frameHandWith3Fingers,
     frameWithLeftClosedFist,
     frameWithLeftHand,
     frameWithLeftOpenFist,
     frameWithRightClosedFist,
     frameWithRightHand,
     frameWithRightOpenFist,
+    model3FingersHand,
+    model4FingersHand,
+    modelHandWithLowGrabStrength,
+    modelMax2Extended,
+    modelMin4Extended,
     modelWithBothHands,
     modelWithHandClosed,
     modelWithLeftHand,
@@ -127,6 +133,60 @@ describe('GestureController', () => {
                     description: '',
                 },
                 []
+            )
+        ).toBe(false);
+    });
+
+    test('match exact fingers', () => {
+        expect(
+            controller.checkHandWithoutMotion(
+                model3FingersHand,
+                frameHandWith3Fingers as any
+            )
+        ).toBe(true);
+    });
+
+    test('match exact fingers - fail', () => {
+        expect(
+            controller.checkHandWithoutMotion(
+                model4FingersHand,
+                frameHandWith3Fingers as any
+            )
+        ).toBe(false);
+    });
+
+    test('match at least x fingers - fail', () => {
+        expect(
+            controller.checkHandWithoutMotion(
+                modelMin4Extended,
+                frameHandWith3Fingers as any
+            )
+        ).toBe(false);
+    });
+
+    test('match max x fingers - fail', () => {
+        expect(
+            controller.checkHandWithoutMotion(
+                modelMax2Extended,
+                frameHandWith3Fingers as any
+            )
+        ).toBe(false);
+    });
+
+    test('grab strength max', () => {
+        expect(
+            controller.checkHandWithoutMotion(
+                modelHandWithLowGrabStrength,
+                (frameWithRightOpenFist as any).hands[0]
+            )
+        ).toBe(true);
+    });
+
+    test('grab strength max - fail', () => {
+        expect(
+            controller.checkHandWithoutMotion(
+                modelHandWithLowGrabStrength,
+                (frameWithLeftClosedFist as any).hands[0]
             )
         ).toBe(false);
     });
