@@ -1,6 +1,8 @@
 import { describe, expect, test } from '@jest/globals';
 import GestureController from '..';
+import { thumbDownGesture } from '../gestures/thumb-position';
 import {
+    frameEmpty,
     frameWithLeftHand,
     frameWithRightHand,
     modelWithBothHands,
@@ -26,6 +28,9 @@ describe('GestureController', () => {
                 frameWithRightHand as any
             )
         ).toBe(true);
+    });
+
+    test('check static - has right hand fail', () => {
         expect(
             controller.checkStaticPropertiesForModel(
                 modelWithRightHand,
@@ -41,6 +46,9 @@ describe('GestureController', () => {
                 frameWithLeftHand as any
             )
         ).toBe(true);
+    });
+
+    test('check static - has left hand fail', () => {
         expect(
             controller.checkStaticPropertiesForModel(
                 modelWithLeftHand,
@@ -62,6 +70,29 @@ describe('GestureController', () => {
                 frameWithRightHand as any
             )
         ).toBe(true);
+    });
+
+    test('check static - no hands', () => {
+        expect(
+            controller.checkStaticPropertiesForModel(
+                modelWithBothHands,
+                frameEmpty as any
+            )
+        ).toBe(false);
+    });
+
+    test('match static empty buffer', () => {
+        expect(
+            controller.matchStaticGesture(
+                {
+                    name: '',
+                    data: { minDuration: 1 },
+                    type: 'static',
+                    description: '',
+                },
+                []
+            )
+        ).toBe(false);
     });
 
     afterAll(() => {

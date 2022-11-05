@@ -29,3 +29,7 @@ export const modelWithBothHands: Model = {
     minDuration: 1_000_000,
     hands: [{ type: 'left' }, { type: 'right' }],
 };
+
+export const frameEmpty: Partial<Leap.Frame> = {
+    hands: [],
+};
