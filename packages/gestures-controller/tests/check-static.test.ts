@@ -1,11 +1,15 @@
 import { describe, expect, test } from '@jest/globals';
 import GestureController from '..';
-import { thumbDownGesture } from '../gestures/thumb-position';
 import {
     frameEmpty,
+    frameWithLeftClosedFist,
     frameWithLeftHand,
+    frameWithLeftOpenFist,
+    frameWithRightClosedFist,
     frameWithRightHand,
+    frameWithRightOpenFist,
     modelWithBothHands,
+    modelWithHandClosed,
     modelWithLeftHand,
     modelWithRightHand,
 } from './dataset';
@@ -77,6 +81,38 @@ describe('GestureController', () => {
             controller.checkStaticPropertiesForModel(
                 modelWithBothHands,
                 frameEmpty as any
+            )
+        ).toBe(false);
+    });
+
+    test('grab strength', () => {
+        expect(
+            controller.checkStaticPropertiesForModel(
+                modelWithHandClosed,
+                frameWithRightClosedFist as any
+            )
+        ).toBe(true);
+
+        expect(
+            controller.checkStaticPropertiesForModel(
+                modelWithHandClosed,
+                frameWithLeftClosedFist as any
+            )
+        ).toBe(true);
+    });
+
+    test('grab strength - fail', () => {
+        expect(
+            controller.checkStaticPropertiesForModel(
+                modelWithHandClosed,
+                frameWithLeftOpenFist as any
+            )
+        ).toBe(false);
+
+        expect(
+            controller.checkStaticPropertiesForModel(
+                modelWithHandClosed,
+                frameWithRightOpenFist as any
             )
         ).toBe(false);
     });

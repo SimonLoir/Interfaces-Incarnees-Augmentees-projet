@@ -33,3 +33,41 @@ export const modelWithBothHands: Model = {
 export const frameEmpty: Partial<Leap.Frame> = {
     hands: [],
 };
+
+export const frameWithRightClosedFist: Partial<Leap.Frame> = {
+    hands: [
+        {
+            type: 'right',
+            grabStrength: 1,
+        },
+    ],
+};
+export const frameWithLeftClosedFist: Partial<Leap.Frame> = {
+    hands: [
+        {
+            type: 'left',
+            grabStrength: 1,
+        },
+    ],
+};
+
+export const frameWithRightOpenFist: Partial<Leap.Frame> = {
+    hands: [
+        {
+            type: 'right',
+            grabStrength: 0,
+        },
+    ],
+};
+export const frameWithLeftOpenFist: Partial<Leap.Frame> = {
+    hands: [
+        {
+            type: 'left',
+            grabStrength: 0,
+        },
+    ],
+};
+export const modelWithHandClosed: Model = {
+    minDuration: 1_000_000,
+    hands: [{ minGrabStrength: 1 }],
+};
