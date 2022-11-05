@@ -1,7 +1,15 @@
 import { describe, expect, test } from '@jest/globals';
 import FingerDiff from '../diff/FingerDiff';
+import FrameDiff from '../diff/FrameDiff';
 import HandDiff from '../diff/HandDiff';
-import { frameHand, frameHand2, frameHand3, frameHand4 } from './dataset';
+import {
+    frame1,
+    frame2,
+    frameHand,
+    frameHand2,
+    frameHand3,
+    frameHand4,
+} from './dataset';
 describe('fingers', () => {
     test('extends', () => {
         const diff = new FingerDiff(
@@ -63,4 +71,20 @@ describe('hands', () => {
         expect(diff.export().commonFingers.length).toEqual(2);
     });
 });
-//describe('frames', () => {});
+describe('frames', () => {
+    test('export hand frame', () => {
+        const diff = new FrameDiff(frame1 as any, frame2 as any);
+        expect(diff.export().handDiffs['12']).toBeDefined();
+        expect(diff.export().commonHands).toEqual(['12']);
+    });
+
+    test('finger diff', () => {
+        const diff = new FrameDiff(frame1 as any, frame2 as any);
+        expect(diff.export().fingerCountDiff).toBe(0);
+    });
+
+    test('timestamp diff', () => {
+        const diff = new FrameDiff(frame1 as any, frame2 as any);
+        expect(diff.export().timeDiff).toBeGreaterThan(0);
+    });
+});

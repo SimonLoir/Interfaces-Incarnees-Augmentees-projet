@@ -172,3 +172,16 @@ export const frameHand4: Partial<Leap.Hand> = {
     ] as Partial<Leap.Finger> as Leap.Finger[],
     palmPosition: [0, 0, 0],
 };
+
+export const frame1: Partial<Leap.Frame> = {
+    id: 1,
+    timestamp: new Date().getTime() * 1_000,
+    hands: [frameHand as Leap.Hand],
+    fingers: [],
+};
+export const frame2: Partial<Leap.Frame> = {
+    id: 2,
+    timestamp: (new Date().getTime() + 2000) * 1_000,
+    hands: [frameHand2 as Leap.Hand],
+    fingers: [],
+};
