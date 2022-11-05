@@ -75,6 +75,15 @@ export default abstract class GesturesController {
      */
     private initController() {
         this.leapController.on('frame', (frame) => {
+            console.log(
+                frame.id,
+                frame.currentFrameRate,
+                this.frameRate,
+                Math.floor(frame.currentFrameRate / this.frameRate),
+                frame.id %
+                    Math.floor(frame.currentFrameRate / this.frameRate) !==
+                    0
+            );
             // Ensures a nearly steady frame rate
             if (
                 frame.id %

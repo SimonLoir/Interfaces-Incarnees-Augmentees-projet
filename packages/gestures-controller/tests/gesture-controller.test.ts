@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import GestureController from '..';
+import { thumbUpGesture } from '../gestures/thumb-position';
 
 class Controller extends GestureController {
     constructor(gestures?: string[]) {
@@ -40,5 +41,51 @@ describe('GestureController', () => {
         controller['removeEventListener']('frame', listener);
         expect(controller['eventListeners'].frame.length).toBe(0);
         controller.destroy();
+    });
+
+    test('leap controller on frame', () => {
+        const controller = new Controller();
+        //@ts-ignore
+        const emit = controller['leapController']['emit'].bind(
+            controller['leapController']
+        );
+
+        emit('frame', { id: 2, currentFrameRate: controller['frameRate'] * 2 });
+        expect(controller['frameStore'].length).toBe(1);
+
+        emit('frame', { id: 3, currentFrameRate: controller['frameRate'] * 2 });
+        expect(controller['frameStore'].length).toBe(1);
+    });
+
+    test('trigger frame event listener', () => {
+        const controller = new Controller();
+        //@ts-ignore
+        const emit = controller['leapController']['emit'].bind(
+            controller['leapController']
+        );
+
+        const listener = jest.fn();
+        controller['addEventListener']('frame', listener);
+        emit('frame', { id: 2, currentFrameRate: controller['frameRate'] * 2 });
+        expect(listener).toBeCalledTimes(1);
+    });
+
+    test('trigger gesture event listener', () => {
+        const controller = new Controller();
+        //@ts-ignore
+        const emit = controller['leapController']['emit'].bind(
+            controller['leapController']
+        );
+
+        controller['extractFromFrames'] = () => [thumbUpGesture];
+
+        const listener = jest.fn();
+        controller['addEventListener']('gesture', listener);
+
+        emit('frame', { id: 2, currentFrameRate: controller['frameRate'] * 2 });
+        expect(listener).toBeCalledTimes(1);
+
+        emit('frame', { id: 2, currentFrameRate: controller['frameRate'] * 2 });
+        expect(listener).toBeCalledTimes(1);
     });
 });
