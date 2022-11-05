@@ -124,3 +124,51 @@ export const modelMax2Extended: HandModel = {
 export const modelHandWithLowGrabStrength: HandModel = {
     maxGrabStrength: 0.3,
 };
+
+export const frameHand: Partial<Leap.Hand> = {
+    id: '12',
+    fingers: [],
+    palmPosition: [0, 0, 0],
+};
+
+export const frameHand2: Partial<Leap.Hand> = {
+    id: '12',
+    fingers: [],
+    palmPosition: [1, 2, 3],
+};
+
+export const frameHand3: Partial<Leap.Hand> = {
+    id: '12',
+    fingers: [
+        {
+            id: '121',
+            type: 0,
+            extended: true,
+        },
+
+        {
+            id: '122',
+            type: 1,
+            extended: true,
+        },
+    ] as Partial<Leap.Finger> as Leap.Finger[],
+    palmPosition: [0, 0, 0],
+};
+
+export const frameHand4: Partial<Leap.Hand> = {
+    id: '12',
+    fingers: [
+        {
+            id: '121',
+            type: 0,
+            extended: true,
+        },
+
+        {
+            id: '122',
+            type: 1,
+            extended: true,
+        },
+    ] as Partial<Leap.Finger> as Leap.Finger[],
+    palmPosition: [0, 0, 0],
+};

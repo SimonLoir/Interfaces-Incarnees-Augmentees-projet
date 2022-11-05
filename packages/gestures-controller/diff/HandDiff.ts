@@ -29,7 +29,7 @@ export default class HandDiff {
         // Finding the common fingers between the two hands
         this.hand1.fingers.forEach((finger1) => {
             this.hand2.fingers.forEach((finger2) => {
-                if (finger1.id === finger2.id) {
+                if (finger1.id === finger2.id && finger1.id !== undefined) {
                     this.commonFingers.push(finger1.id);
                     this.fingerDiffs[finger1.id] = new FingerDiff(
                         finger1,
@@ -38,6 +38,7 @@ export default class HandDiff {
                 }
             });
         });
+        console.log(this.commonFingers);
     }
 
     private palmDiff() {

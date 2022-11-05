@@ -88,4 +88,10 @@ describe('GestureController', () => {
         emit('frame', { id: 2, currentFrameRate: controller['frameRate'] * 2 });
         expect(listener).toBeCalledTimes(1);
     });
+
+    test('empty frame diff', () => {
+        const controller = new Controller();
+        expect(() => controller.frameDiff({} as any, {} as any)).toThrow();
+        controller.destroy();
+    });
 });

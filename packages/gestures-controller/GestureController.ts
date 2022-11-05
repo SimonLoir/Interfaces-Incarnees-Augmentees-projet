@@ -373,7 +373,7 @@ export default abstract class GesturesController {
             palmPosition: palmPositionModel,
             palmNormal: palmNormalModel,
         } = model;
-        console.log(maxGrabStrength, hand.grabStrength);
+
         // Checks if the grabStrength is hard enough if required
         if (
             maxGrabStrength !== undefined &&

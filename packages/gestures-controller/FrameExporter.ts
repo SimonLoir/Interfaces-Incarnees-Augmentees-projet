@@ -1,6 +1,6 @@
 import Leap from 'leapjs';
 export default class FrameExporter {
-    public fingerNames = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'];
+    public static fingerNames = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'];
     constructor(private Frame: Leap.Frame) {}
 
     private exportHandData(hand: Leap.Hand) {
@@ -22,7 +22,7 @@ export default class FrameExporter {
 
     private exportFingerData(finger: Leap.Finger) {
         return {
-            type: this.fingerNames[finger.type],
+            type: FrameExporter.fingerNames[finger.type],
             direction: finger.direction,
             stabilizedTipPosition: finger.stabilizedTipPosition,
             length: finger.length,
