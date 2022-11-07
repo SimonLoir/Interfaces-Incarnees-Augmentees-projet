@@ -19,6 +19,7 @@ import {
 import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
 import { thumbDownGesture, thumbUpGesture } from './gestures/thumb-position';
+import { swipeLeftGesture, swipeRightGesture } from './gestures/swipe';
 
 type EventListeners = {
     frame: (frame: Leap.Frame) => void;
@@ -44,7 +45,11 @@ export default abstract class GesturesController {
         thumbUpGesture,
     ];
 
-    protected dynamicGestures: Gesture<'dynamic'>[] = [screenSharingGesture];
+    protected dynamicGestures: Gesture<'dynamic'>[] = [
+        screenSharingGesture,
+        swipeLeftGesture,
+        swipeRightGesture,
+    ];
     protected leapController: Leap.Controller;
     private eventListeners: EventListenerStore = {
         frame: [],
