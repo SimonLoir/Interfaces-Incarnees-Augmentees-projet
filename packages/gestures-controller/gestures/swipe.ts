@@ -13,7 +13,7 @@ export const swipeLeftGesture: Gesture<'dynamic'> = {
         },
         {
             minDuration: 0,
-            maxDuration: 1 * 1_000_000,
+            maxDuration: 1.5 * 1_000_000,
             hands: [
                 {
                     ...ForehandRight(),
@@ -46,7 +46,7 @@ export const swipeRightGesture: Gesture<'dynamic'> = {
         {
             minDuration: 0,
 
-            maxDuration: 2 * 1_000_000,
+            maxDuration: 1.5 * 1_000_000,
             hands: [
                 {
                     ...BackhandRight(),
