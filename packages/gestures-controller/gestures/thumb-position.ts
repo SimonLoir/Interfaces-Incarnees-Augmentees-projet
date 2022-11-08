@@ -37,7 +37,7 @@ function thumbGestureBuilder(
         description: `Thumbs ${type} gesture`,
         coolDown: 1000,
         data: {
-            minDuration: 1_000_000,
+            minDuration: 0.5 * 1_000_000,
             allowOnlyOneHandMatch: true,
             hands: [
                 {
@@ -79,19 +79,19 @@ export const thumbUpGesture: Gesture<'static'> = thumbGestureBuilder(
 export const thumbDownGesture: Gesture<'static'> = thumbGestureBuilder(
     'down',
     {
-        minY: -0.35,
-        maxY: 0.25,
+        minY: -0.5,
+        maxY: 0.5,
         minX: 0,
         maxX: 1,
         minZ: -1,
-        maxZ: 0,
+        maxZ: 0.4,
     },
     {
-        minY: -0.35,
-        maxY: 0.25,
+        minY: -0.5,
+        maxY: 0.5,
         minX: -1,
         maxX: 0,
         minZ: -1,
-        maxZ: 0,
+        maxZ: 0.4,
     }
 );
