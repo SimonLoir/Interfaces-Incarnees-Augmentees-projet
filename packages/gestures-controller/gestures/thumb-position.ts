@@ -71,8 +71,8 @@ export const thumbUpGesture: Gesture<'static'> = thumbGestureBuilder(
         maxY: 0.35,
         minX: 0,
         maxX: 1,
-        minZ: 0,
-        maxZ: 1,
+        minZ: -1,
+        maxZ: 0,
     }
 );
 
