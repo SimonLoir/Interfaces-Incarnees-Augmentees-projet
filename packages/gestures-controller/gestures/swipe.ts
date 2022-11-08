@@ -46,7 +46,7 @@ export const swipeRightGesture: Gesture<'dynamic'> = {
         {
             minDuration: 0,
 
-            maxDuration: 1 * 1_000_000,
+            maxDuration: 2 * 1_000_000,
             hands: [
                 {
                     ...BackhandRight(),
@@ -75,8 +75,7 @@ function ForehandRight(): HandModel {
         palmNormal: {
             maxX: 0,
             minX: -1,
-            minY: -0.35,
-            maxY: 0.35,
+            maxY: 0.5,
             minZ: -1,
             maxZ: 0,
         },
@@ -92,8 +91,7 @@ function ForehandLeft(): HandModel {
         palmNormal: {
             maxX: 1,
             minX: 0,
-            minY: -0.35,
-            maxY: 0.35,
+            maxY: 0.5,
             minZ: -1,
             maxZ: 0,
         },
@@ -109,8 +107,7 @@ function BackhandRight(): HandModel {
         palmNormal: {
             maxX: 0,
             minX: -1,
-            minY: -0.35,
-            maxY: 0.35,
+            minY: -0.5,
             minZ: 0,
             maxZ: 1,
         },
@@ -126,8 +123,7 @@ function BackhandLeft(): HandModel {
         palmNormal: {
             maxX: 1,
             minX: 0,
-            minY: -0.35,
-            maxY: 0.35,
+            minY: -0.5,
             minZ: 0,
             maxZ: 1,
         },
