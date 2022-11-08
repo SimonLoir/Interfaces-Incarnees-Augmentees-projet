@@ -1,8 +1,8 @@
 import { Gesture, HandModel } from '../Interfaces';
 
-export const swipeRightGesture: Gesture<'dynamic'> = {
-    name: 'swipe-right',
-    description: 'Swipe right',
+export const swipeLeftGesture: Gesture<'dynamic'> = {
+    name: 'swipe-left',
+    description: 'Swipe left',
     type: 'dynamic',
     coolDown: 1000,
     data: [
@@ -32,9 +32,9 @@ export const swipeRightGesture: Gesture<'dynamic'> = {
         },
     ],
 };
-export const swipeLeftGesture: Gesture<'dynamic'> = {
-    name: 'swipe-left',
-    description: 'Swipe left',
+export const swipeRightGesture: Gesture<'dynamic'> = {
+    name: 'swipe-right',
+    description: 'Swipe right',
     type: 'dynamic',
     coolDown: 1000,
     data: [
