@@ -43,23 +43,32 @@ export default class KinectServer {
             this.kinect.openBodyReader();
             this.kinect.on('bodyFrame', (bodyFrame: any) => {
                 bodyFrame.bodies.forEach((body: any) => {
+                    //arms diff for x : 0 < x <= 0.15/0.2
+                    //arms diff for y : 0 < y < 0.18
+                    //arms diff for z : 0.1 <= z
                     if (body.tracked) {
-                        /*if (
-                            body.joints[4].trackingState !== 0 &&
-                            body.joints[5].trackingState !== 0
-                        )
-                            console.log(
-                                'left arm x : ' +
-                                    body.joints[4].cameraX
-                            );
                         if (
-                            body.joints[8].trackingState !== 0 &&
-                            body.joints[9].trackingState !== 0
-                        )
-                            console.log(
-                                'right arm x : ' +
-                                    body.joints[8].cameraX
-                            );*/
+                            body.joints[4].trackingState === 2 &&
+                            body.joints[5].trackingState === 2
+                        ) {
+                            const leftArmXDiff = Math.abs(
+                                //body.joints[4].cameraX - body.joints[5].cameraX
+                                //body.joints[5].cameraZ - body.joints[4].cameraZ
+                                body.joints[4].cameraY - body.joints[5].cameraY
+                            );
+                            console.log(leftArmXDiff);
+                        }
+                        if (
+                            body.joints[8].trackingState === 2 &&
+                            body.joints[9].trackingState === 2
+                        ) {
+                            const rightArmXDiff = Math.abs(
+                                //body.joints[8].cameraX + body.joints[9].cameraX
+                                //body.joints[9].cameraZ - body.joints[8].cameraZ
+                                body.joints[8].cameraY - body.joints[9].cameraY
+                            );
+                            console.log(rightArmXDiff);
+                        }
                         if (this.frameBuffer.length > 29) {
                             this.frameBuffer.reverse().pop;
                             this.frameBuffer.reverse;
@@ -67,7 +76,7 @@ export default class KinectServer {
                                 '../tests/kinectBodyFrame.json',
                                 JSON.stringify(this.frameBuffer)
                             );
-                            this.kinect.close();
+                            //this.kinect.close();
                         }
                         this.frameBuffer.push(body);
                     }
