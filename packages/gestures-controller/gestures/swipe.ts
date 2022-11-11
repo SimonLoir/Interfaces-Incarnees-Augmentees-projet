@@ -18,13 +18,13 @@ export const swipeLeftGesture: Gesture<'dynamic'> = {
                 {
                     ...ForehandRight(),
                     palmVelocity: {
-                        minX: 30,
+                        minX: 700,
                     },
                 },
                 {
                     ...BackhandLeft(),
                     palmVelocity: {
-                        minX: 30,
+                        minX: 700,
                     },
                 },
             ],
@@ -51,13 +51,13 @@ export const swipeRightGesture: Gesture<'dynamic'> = {
                 {
                     ...BackhandRight(),
                     palmVelocity: {
-                        maxX: -30,
+                        maxX: -700,
                     },
                 },
                 {
                     ...ForehandLeft(),
                     palmVelocity: {
-                        maxX: -30,
+                        maxX: -700,
                     },
                 },
             ],
