@@ -44,12 +44,12 @@ export default function ViewManager() {
     useEffect(() => {
         if (viewID === null && views.length > 0)
             setViewID(Math.floor(views.length / 2));
-        socket.on('next-view', () => {
+        socket.on('swipe_right_gesture', () => {
             if (viewID === null) return;
             setViewID((viewID + 1) % views.length);
         });
 
-        socket.on('previous-view', () => {
+        socket.on('swipe_left_gesture', () => {
             if (viewID === null) return;
             setViewID((viewID - 1 + views.length) % views.length);
         });
@@ -61,8 +61,8 @@ export default function ViewManager() {
         // })
 
         return () => {
-            socket.off('next-view');
-            socket.off('previous-view');
+            socket.off('swipe_right_gesture');
+            socket.off('swipe_left_gesture');
         };
     }, [viewID, socket, setViewID]);
 
