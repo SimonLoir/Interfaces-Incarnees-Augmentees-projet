@@ -5,7 +5,7 @@ class Controller extends GestureController {
         super({}, []);
         this.addEventListener('frame', (f) => {
             const fe = new FrameExporter(f);
-            console.log(JSON.stringify(fe.export().hands[0]?.palmNormal));
+            console.log(JSON.stringify(fe.export().hands[0]?.palmPosition));
         });
         this.addEventListener('gesture', (g) => console.log(g));
     }

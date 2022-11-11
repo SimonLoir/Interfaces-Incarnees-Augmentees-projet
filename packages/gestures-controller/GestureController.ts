@@ -32,7 +32,7 @@ type EventListenerStore = {
 
 export default abstract class GesturesController {
     private lastOccurrence: { [key: string]: number } = {};
-    private frameRate = 3;
+    private frameRate = 4;
     private frameStoreLength = this.frameRate * 3; // 3 seconds
     private frameStore: Leap.Frame[] = [];
     protected staticGestures: Gesture<'static'>[] = [
