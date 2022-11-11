@@ -19,6 +19,8 @@ Packages can be used by the other packages in the repository and by the apps in 
 
 -   `apps/agent` contains the source code of the IronProf student app. You can learn more about that app in the [student](apps/agent/README.md) documentation file.
 
+-   `apps/tests` is a test server for the gesture controller.
+
 ## Communication Mechanisms
 
 Each app has its own WebSockets server this is used to pass information between the server and the GUI. The server also has a WebSockets server that is used to pass information between the `apps/server` and the `apps/agent`. `apps/agent` possesses a WebSockets server that is linked to its Websocket client.
