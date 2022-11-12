@@ -29,6 +29,10 @@ type KinectBody = {
 
 export default class KinectServer {
     private frameBuffer: KinectBody[];
+    private leftArmDiffStart: number[];
+    private rightArmDiffStart: number[];
+    private leftArmDiffEnd: number[];
+    private rightArmDiffEnd: number[];
 
     constructor(private kinect: Kinect2, private server: Server) {
         // The Kinect2 server can use the server's socket connection to send data to the client
@@ -36,6 +40,10 @@ export default class KinectServer {
         kinect;
         server;
         this.frameBuffer = [];
+        this.leftArmDiffStart = [];
+        this.rightArmDiffStart = [];
+        this.leftArmDiffEnd = [];
+        this.rightArmDiffEnd = [];
     }
 
     startKinect = () => {
@@ -51,27 +59,112 @@ export default class KinectServer {
                             body.joints[4].trackingState === 2 &&
                             body.joints[5].trackingState === 2
                         ) {
-                            const leftArmXDiff = Math.abs(
-                                //body.joints[4].cameraX - body.joints[5].cameraX
-                                //body.joints[5].cameraZ - body.joints[4].cameraZ
-                                body.joints[4].cameraY - body.joints[5].cameraY
+                            this.leftArmDiffStart = [];
+                            this.leftArmDiffStart.push(
+                                Math.abs(
+                                    body.joints[4].cameraX -
+                                        body.joints[5].cameraX
+                                )
                             );
-                            console.log(leftArmXDiff);
+                            this.leftArmDiffStart.push(
+                                Math.abs(
+                                    body.joints[4].cameraY -
+                                        body.joints[5].cameraY
+                                )
+                            );
+                            this.leftArmDiffStart.push(
+                                Math.abs(
+                                    body.joints[5].cameraZ -
+                                        body.joints[4].cameraZ
+                                )
+                            );
                         }
                         if (
                             body.joints[8].trackingState === 2 &&
                             body.joints[9].trackingState === 2
                         ) {
-                            const rightArmXDiff = Math.abs(
-                                //body.joints[8].cameraX + body.joints[9].cameraX
-                                //body.joints[9].cameraZ - body.joints[8].cameraZ
-                                body.joints[8].cameraY - body.joints[9].cameraY
+                            this.rightArmDiffStart = [];
+                            this.rightArmDiffStart.push(
+                                Math.abs(
+                                    body.joints[8].cameraX +
+                                        body.joints[9].cameraX
+                                )
                             );
-                            console.log(rightArmXDiff);
+                            this.rightArmDiffStart.push(
+                                Math.abs(
+                                    body.joints[8].cameraY -
+                                        body.joints[9].cameraY
+                                )
+                            );
+                            this.rightArmDiffStart.push(
+                                Math.abs(
+                                    body.joints[9].cameraZ -
+                                        body.joints[8].cameraZ
+                                )
+                            );
+                        }
+                        if (this.frameBuffer.length > 15) {
+                            if (
+                                this.leftArmDiffStart[2] > 0.04 &&
+                                this.leftArmDiffEnd[2] > 0.04 &&
+                                this.leftArmDiffStart[0] -
+                                    this.leftArmDiffEnd[0] >
+                                    0.04 -
+                                        0.1 *
+                                            (this.leftArmDiffStart[1] -
+                                                this.leftArmDiffEnd[0]) &&
+                                this.rightArmDiffStart[2] > 0.04 &&
+                                this.rightArmDiffEnd[2] > 0.04 &&
+                                this.rightArmDiffStart[0] -
+                                    this.rightArmDiffEnd[0] >
+                                    0.04 -
+                                        0.1 *
+                                            (this.leftArmDiffStart[1] -
+                                                this.leftArmDiffEnd[0])
+                            )
+                                console.log('opened arms');
                         }
                         if (this.frameBuffer.length > 29) {
                             this.frameBuffer.reverse().pop;
                             this.frameBuffer.reverse;
+                            this.leftArmDiffEnd = [];
+                            this.leftArmDiffEnd.push(
+                                Math.abs(
+                                    body.joints[4].cameraX -
+                                        body.joints[5].cameraX
+                                )
+                            );
+                            this.leftArmDiffEnd.push(
+                                Math.abs(
+                                    body.joints[4].cameraY -
+                                        body.joints[5].cameraY
+                                )
+                            );
+                            this.leftArmDiffEnd.push(
+                                Math.abs(
+                                    body.joints[5].cameraZ -
+                                        body.joints[4].cameraZ
+                                )
+                            );
+                            this.rightArmDiffEnd = [];
+                            this.rightArmDiffEnd.push(
+                                Math.abs(
+                                    body.joints[8].cameraX +
+                                        body.joints[9].cameraX
+                                )
+                            );
+                            this.rightArmDiffEnd.push(
+                                Math.abs(
+                                    body.joints[8].cameraY -
+                                        body.joints[9].cameraY
+                                )
+                            );
+                            this.rightArmDiffEnd.push(
+                                Math.abs(
+                                    body.joints[9].cameraZ -
+                                        body.joints[8].cameraZ
+                                )
+                            );
                             fs.writeFileSync(
                                 '../tests/kinectBodyFrame.json',
                                 JSON.stringify(this.frameBuffer)
