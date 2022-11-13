@@ -20,6 +20,7 @@ import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
 import { thumbDownGesture, thumbUpGesture } from './gestures/thumb-position';
 import { swipeLeftGesture, swipeRightGesture } from './gestures/swipe';
+import { scrollLeftGesture, scrollRightGesture } from './gestures/scroll';
 
 type EventListeners = {
     frame: (frame: Leap.Frame) => void;
@@ -49,6 +50,8 @@ export default abstract class GesturesController {
         screenSharingGesture,
         swipeLeftGesture,
         swipeRightGesture,
+        scrollLeftGesture,
+        scrollRightGesture,
     ];
     protected leapController: Leap.Controller;
     private eventListeners: EventListenerStore = {

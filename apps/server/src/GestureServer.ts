@@ -9,6 +9,8 @@ export default class GestureServer extends GestureController {
             'screen-sharing',
             'swipe-left',
             'swipe-right',
+            'scroll-right',
+            'scroll-left',
         ]);
         this.addEventListener('gesture', (g) => {
             console.log('received gesture', g);

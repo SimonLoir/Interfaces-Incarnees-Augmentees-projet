@@ -117,6 +117,12 @@ export default class Server {
             case 'thumb-position-down':
                 this.io.emit('thumbs_down_gesture');
                 break;
+            case 'scroll-left':
+                this.io.emit('scroll_left_gesture');
+                break;
+            case 'scroll-right':
+                this.io.emit('scroll_right_gesture');
+                break;
             default:
                 break;
         }

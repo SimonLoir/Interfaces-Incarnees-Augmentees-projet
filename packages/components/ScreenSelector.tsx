@@ -44,8 +44,17 @@ export function ScreenSelector({
         socket.on('screen_share_gesture', () => {
             if (selected !== null) onSelect(selected);
         });
+
+        socket.on('scroll_left_gesture', () => {
+            setSelected(previousSource);
+        });
+        socket.on('scroll_right_gesture', () => {
+            setSelected(nextSource);
+        });
         return () => {
             socket.off('screen_share_gesture');
+            socket.off('scroll_left_gesture');
+            socket.off('scroll_right_gesture');
         };
     }, [onSelect, socket, selected]);
 

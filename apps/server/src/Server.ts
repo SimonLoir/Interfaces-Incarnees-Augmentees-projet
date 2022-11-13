@@ -195,6 +195,12 @@ export default class Server {
             case 'swipe-right':
                 this.io.emit('swipe_right_gesture');
                 break;
+            case 'scroll-right':
+                this.io.emit('scroll_right_gesture');
+                break;
+            case 'scroll-left':
+                this.io.emit('scroll_left_gesture');
+                break;
             default:
                 break;
         }

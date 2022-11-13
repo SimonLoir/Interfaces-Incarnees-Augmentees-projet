@@ -7,6 +7,8 @@ export default class GestureServer extends GestureController {
             'thumb-position-down',
             'thumb-position-up',
             'screen-sharing',
+            'scroll-left',
+            'scroll-right',
         ]);
         this.addEventListener('gesture', (g) => {
             console.log(g);
