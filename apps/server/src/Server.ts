@@ -143,6 +143,9 @@ export default class Server {
             socket.on('QCMQuestion', (QCMQuestion: string) => {
                 this.io.emit('QCMQuestion', QCMQuestion);
             });
+            socket.on('3DRotation', (rotation: any) => {
+                this.io.emit('3DRotation', rotation);
+            });
         });
 
         setInterval(() => {

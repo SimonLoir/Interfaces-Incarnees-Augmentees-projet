@@ -12,7 +12,7 @@
         text-align: center;
     }
 }
-
+$threshold: 1200px;
 .item {
     cursor: pointer;
     user-select: none;
@@ -23,17 +23,26 @@
     border: 3px solid $color;
     color: $color;
 
+    @media screen and (max-width: $threshold) {
+        font-size: 10px;
+    }
+
     & + .item {
         margin-left: 30px;
-        &::before {
-            content: '';
-            position: absolute;
-            left: -18px;
-            top: 50%;
-            transform: translateY(-50%) translateX(-50%);
-            width: 30px;
-            height: 0;
-            border-top: 3px solid $color;
+        @media screen and (max-width: $threshold) {
+            margin-left: 5px;
+        }
+        @media screen and (min-width: $threshold) {
+            &::before {
+                content: '';
+                position: absolute;
+                left: -18px;
+                top: 50%;
+                transform: translateY(-50%) translateX(-50%);
+                width: 30px;
+                height: 0;
+                border-top: 3px solid $color;
+            }
         }
     }
     &.active {

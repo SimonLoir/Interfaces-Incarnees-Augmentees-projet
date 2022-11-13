@@ -20,7 +20,13 @@ const views = [
         name: 'Sondage',
         component: QuizSingleChoice,
     },
-    { id: 'object3D', name: 'Objet 3D', component: Object3dView },
+    {
+        id: 'object3D',
+        name: 'Objet 3D',
+        component: function () {
+            return <Object3dView isTeacher={true} />;
+        },
+    },
     { id: 'home', name: 'Accueil', component: HomeView },
     { id: 'document', name: 'Document Share', component: DocumentSharingView },
     { id: 'qcm', name: 'QCM', component: QuizMultiChoice },
