@@ -9,6 +9,7 @@ export default class GestureServer extends GestureController {
             'screen-sharing',
         ]);
         this.addEventListener('gesture', (g) => {
+            console.log(g);
             server.sendGesture(g);
         });
     }

@@ -26,14 +26,23 @@ export default function PollStudents() {
             setStatus(undefined);
         });
 
+        socket.on('thumbs_up_gesture', () => {
+            handleGesture('thumb-position-up');
+        });
+
+        socket.on('thumbs_down_gesture', () => {
+            handleGesture('thumb-position-down');
+        });
+
         function handleGesture(gesture: any) {
+            console.log(gesture);
             //Concurrency handling for button press + thumbs up/ thumbs down
             setStatus((status) => {
                 if (status !== undefined) return status;
-                if (gesture.name === 'thumb-position-up') {
+                if (gesture === 'thumb-position-up') {
                     fetch(`http://${host}:${port}/approval/${question.id}`);
                     return true;
-                } else if (gesture.name === 'thumb-position-down') {
+                } else if (gesture === 'thumb-position-down') {
                     fetch(`http://${host}:${port}/refusal/${question.id}`);
                     return false;
                 }
@@ -44,8 +53,10 @@ export default function PollStudents() {
             socket.off('pollQuestion');
             socket.off('pollConnected');
             socket.off('gesture', handleGesture);
+            socket.off('thumbs_up_gesture');
+            socket.off('thumbs_down_gesture');
         };
-    });
+    }, [socket]);
 
     function approval() {
         setStatus(true);

@@ -5,6 +5,7 @@ import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import IoClient from './IoClient';
 import { Gesture } from 'gestures-controller';
+import GestureServer from './GestureServer';
 
 export default class Server {
     private static instance: Server;
@@ -15,6 +16,7 @@ export default class Server {
     private httpServer: HTTPServer;
     private expressServer: express.Express;
     private ioClient: IoClient;
+    private gestureServer: GestureServer;
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -24,6 +26,7 @@ export default class Server {
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
         this.ioClient = new IoClient(this);
+        this.gestureServer = new GestureServer(this);
     }
 
     /**
@@ -104,6 +107,18 @@ export default class Server {
     }
 
     public sendGesture(gesture: Gesture<any>) {
-        console.log(gesture);
+        switch (gesture.name) {
+            case 'screen-sharing':
+                this.io.emit('screen_share_gesture');
+                break;
+            case 'thumb-position-up':
+                this.io.emit('thumbs_up_gesture');
+                break;
+            case 'thumb-position-down':
+                this.io.emit('thumbs_down_gesture');
+                break;
+            default:
+                break;
+        }
     }
 }
