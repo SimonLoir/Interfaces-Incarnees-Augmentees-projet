@@ -13,7 +13,6 @@ export default function TeacherScreenSharingView() {
 
     useEffect(() => {
         peer.on('call', (call: any) => {
-            console.log('call');
             call.answer();
             call.on('stream', (stream: MediaStream) => {
                 if (!video.current) return;
@@ -27,7 +26,6 @@ export default function TeacherScreenSharingView() {
     }, [peer]);
     return (
         <>
-            Teacher stream
             <video src='' ref={video}></video>
         </>
     );
