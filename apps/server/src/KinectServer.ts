@@ -56,8 +56,8 @@ export default class KinectServer {
                     //arms diff for z : 0.1 <= z
                     if (body.tracked) {
                         if (
-                            body.joints[4].trackingState === 2 &&
-                            body.joints[5].trackingState === 2
+                            body.joints[4].trackingState > 0 &&
+                            body.joints[5].trackingState > 0
                         ) {
                             this.leftArmDiffStart = [];
                             this.leftArmDiffStart.push(
@@ -80,8 +80,8 @@ export default class KinectServer {
                             );
                         }
                         if (
-                            body.joints[8].trackingState === 2 &&
-                            body.joints[9].trackingState === 2
+                            body.joints[8].trackingState > 0 &&
+                            body.joints[9].trackingState > 0
                         ) {
                             this.rightArmDiffStart = [];
                             this.rightArmDiffStart.push(
@@ -103,6 +103,7 @@ export default class KinectServer {
                                 )
                             );
                         }
+                        //open arm gesture
                         if (this.frameBuffer.length > 15) {
                             if (
                                 this.leftArmDiffStart[2] > 0.04 &&
@@ -124,6 +125,64 @@ export default class KinectServer {
                             )
                                 console.log('opened arms');
                         }
+                        //close arm gesture
+                        if (this.frameBuffer.length > 15) {
+                            if (
+                                this.leftArmDiffStart[2] > 0.04 &&
+                                this.leftArmDiffEnd[2] > 0.04 &&
+                                this.leftArmDiffEnd[0] -
+                                    this.leftArmDiffStart[0] >
+                                    0.04 -
+                                        0.1 *
+                                            (this.leftArmDiffStart[1] -
+                                                this.leftArmDiffEnd[0]) &&
+                                this.rightArmDiffStart[2] > 0.04 &&
+                                this.rightArmDiffEnd[2] > 0.04 &&
+                                this.rightArmDiffEnd[0] -
+                                    this.rightArmDiffStart[0] >
+                                    0.04 -
+                                        0.1 *
+                                            (this.leftArmDiffStart[1] -
+                                                this.leftArmDiffEnd[0])
+                            )
+                                console.log('closed arms');
+                        }
+                        //clap gesture
+                        if (this.frameBuffer.length > 15) {
+                            if (
+                                this.leftArmDiffStart[0] -
+                                    this.leftArmDiffEnd[0] >
+                                    0.02 -
+                                        0.1 *
+                                            (this.leftArmDiffStart[1] -
+                                                this.leftArmDiffEnd[0]) &&
+                                this.rightArmDiffStart[0] -
+                                    this.rightArmDiffEnd[0] >
+                                    0.02 -
+                                        0.1 *
+                                            (this.leftArmDiffStart[1] -
+                                                this.leftArmDiffEnd[0]) &&
+                                Math.abs(
+                                    body.joints[7].cameraX -
+                                        body.joints[11].cameraX
+                                ) < 0.2 &&
+                                Math.abs(
+                                    body.joints[7].cameraY -
+                                        body.joints[11].cameraY
+                                ) < 0.2
+                            ) {
+                                console.log(
+                                    'l wrist x : ',
+                                    body.joints[7].cameraX
+                                );
+                                console.log(
+                                    'r wrist x : ',
+                                    body.joints[11].cameraX
+                                );
+                                console.log('clap');
+                            }
+                        }
+
                         if (this.frameBuffer.length > 29) {
                             this.frameBuffer.reverse().pop;
                             this.frameBuffer.reverse;

@@ -44,7 +44,7 @@ export default class Server {
     public async start() {
         try {
             await this.nextServer.prepare();
-            //this.kinectServer.startKinect();
+            this.kinectServer.startKinect();
             this.expressServer.get(
                 '/connect/:id',
                 (req: Request, res: Response) => {
