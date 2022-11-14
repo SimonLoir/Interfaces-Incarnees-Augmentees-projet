@@ -146,6 +146,10 @@ export default class Server {
             socket.on('3DRotation', (rotation: any) => {
                 this.io.emit('3DRotation', rotation);
             });
+            socket.on('document', (url: string) => {
+                console.log('document', url);
+                this.io.emit('document', url);
+            });
         });
 
         setInterval(() => {

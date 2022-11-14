@@ -5,15 +5,18 @@ import TeacherScreenSharingView from './TeacherScreenSharingView';
 import PollStudent from './PollStudent';
 import QCMStudent from './QCMStudent';
 import Object3D from './Object3D';
+import HomeScreenView from './HomeScreenView';
+import DocumentShareView from './DocumentShareView';
 
 /* eslint-disable camelcase */
 const views = {
     teacher_screen_share: <TeacherScreenSharingView />,
     poll: <PollStudent />,
-    home: <>Iron Prof - Home Page</>,
+    home: <HomeScreenView />,
     student_screen_share: <StudentsScreenSharingView />,
     qcm: <QCMStudent />,
     object3D: <Object3D />,
+    document: <DocumentShareView />,
 };
 /* eslint-enable camelcase */
 

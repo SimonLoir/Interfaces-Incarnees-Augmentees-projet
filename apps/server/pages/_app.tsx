@@ -5,9 +5,21 @@ import Object3DView from 'components/views/Object3dView';
 import { useRouter } from 'next/router';
 
 export default function MyApp({ Component, pageProps }: any) {
-    const { connected, socket } = useSocket();
+    const { connected, socket, wasConnected } = useSocket();
     const router = useRouter();
-    if (!connected) return <div>Connecting...</div>;
+    if (!connected)
+        return (
+            <div className='center'>
+                <div>
+                    <span className='loader'></span>
+                    {wasConnected ? (
+                        <>Tentative de reconnexion au serveur</>
+                    ) : (
+                        <>Connexion au serveur</>
+                    )}
+                </div>
+            </div>
+        );
     let element: JSX.Element = (
         <BaseApp Component={Component} pageProps={pageProps} />
     );
@@ -29,8 +41,18 @@ function BaseApp({ Component, pageProps }: any) {
         host: 'localhost',
         port: 3002,
     });
-    if (error) return <>Error connecting to peer {error}</>;
-    if (!peer) return <>Loading peer connection</>;
+    if (error)
+        return <>Impossible de se connecter au serveur de pairs : {error}</>;
+    if (!peer)
+        return (
+            <div className='center'>
+                <div>
+                    <span className='loader'></span>
+                    <p>Connexion au serveur de pairs</p>
+                </div>
+            </div>
+        );
+
     return (
         <PeerContext.Provider value={peer}>
             <Component {...pageProps} />
