@@ -8,7 +8,7 @@ export default function QCMAnswers({
 }: {
     questionId: number;
     question: string;
-    answers: string[];
+    answers: { counter: number; answer: string }[];
 }) {
     const [status, setStatus] = useState<number>(0);
 
@@ -21,7 +21,7 @@ export default function QCMAnswers({
         //Concurrency handling
         if (status !== 0) return;
         setStatus(answerNum);
-        fetch(`http://${host}:${port}/answer/${questionId}/${answerNum}`);
+        fetch(`http://${host}:${port}/answer/${questionId}/${answerNum - 1}`);
     }
 
     useEffect(() => {
@@ -36,35 +36,40 @@ export default function QCMAnswers({
     return (
         <div>
             <h1>{question}</h1>
-            {answers.map((answer, index) => (
-                <button
-                    key={answer}
-                    style={
-                        status === 0
-                            ? {
-                                  backgroundColor: 'rgb(175, 48, 51)',
-                                  color: 'white',
-                                  pointerEvents: 'auto',
-                              }
-                            : status === index + 1
-                            ? {
-                                  backgroundColor: 'rgb(175, 48, 51)',
-                                  color: 'goldenrod',
-                                  pointerEvents: 'none',
-                              }
-                            : {
-                                  backgroundColor: 'gray',
-                                  color: 'white',
-                                  pointerEvents: 'none',
-                              }
-                    }
-                    onClick={() => {
-                        handleGesture(index + 1);
-                    }}
-                >
-                    {answers[index]}
-                </button>
-            ))}
+            {answers.map(
+                (answer, index) => (
+                    console.log(answer),
+                    (
+                        <button
+                            key={answer.answer}
+                            style={
+                                status === 0
+                                    ? {
+                                          backgroundColor: 'rgb(175, 48, 51)',
+                                          color: 'white',
+                                          pointerEvents: 'auto',
+                                      }
+                                    : status === index + 1
+                                    ? {
+                                          backgroundColor: 'rgb(175, 48, 51)',
+                                          color: 'goldenrod',
+                                          pointerEvents: 'none',
+                                      }
+                                    : {
+                                          backgroundColor: 'gray',
+                                          color: 'white',
+                                          pointerEvents: 'none',
+                                      }
+                            }
+                            onClick={() => {
+                                handleGesture(index + 1);
+                            }}
+                        >
+                            {answer.answer}
+                        </button>
+                    )
+                )
+            )}
         </div>
     );
 }

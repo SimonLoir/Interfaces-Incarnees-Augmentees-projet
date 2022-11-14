@@ -4,7 +4,7 @@ export default function DisplayQuestions({
 }: {
     questionList: {
         question: string;
-        answers: string[];
+        answers: { counter: number; answer: string }[];
     }[];
     maxAnswersNum: number;
 }): JSX.Element {
@@ -37,7 +37,7 @@ export default function DisplayQuestions({
                                             color: 'blue',
                                         }}
                                     >
-                                        {qcm.answers[i]}
+                                        {qcm.answers[i].answer}
                                     </p>
                                 ))}
                             </li>

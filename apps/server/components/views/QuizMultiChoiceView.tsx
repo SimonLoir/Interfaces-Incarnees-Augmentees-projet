@@ -1,7 +1,7 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from '@style/QuizMultiChoice.module.scss';
 import { useSocketContext } from '@utils/global';
-import DisplayQuestion from 'components/DisplayQuestions';
+
 import DisplayQuestions from 'components/DisplayQuestions';
 
 type stateType = 'creation' | 'awaiting' | 'ongoing';
@@ -17,17 +17,16 @@ export default function QuizMultiChoice() {
     const [questionList, setQuestionList] = useState<
         {
             question: string;
-            answers: string[];
+            answers: { counter: number; answer: string }[];
         }[]
     >([]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [answerCounter, setAnswerCounter] = useState<{
-        [id: string]: [number, number, number, number];
-    }>({ 0: [0, 0, 0, 0] });
+
     const socket = useSocketContext();
 
     useEffect(() => {
+        console.log('hello');
         if (currentState !== 'creation') {
             if (currentState === 'ongoing') {
                 if (currentQuestionIndex < questionList.length) {
@@ -36,21 +35,33 @@ export default function QuizMultiChoice() {
                         questionList[currentQuestionIndex].question,
                         questionList[currentQuestionIndex].answers,
                     ]);
-                    console.log('emitted question');
                 }
-
-                socket.on('answer', (id, answerNum) => {
-                    console.log('received answer');
-                    const answers = { ...answerCounter };
-                    answers[id][answerNum - 1]++;
-                    setAnswerCounter(answers);
-                });
             }
         }
+    }, [currentState, currentQuestionIndex, questionList, socket]);
+
+    useEffect(() => {
+        socket.on('answer', ([answerNum, id]) => {
+            console.table(answerNum, id);
+            if (Number(id) === currentQuestionIndex) {
+                setQuestionList(
+                    questionList.map((qcm, i) => {
+                        if (i === Number(id)) {
+                            console.log(qcm.answers[answerNum]);
+                            qcm.answers[answerNum].counter++;
+                            console.log(qcm.answers[answerNum]);
+                        }
+                        return qcm;
+                    })
+                );
+            }
+        });
+
         return () => {
+            console.log('off');
             socket.off('answer');
         };
-    }, [currentQuestionIndex, currentState, questionList, socket]);
+    }, [socket, currentQuestionIndex, questionList]);
 
     if (currentState === 'awaiting') {
         return (
@@ -94,11 +105,11 @@ export default function QuizMultiChoice() {
                                             {Array.from({
                                                 length: maxAnswersNum,
                                             }).map((x, i) => (
-                                                <th>
+                                                <th key={'answer ' + i}>
                                                     {
                                                         questionList[
                                                             currentQuestionIndex
-                                                        ].answers[i]
+                                                        ].answers[i].answer
                                                     }
                                                 </th>
                                             ))}
@@ -109,13 +120,13 @@ export default function QuizMultiChoice() {
                                             {Array.from({
                                                 length: maxAnswersNum,
                                             }).map((x, i) => (
-                                                <th>
+                                                <td key={'answer count ' + i}>
                                                     {
-                                                        answerCounter[
+                                                        questionList[
                                                             currentQuestionIndex
-                                                        ][i]
+                                                        ].answers[i].counter
                                                     }
-                                                </th>
+                                                </td>
                                             ))}
                                         </tr>
                                     </tbody>
@@ -141,21 +152,8 @@ export default function QuizMultiChoice() {
                                         currentQuestionIndex > 0 && (
                                             <button
                                                 onClick={() => {
-                                                    const i =
-                                                        currentQuestionIndex -
-                                                        1;
-                                                    setAnswerCounter(
-                                                        (answers) => {
-                                                            answers[i] = [
-                                                                0, 0, 0, 0,
-                                                            ];
-                                                            return {
-                                                                ...answers,
-                                                            };
-                                                        }
-                                                    );
                                                     setCurrentQuestionIndex(
-                                                        (i) => i - 1
+                                                        currentQuestionIndex - 1
                                                     );
                                                 }}
                                             >
@@ -170,17 +168,8 @@ export default function QuizMultiChoice() {
                                     ) && (
                                         <button
                                             onClick={() => {
-                                                const i =
-                                                    currentQuestionIndex + 1;
-                                                //Resets the given answers of the students to allow them to re-answer to that question
-                                                setAnswerCounter((answers) => {
-                                                    answers[i + 1] = [
-                                                        0, 0, 0, 0,
-                                                    ];
-                                                    return { ...answers };
-                                                });
                                                 setCurrentQuestionIndex(
-                                                    (i) => i + 1
+                                                    currentQuestionIndex + 1
                                                 );
                                             }}
                                         >
@@ -204,26 +193,45 @@ export default function QuizMultiChoice() {
                     name='questions'
                     onSubmit={(e) => {
                         e.preventDefault();
-                        const inputs: { question: string; answers: string[] } =
-                            {
-                                question: '',
-                                answers: [],
-                            };
+                        const inputs: {
+                            question: string;
+                            answers: { counter: number; answer: string }[];
+                        } = {
+                            question: '',
+                            answers: [],
+                        };
 
                         inputs.question = e.target.question.value;
 
                         if (e.target.answer1.value !== '')
-                            inputs.answers.push(e.target.answer1.value);
+                            inputs.answers.push({
+                                counter: 0,
+                                answer: e.target.answer1.value,
+                            });
                         if (e.target.answer2.value !== '')
-                            inputs.answers.push(e.target.answer2.value);
+                            inputs.answers.push({
+                                counter: 0,
+                                answer: e.target.answer2.value,
+                            });
                         if (e.target.answer3.value !== '')
-                            inputs.answers.push(e.target.answer3?.value);
+                            inputs.answers.push({
+                                counter: 0,
+                                answer: e.target.answer3.value,
+                            });
                         if (e.target.answer4.value !== '')
-                            inputs.answers.push(e.target.answer4?.value);
+                            inputs.answers.push({
+                                counter: 0,
+                                answer: e.target.answer4.value,
+                            });
                         if (e.target.answer5.value !== '')
-                            inputs.answers.push(e.target.answer5?.value);
+                            inputs.answers.push({
+                                counter: 0,
+                                answer: e.target.answer5.value,
+                            });
+
+                        console.info('inputs', inputs);
+
                         setQuestionList((list) => [...list, inputs]);
-                        console.log(questionList);
                     }}
                 >
                     <input

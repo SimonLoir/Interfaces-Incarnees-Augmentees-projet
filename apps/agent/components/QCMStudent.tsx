@@ -6,7 +6,7 @@ export default function QCMStudent() {
     const [qcm, setQuestion] = useState<{
         questionId: number;
         question: string;
-        answers: string[];
+        answers: { counter: number; answer: string }[];
     }>({
         questionId: -1,
         question: '',
