@@ -28,5 +28,10 @@ export default class IoClient {
         this.io.on('new-poll-participation', (msg: string) => {
             server.setPollConnection('connected');
         });
+
+        this.io.on('document', (document: string) => {
+            console.log('document', document);
+            server.downloadDocument(document);
+        });
     }
 }

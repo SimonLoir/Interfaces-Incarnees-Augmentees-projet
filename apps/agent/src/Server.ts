@@ -106,6 +106,10 @@ export default class Server {
         this.io.emit('pollConnected', msg);
     }
 
+    public downloadDocument(document: string) {
+        this.io.emit('document', document);
+    }
+
     public sendGesture(gesture: Gesture<any>) {
         switch (gesture.name) {
             case 'screen-sharing':
