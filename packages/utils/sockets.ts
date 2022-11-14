@@ -3,6 +3,7 @@ import { Socket, io } from 'socket.io-client';
 
 export function useSocket(url: string = 'http://localhost:3001') {
     const [connected, setConnected] = useState(false);
+    const [wasConnected, setWasConnected] = useState(false);
     const [socket, setSocket] = useState<Socket>();
     useEffect(() => {
         const s = SocketClient.getInstance(url);
@@ -10,6 +11,7 @@ export function useSocket(url: string = 'http://localhost:3001') {
         setSocket(s);
 
         s.on('connect', () => {
+            setWasConnected(true);
             setConnected(true);
         });
 
@@ -22,7 +24,7 @@ export function useSocket(url: string = 'http://localhost:3001') {
         };
     }, [url]);
 
-    return { connected, socket };
+    return { connected, socket, wasConnected };
 }
 
 export default class SocketClient {

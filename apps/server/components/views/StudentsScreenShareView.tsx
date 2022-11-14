@@ -17,8 +17,6 @@ export default function StudentsScreenShareView() {
         setCurrent('sharing');
         socket.emit('screen_share_accepted', call.peer);
         call.on('stream', (stream: any) => {
-            console.log('stream', stream);
-            console.log('videoRef', videoRef.current);
             setTimeout(() => {
                 if (videoRef.current !== null) {
                     videoRef.current.srcObject = stream;
