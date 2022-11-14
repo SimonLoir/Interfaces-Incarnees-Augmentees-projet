@@ -52,7 +52,6 @@ export default function PollStudents() {
         return () => {
             socket.off('pollQuestion');
             socket.off('pollConnected');
-            socket.off('gesture', handleGesture);
             socket.off('thumbs_up_gesture');
             socket.off('thumbs_down_gesture');
         };

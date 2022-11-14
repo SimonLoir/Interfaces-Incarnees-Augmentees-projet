@@ -76,11 +76,11 @@ export default class Server {
             );
 
             this.expressServer.get(
-                '/answer/:num/:id',
+                '/answer/:id/:num',
                 (req: Request, res: Response) => {
                     const id = req.params.id;
                     const num = req.params.num;
-                    this.io.emit('answer' + num, id);
+                    this.io.emit('answer', [num, id]);
                     console.log('+1 answer ' + num + ' ', id);
                     return res.send(id);
                 }
@@ -140,7 +140,7 @@ export default class Server {
             socket.on('pollQuestion', (pollQuestion: string) => {
                 this.io.emit('pollQuestion', pollQuestion);
             });
-            socket.on('QCMQuestion', (QCMQuestion: string) => {
+            socket.on('QCMQuestion', (QCMQuestion: any) => {
                 this.io.emit('QCMQuestion', QCMQuestion);
             });
             socket.on('3DRotation', (rotation: any) => {

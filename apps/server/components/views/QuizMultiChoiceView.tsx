@@ -1,6 +1,8 @@
 import { ReactElement, useEffect, useState } from 'react';
 import style from '@style/QuizMultiChoice.module.scss';
 import { useSocketContext } from '@utils/global';
+import DisplayQuestion from 'components/DisplayQuestions';
+import DisplayQuestions from 'components/DisplayQuestions';
 
 type stateType = 'creation' | 'awaiting' | 'ongoing';
 
@@ -9,8 +11,15 @@ function updateInputs(list: string[], value: string, index: number) {
     return list;
 }
 
+let maxAnswersNum = 5;
+
 export default function QuizMultiChoice() {
-    const [questionList, setQuestionList] = useState<string[][]>([]);
+    const [questionList, setQuestionList] = useState<
+        {
+            question: string;
+            answers: string[];
+        }[]
+    >([]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answerCounter, setAnswerCounter] = useState<{
@@ -24,43 +33,22 @@ export default function QuizMultiChoice() {
                 if (currentQuestionIndex < questionList.length) {
                     socket.emit('QCMQuestion', [
                         currentQuestionIndex,
-                        questionList[currentQuestionIndex],
+                        questionList[currentQuestionIndex].question,
+                        questionList[currentQuestionIndex].answers,
                     ]);
                     console.log('emitted question');
                 }
 
-                socket.on('answer1', (id) => {
-                    console.log('user answered 1');
+                socket.on('answer', (id, answerNum) => {
+                    console.log('received answer');
                     const answers = { ...answerCounter };
-                    //answers[id][1] = answers[id][1] + 1;
-                    answers[id][0] = answers[id][0] + 1;
-                    setAnswerCounter(answers);
-                });
-                socket.on('answer2', (id) => {
-                    console.log('user answered 2');
-                    const answers = { ...answerCounter };
-                    answers[id][1] = answers[id][1] + 1;
-                    setAnswerCounter(answers);
-                });
-                socket.on('answer3', (id) => {
-                    console.log('user answered 1');
-                    const answers = { ...answerCounter };
-                    answers[id][2] = answers[id][2] + 1;
-                    setAnswerCounter(answers);
-                });
-                socket.on('answer4', (id) => {
-                    console.log('user answered 2');
-                    const answers = { ...answerCounter };
-                    answers[id][3] = answers[id][3] + 1;
+                    answers[id][answerNum - 1]++;
                     setAnswerCounter(answers);
                 });
             }
         }
         return () => {
-            socket.off('answer1');
-            socket.off('answer2');
-            socket.off('answer3');
-            socket.off('answer4');
+            socket.off('answer');
         };
     }, [currentQuestionIndex, currentState, questionList, socket]);
 
@@ -69,51 +57,12 @@ export default function QuizMultiChoice() {
             <div className={style.mainAwaiting}>
                 <p>Waiting for people to connect</p>
                 <p className={style.presetName}>Unnamed preset</p>
+
+                <DisplayQuestions
+                    questionList={questionList}
+                    maxAnswersNum={maxAnswersNum}
+                />
                 <div>
-                    <ul>
-                        {questionList.map((question) => {
-                            return (
-                                <li>
-                                    <p
-                                        style={{
-                                            color: 'rgb(175, 48, 51)',
-                                            border: 'none',
-                                        }}
-                                    >
-                                        {question[0]}
-                                    </p>
-                                    <p
-                                        style={{
-                                            color: 'blue',
-                                        }}
-                                    >
-                                        {question[1]}
-                                    </p>
-                                    <p
-                                        style={{
-                                            color: 'blue',
-                                        }}
-                                    >
-                                        {question[2]}
-                                    </p>
-                                    <p
-                                        style={{
-                                            color: 'blue',
-                                        }}
-                                    >
-                                        {question[3]}
-                                    </p>
-                                    <p
-                                        style={{
-                                            color: 'blue',
-                                        }}
-                                    >
-                                        {question[4]}
-                                    </p>
-                                </li>
-                            );
-                        })}
-                    </ul>
                     <button onClick={() => setCurrentState('creation')}>
                         back
                     </button>
@@ -129,7 +78,7 @@ export default function QuizMultiChoice() {
             <div className={style.mainOngoing}>
                 {!(currentQuestionIndex >= questionList.length) && (
                     <div className={style.question}>
-                        <p>{questionList[currentQuestionIndex][0]}</p>
+                        <p>{questionList[currentQuestionIndex].question}</p>
                     </div>
                 )}
                 {currentQuestionIndex >= questionList.length && (
@@ -142,66 +91,32 @@ export default function QuizMultiChoice() {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>
-                                                {
-                                                    questionList[
-                                                        currentQuestionIndex
-                                                    ][1]
-                                                }
-                                            </th>
-                                            <th>
-                                                {
-                                                    questionList[
-                                                        currentQuestionIndex
-                                                    ][2]
-                                                }
-                                            </th>
-                                            <th>
-                                                {
-                                                    questionList[
-                                                        currentQuestionIndex
-                                                    ][3]
-                                                }
-                                            </th>
-                                            <th>
-                                                {
-                                                    questionList[
-                                                        currentQuestionIndex
-                                                    ][4]
-                                                }
-                                            </th>
+                                            {Array.from({
+                                                length: maxAnswersNum,
+                                            }).map((x, i) => (
+                                                <th>
+                                                    {
+                                                        questionList[
+                                                            currentQuestionIndex
+                                                        ].answers[i]
+                                                    }
+                                                </th>
+                                            ))}
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th>
-                                                {
-                                                    answerCounter[
-                                                        currentQuestionIndex
-                                                    ][0]
-                                                }
-                                            </th>
-                                            <th>
-                                                {
-                                                    answerCounter[
-                                                        currentQuestionIndex
-                                                    ][1]
-                                                }
-                                            </th>
-                                            <th>
-                                                {
-                                                    answerCounter[
-                                                        currentQuestionIndex
-                                                    ][2]
-                                                }
-                                            </th>
-                                            <th>
-                                                {
-                                                    answerCounter[
-                                                        currentQuestionIndex
-                                                    ][3]
-                                                }
-                                            </th>
+                                            {Array.from({
+                                                length: maxAnswersNum,
+                                            }).map((x, i) => (
+                                                <th>
+                                                    {
+                                                        answerCounter[
+                                                            currentQuestionIndex
+                                                        ][i]
+                                                    }
+                                                </th>
+                                            ))}
                                         </tr>
                                     </tbody>
                                 </table>
@@ -289,16 +204,24 @@ export default function QuizMultiChoice() {
                     name='questions'
                     onSubmit={(e) => {
                         e.preventDefault();
-                        const inputs: string[] = [];
-                        inputs.push(e.target.question.value);
+                        const inputs: { question: string; answers: string[] } =
+                            {
+                                question: '',
+                                answers: [],
+                            };
+
+                        inputs.question = e.target.question.value;
+
                         if (e.target.answer1.value !== '')
-                            inputs.push(e.target.answer1.value);
+                            inputs.answers.push(e.target.answer1.value);
                         if (e.target.answer2.value !== '')
-                            inputs.push(e.target.answer2.value);
+                            inputs.answers.push(e.target.answer2.value);
                         if (e.target.answer3.value !== '')
-                            inputs.push(e.target.answer3?.value);
+                            inputs.answers.push(e.target.answer3?.value);
                         if (e.target.answer4.value !== '')
-                            inputs.push(e.target.answer4?.value);
+                            inputs.answers.push(e.target.answer4?.value);
+                        if (e.target.answer5.value !== '')
+                            inputs.answers.push(e.target.answer5?.value);
                         setQuestionList((list) => [...list, inputs]);
                         console.log(questionList);
                     }}
@@ -309,83 +232,30 @@ export default function QuizMultiChoice() {
                         type='text'
                         placeholder='question'
                     ></input>
-                    <input
-                        required={true}
-                        name='answer1'
-                        type='text'
-                        placeholder='answer 1'
-                    ></input>
-                    <input
-                        required={true}
-                        name='answer2'
-                        type='text'
-                        placeholder='answer 2'
-                    ></input>
-                    <input
-                        required={false}
-                        name='answer3'
-                        type='text'
-                        placeholder='answer 3'
-                    ></input>
-                    <input
-                        required={false}
-                        name='answer4'
-                        type='text'
-                        placeholder='answer 4'
-                    ></input>
+
+                    {Array.from({
+                        length: maxAnswersNum,
+                    }).map((x, i) => (
+                        <input
+                            key={'input_answer' + (i + 1)}
+                            required={true}
+                            name={'answer' + (i + 1)}
+                            type='text'
+                            placeholder={'answer ' + (i + 1)}
+                        ></input>
+                    ))}
+
                     <button type='submit'>add question</button>
                 </form>
                 {questionList.length > 0 && (
                     <p className={style.presetName}>Unnamed preset</p>
                 )}
-                <div>
-                    {questionList.length > 0 && (
-                        <ul>
-                            {questionList.map((question) => {
-                                return (
-                                    <li>
-                                        <p
-                                            style={{
-                                                color: 'rgb(175, 48, 51)',
-                                                border: 'none',
-                                            }}
-                                        >
-                                            {question[0]}
-                                        </p>
-                                        <p
-                                            style={{
-                                                color: 'blue',
-                                            }}
-                                        >
-                                            {question[1]}
-                                        </p>
-                                        <p
-                                            style={{
-                                                color: 'blue',
-                                            }}
-                                        >
-                                            {question[2]}
-                                        </p>
-                                        <p
-                                            style={{
-                                                color: 'blue',
-                                            }}
-                                        >
-                                            {question[3]}
-                                        </p>
-                                        <p
-                                            style={{
-                                                color: 'blue',
-                                            }}
-                                        >
-                                            {question[4]}
-                                        </p>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    )}
 
+                <DisplayQuestions
+                    questionList={questionList}
+                    maxAnswersNum={maxAnswersNum}
+                />
+                <div>
                     {questionList.length !== 0 && (
                         <button
                             type='button'

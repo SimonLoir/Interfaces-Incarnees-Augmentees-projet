@@ -98,7 +98,7 @@ export default class Server {
         this.io.emit('pollQuestion', pollQuestion);
     }
 
-    public showQCMQuestion(QCMQuestion: string) {
+    public showQCMQuestion(QCMQuestion: any) {
         this.io.emit('QCMQuestion', QCMQuestion);
     }
 
@@ -122,6 +122,21 @@ export default class Server {
                 break;
             case 'scroll-right':
                 this.io.emit('scroll_right_gesture');
+                break;
+            case 'one-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 1);
+                break;
+            case 'two-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 2);
+                break;
+            case 'three-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 3);
+                break;
+            case 'four-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 4);
+                break;
+            case 'five-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 5);
                 break;
             default:
                 break;

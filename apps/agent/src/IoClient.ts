@@ -21,7 +21,7 @@ export default class IoClient {
             server.showPollQuestion(pollQuestion);
         });
 
-        this.io.on('QCMQuestion', (QCMQuestion: string) => {
+        this.io.on('QCMQuestion', (QCMQuestion: any) => {
             server.showQCMQuestion(QCMQuestion);
         });
 
