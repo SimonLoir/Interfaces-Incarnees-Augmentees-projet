@@ -22,8 +22,21 @@ export default function QuizMultiChoice() {
     >([]);
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [newQcm, setNewQcm] = useState<boolean>(true);
 
     const socket = useSocketContext();
+
+    function resetCounter() {
+        setQuestionList(
+            questionList.map((qcm) => {
+                for (const answer of qcm.answers) {
+                    answer.counter = 0;
+                }
+
+                return qcm;
+            })
+        );
+    }
 
     useEffect(() => {
         if (currentState !== 'creation') {
@@ -33,17 +46,9 @@ export default function QuizMultiChoice() {
                         currentQuestionIndex,
                         questionList[currentQuestionIndex].question,
                         questionList[currentQuestionIndex].answers,
+                        newQcm,
                     ]);
-
-                    setQuestionList(
-                        questionList.map((qcm) => {
-                            for (const answer of qcm.answers) {
-                                answer.counter = 0;
-                            }
-
-                            return qcm;
-                        })
-                    );
+                    setNewQcm(false);
                 }
             }
         }
@@ -86,7 +91,12 @@ export default function QuizMultiChoice() {
                     <button onClick={() => setCurrentState('creation')}>
                         back
                     </button>
-                    <button onClick={() => setCurrentState('ongoing')}>
+                    <button
+                        onClick={() => {
+                            setNewQcm(true);
+                            setCurrentState('ongoing');
+                        }}
+                    >
                         start poll
                     </button>
                 </div>
@@ -147,6 +157,7 @@ export default function QuizMultiChoice() {
                                 onClick={() => {
                                     setCurrentState('creation');
                                     setCurrentQuestionIndex(0);
+                                    resetCounter();
                                 }}
                             >
                                 exit

@@ -13,14 +13,19 @@ export default function QCMStudent() {
         answers: [],
     });
 
-    const [status, setStatus] = useState<number>(0);
+    const [status, setStatus] = useState<number[]>([]);
     const socket = useSocketContext();
 
     useEffect(() => {
-        socket.on('QCMQuestion', ([questionId, question, answers]) => {
+        socket.on('QCMQuestion', ([questionId, question, answers, newQcm]) => {
             console.log('received QCM question');
             setQuestion({ questionId, question, answers });
-            setStatus(0);
+            if (newQcm) {
+                setStatus([-1]);
+            }
+            if (status.length < questionId + 1) {
+                setStatus([...status, -1]);
+            }
         });
         return () => {
             socket.off('QCMQuestion');
@@ -35,7 +40,11 @@ export default function QCMStudent() {
                     question={qcm.question}
                     answers={qcm.answers}
                     status={status}
-                    setStatus={(n) => setStatus(n)}
+                    setStatus={(n) =>
+                        setStatus(
+                            status.map((s, i) => (i === qcm.questionId ? n : s))
+                        )
+                    }
                 />
             ) : (
                 'Pas de question'

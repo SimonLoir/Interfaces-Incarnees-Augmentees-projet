@@ -11,7 +11,7 @@ export default function QCMAnswers({
     questionId: number;
     question: string;
     answers: { counter: number; answer: string }[];
-    status: number;
+    status: number[];
     setStatus: (n: number) => void;
 }) {
     const socket = useSocketContext();
@@ -21,9 +21,10 @@ export default function QCMAnswers({
 
     function handleGesture(answerNum: number) {
         //Concurrency handling
-        if (status !== 0) return;
+
+        if (status[questionId] !== -1) return;
         setStatus(answerNum);
-        fetch(`http://${host}:${port}/answer/${questionId}/${answerNum - 1}`);
+        fetch(`http://${host}:${port}/answer/${questionId}/${answerNum}`);
     }
 
     useEffect(() => {
@@ -38,7 +39,7 @@ export default function QCMAnswers({
     return (
         <div>
             <h1>{question}</h1>
-            {console.log(answers)}
+
             {answers.map(
                 (answer, index) => (
                     console.log(answer),
@@ -46,13 +47,13 @@ export default function QCMAnswers({
                         <button
                             key={answer.answer}
                             style={
-                                status === 0
+                                status[questionId] === -1
                                     ? {
                                           backgroundColor: 'rgb(175, 48, 51)',
                                           color: 'white',
                                           pointerEvents: 'auto',
                                       }
-                                    : status === index + 1
+                                    : status[questionId] === index
                                     ? {
                                           backgroundColor: 'rgb(175, 48, 51)',
                                           color: 'goldenrod',
@@ -65,7 +66,7 @@ export default function QCMAnswers({
                                       }
                             }
                             onClick={() => {
-                                handleGesture(index + 1);
+                                handleGesture(index);
                             }}
                         >
                             {answer.answer}
