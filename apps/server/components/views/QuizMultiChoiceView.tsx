@@ -56,14 +56,11 @@ export default function QuizMultiChoice() {
 
     useEffect(() => {
         socket.on('answer', ([answerNum, id]) => {
-            console.table(answerNum, id);
             if (Number(id) === currentQuestionIndex) {
                 setQuestionList(
                     questionList.map((qcm, i) => {
                         if (i === Number(id)) {
-                            console.log(qcm.answers[answerNum]);
                             qcm.answers[answerNum].counter++;
-                            console.log(qcm.answers[answerNum]);
                         }
                         return qcm;
                     })
@@ -94,6 +91,7 @@ export default function QuizMultiChoice() {
                     <button
                         onClick={() => {
                             setNewQcm(true);
+                            resetCounter();
                             setCurrentState('ongoing');
                         }}
                     >

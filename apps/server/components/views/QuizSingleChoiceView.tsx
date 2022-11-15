@@ -1,56 +1,78 @@
 /* eslint-disable indent */
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from '@style/QuizSingleChoice.module.scss';
 import { useSocketContext } from '@utils/global';
 
 type stateType = 'creation' | 'awaiting' | 'ongoing';
 
 export default function QuizSingleChoice() {
-    const [inputValue, setInputValue] = useState<string>('');
-    const [questionList, setQuestionList] = useState<string[]>([]);
+    const [questionList, setQuestionList] = useState<
+        { question: string; counter: number[] }[]
+    >([]);
+    const [newPoll, setNewPoll] = useState<boolean>(true);
     // id = index of the question, [number,number] = results (left: approval, right: refusal)
     // to keep historic for teacher
-    const [answerCounter, setAnswerCounter] = useState<{
-        [id: string]: [number, number];
-    }>({ 0: [0, 0] });
+
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const socket = useSocketContext();
 
+    function resetCounter(): void {
+        setQuestionList(
+            questionList.map((poll) => {
+                poll.counter = [0, 0];
+                return poll;
+            })
+        );
+    }
+
     useEffect(() => {
         if (currentState !== 'creation') {
-            socket.on('new-poll-participation', (id) => {
-                console.log('new poll participant');
-            });
             if (currentState === 'ongoing') {
                 if (currentQuestionIndex < questionList.length) {
                     socket.emit('pollQuestion', [
                         currentQuestionIndex,
                         questionList[currentQuestionIndex],
+                        newPoll,
                     ]);
+                    setNewPoll(false);
                     console.log('emitted question');
+                    console.log(questionList);
                 }
-
-                socket.on('approval', (id) => {
-                    console.log('user approved');
-                    const answers = { ...answerCounter };
-                    answers[id][0] = answers[id][0] + 1;
-                    setAnswerCounter(answers);
-                });
-                socket.on('refusal', (id) => {
-                    console.log('user refused');
-                    const answers = { ...answerCounter };
-                    answers[id][1] = answers[id][1] + 1;
-                    setAnswerCounter(answers);
-                });
             }
         }
+    }, [currentState, currentQuestionIndex]);
+
+    useEffect(() => {
+        socket.on('approval', (id) => {
+            console.log('user approved');
+
+            setQuestionList(
+                questionList.map((poll, index) => {
+                    if (index === Number(id)) {
+                        poll.counter[0]++;
+                    }
+                    return poll;
+                })
+            );
+        });
+        socket.on('refusal', (id) => {
+            console.log('user refused');
+            setQuestionList(
+                questionList.map((poll, index) => {
+                    if (index === Number(id)) {
+                        poll.counter[1]++;
+                    }
+                    return poll;
+                })
+            );
+        });
+
         return () => {
-            socket.off('new-poll-participation');
             socket.off('approval');
             socket.off('refusal');
         };
-    }, [currentQuestionIndex, currentState, questionList, socket]);
+    }, [socket, questionList]);
 
     if (currentState === 'awaiting') {
         return (
@@ -58,14 +80,20 @@ export default function QuizSingleChoice() {
                 <p>Waiting for people to connect</p>
                 <div>
                     <ul>
-                        {questionList.map((question, i) => {
-                            return <li key={i}>{question}</li>;
+                        {questionList.map((poll, i) => {
+                            return <li key={i}>{poll.question}</li>;
                         })}
                     </ul>
                     <button onClick={() => setCurrentState('creation')}>
                         back
                     </button>
-                    <button onClick={() => setCurrentState('ongoing')}>
+                    <button
+                        onClick={() => {
+                            resetCounter();
+                            setNewPoll(true);
+                            setCurrentState('ongoing');
+                        }}
+                    >
                         start poll
                     </button>
                 </div>
@@ -78,7 +106,7 @@ export default function QuizSingleChoice() {
             <div className={style.mainOngoing}>
                 {!(currentQuestionIndex >= questionList.length) && (
                     <div className={style.question}>
-                        <p>{questionList[currentQuestionIndex]}</p>
+                        <p>{questionList[currentQuestionIndex].question}</p>
                     </div>
                 )}
                 {currentQuestionIndex >= questionList.length && (
@@ -96,9 +124,9 @@ export default function QuizSingleChoice() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {questionList.map((question, i) => (
+                                    {questionList.map((poll, i) => (
                                         <tr
-                                            key={i}
+                                            key={'poll ' + i}
                                             style={{
                                                 backgroundColor:
                                                     currentQuestionIndex === i
@@ -107,18 +135,10 @@ export default function QuizSingleChoice() {
                                             }}
                                         >
                                             <th>
-                                                #{i + 1} {question}
+                                                #{i + 1} {poll.question}
                                             </th>
-                                            <th>
-                                                {answerCounter[i]
-                                                    ? answerCounter[i][0]
-                                                    : 0}
-                                            </th>
-                                            <th>
-                                                {answerCounter[i]
-                                                    ? answerCounter[i][1]
-                                                    : 0}
-                                            </th>
+                                            <th>{poll.counter[0]}</th>
+                                            <th>{poll.counter[1]}</th>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -128,6 +148,7 @@ export default function QuizSingleChoice() {
                             <button
                                 onClick={() => {
                                     setCurrentState('creation');
+                                    resetCounter();
                                     setCurrentQuestionIndex(0);
                                 }}
                             >
@@ -140,14 +161,8 @@ export default function QuizSingleChoice() {
                                     currentQuestionIndex > 0 && (
                                         <button
                                             onClick={() => {
-                                                const i =
-                                                    currentQuestionIndex - 1;
-                                                setAnswerCounter((answers) => {
-                                                    answers[i] = [0, 0];
-                                                    return { ...answers };
-                                                });
                                                 setCurrentQuestionIndex(
-                                                    (i) => i - 1
+                                                    currentQuestionIndex - 1
                                                 );
                                             }}
                                         >
@@ -159,14 +174,8 @@ export default function QuizSingleChoice() {
                                 ) && (
                                     <button
                                         onClick={() => {
-                                            const i = currentQuestionIndex + 1;
-                                            //Resets the given answers of the students to allow them to re-answer to that question
-                                            setAnswerCounter((answers) => {
-                                                answers[i + 1] = [0, 0];
-                                                return { ...answers };
-                                            });
                                             setCurrentQuestionIndex(
-                                                (i) => i + 1
+                                                currentQuestionIndex + 1
                                             );
                                         }}
                                     >
@@ -188,29 +197,33 @@ export default function QuizSingleChoice() {
                     name='questions'
                     onSubmit={(e) => {
                         e.preventDefault();
-                        setAnswerCounter((answers) => {
-                            answers[questionList.length + 1] = [0, 0];
-                            return { ...answers };
+                        const inputs: {
+                            question: string;
+                            counter: number[];
+                        }[] = [];
+
+                        inputs.push({
+                            question: e.target.question_input.value,
+                            counter: [0, 0],
                         });
-                        setQuestionList((list) => [...list, inputValue]);
-                        setInputValue('');
+
+                        setQuestionList((list) => [...list, ...inputs]);
                     }}
                 >
                     <input
+                        key='input'
                         required={true}
                         name='question_input'
                         type='text'
                         placeholder='question'
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
                     ></input>
                     <button type='submit'>add question</button>
                 </form>
                 <div>
                     {questionList.length > 0 && (
                         <ul>
-                            {questionList.map((question, i) => {
-                                return <li key={i}>{question}</li>;
+                            {questionList.map((poll, i) => {
+                                return <li key={i}>{poll.question}</li>;
                             })}
                         </ul>
                     )}

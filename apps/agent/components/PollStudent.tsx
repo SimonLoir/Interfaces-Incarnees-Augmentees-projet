@@ -3,15 +3,37 @@ import { useState, useEffect } from 'react';
 import { useSocketContext } from '@utils/global';
 
 export default function PollStudents() {
-    const [status, setStatus] = useState<boolean | undefined>();
-    const [question, setQuestion] = useState<{ id: string; question: string }>({
-        id: '',
+    const [status, setStatus] = useState<(boolean | undefined)[]>([]);
+    const [question, setQuestion] = useState<{ id: number; question: string }>({
+        id: -1,
         question: '',
     });
     const socket = useSocketContext();
     const [pollConnection, setPollConnection] = useState<boolean>(false);
     const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
     const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+
+    function handleGesture(gesture: any) {
+        console.log(gesture);
+        //Concurrency handling for button press + thumbs up/ thumbs down
+        setStatus(
+            status.map((s, i) => {
+                if (i === question.id) {
+                    if (s !== undefined) return s;
+                    if (gesture === 'thumb-position-up') {
+                        fetch(
+                            `http://${host}:${port}/${question.id}/approval/`
+                        );
+                        return true;
+                    } else if (gesture === 'thumb-position-down') {
+                        fetch(`http://${host}:${port}/${question.id}/refusal`);
+                        return false;
+                    }
+                }
+                return s;
+            })
+        );
+    }
 
     useEffect(() => {
         socket.on('pollConnected', (msg) => {
@@ -21,9 +43,17 @@ export default function PollStudents() {
             fetch(`http://${host}:${port}/poll-connect/`);
         }
 
-        socket.on('pollQuestion', ([id, question]) => {
+        socket.on('pollQuestion', ([id, poll, newPoll]) => {
+            const question = poll.question;
             setQuestion({ id, question });
-            setStatus(undefined);
+            if (newPoll) {
+                console.log('new poll');
+                setStatus([undefined]);
+            }
+
+            if (status.length < id + 1) {
+                setStatus([...status, undefined]);
+            }
         });
 
         socket.on('thumbs_up_gesture', () => {
@@ -34,37 +64,20 @@ export default function PollStudents() {
             handleGesture('thumb-position-down');
         });
 
-        function handleGesture(gesture: any) {
-            console.log(gesture);
-            //Concurrency handling for button press + thumbs up/ thumbs down
-            setStatus((status) => {
-                if (status !== undefined) return status;
-                if (gesture === 'thumb-position-up') {
-                    fetch(`http://${host}:${port}/approval/${question.id}`);
-                    return true;
-                } else if (gesture === 'thumb-position-down') {
-                    fetch(`http://${host}:${port}/refusal/${question.id}`);
-                    return false;
-                }
-            });
-        }
-
         return () => {
             socket.off('pollQuestion');
             socket.off('pollConnected');
             socket.off('thumbs_up_gesture');
             socket.off('thumbs_down_gesture');
         };
-    }, [socket]);
+    }, [socket, status, question, pollConnection]);
 
     function approval() {
-        setStatus(true);
-        fetch(`http://${host}:${port}/approval/${question.id}`);
+        handleGesture('thumb-position-up');
     }
 
     function refusal() {
-        setStatus(false);
-        fetch(`http://${host}:${port}/refusal/${question.id}`);
+        handleGesture('thumb-position-down');
     }
 
     return (
@@ -74,13 +87,13 @@ export default function PollStudents() {
                     {question.question}
                     <button
                         style={
-                            status === undefined
+                            status[question.id] === undefined
                                 ? {
                                       backgroundColor: 'rgb(175, 48, 51)',
                                       color: 'white',
                                       pointerEvents: 'auto',
                                   }
-                                : status === true
+                                : status[question.id] === true
                                 ? {
                                       backgroundColor: 'rgb(175, 48, 51)',
                                       color: 'goldenrod',
@@ -98,13 +111,13 @@ export default function PollStudents() {
                     </button>
                     <button
                         style={
-                            status === undefined
+                            status[question.id] === undefined
                                 ? {
                                       backgroundColor: 'rgb(175, 48, 51)',
                                       color: 'white',
                                       pointerEvents: 'auto',
                                   }
-                                : status === false
+                                : status[question.id] === false
                                 ? {
                                       backgroundColor: 'rgb(175, 48, 51)',
                                       color: 'goldenrod',

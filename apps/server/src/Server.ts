@@ -56,7 +56,7 @@ export default class Server {
             );
 
             this.expressServer.get(
-                '/approval/:id',
+                '/:id/approval',
                 (req: Request, res: Response) => {
                     const id = req.params.id;
                     this.io.emit('approval', id);
@@ -66,7 +66,7 @@ export default class Server {
             );
 
             this.expressServer.get(
-                '/refusal/:id',
+                '/:id/refusal',
                 (req: Request, res: Response) => {
                     const id = req.params.id;
                     this.io.emit('refusal', id);
