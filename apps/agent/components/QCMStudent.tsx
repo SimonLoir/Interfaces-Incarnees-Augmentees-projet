@@ -12,12 +12,15 @@ export default function QCMStudent() {
         question: '',
         answers: [],
     });
+
+    const [status, setStatus] = useState<number>(0);
     const socket = useSocketContext();
 
     useEffect(() => {
         socket.on('QCMQuestion', ([questionId, question, answers]) => {
             console.log('received QCM question');
             setQuestion({ questionId, question, answers });
+            setStatus(0);
         });
         return () => {
             socket.off('QCMQuestion');
@@ -31,6 +34,8 @@ export default function QCMStudent() {
                     questionId={qcm.questionId}
                     question={qcm.question}
                     answers={qcm.answers}
+                    status={status}
+                    setStatus={(n) => setStatus(n)}
                 />
             ) : (
                 'Pas de question'

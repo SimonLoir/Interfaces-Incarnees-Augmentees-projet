@@ -26,7 +26,6 @@ export default function QuizMultiChoice() {
     const socket = useSocketContext();
 
     useEffect(() => {
-        console.log('hello');
         if (currentState !== 'creation') {
             if (currentState === 'ongoing') {
                 if (currentQuestionIndex < questionList.length) {
@@ -35,10 +34,20 @@ export default function QuizMultiChoice() {
                         questionList[currentQuestionIndex].question,
                         questionList[currentQuestionIndex].answers,
                     ]);
+
+                    setQuestionList(
+                        questionList.map((qcm) => {
+                            for (const answer of qcm.answers) {
+                                answer.counter = 0;
+                            }
+
+                            return qcm;
+                        })
+                    );
                 }
             }
         }
-    }, [currentState, currentQuestionIndex, questionList, socket]);
+    }, [currentState, currentQuestionIndex, socket]);
 
     useEffect(() => {
         socket.on('answer', ([answerNum, id]) => {

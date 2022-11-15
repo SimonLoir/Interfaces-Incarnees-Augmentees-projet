@@ -5,13 +5,15 @@ export default function QCMAnswers({
     questionId,
     question,
     answers,
+    status,
+    setStatus,
 }: {
     questionId: number;
     question: string;
     answers: { counter: number; answer: string }[];
+    status: number;
+    setStatus: (n: number) => void;
 }) {
-    const [status, setStatus] = useState<number>(0);
-
     const socket = useSocketContext();
 
     const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
@@ -36,6 +38,7 @@ export default function QCMAnswers({
     return (
         <div>
             <h1>{question}</h1>
+            {console.log(answers)}
             {answers.map(
                 (answer, index) => (
                     console.log(answer),
