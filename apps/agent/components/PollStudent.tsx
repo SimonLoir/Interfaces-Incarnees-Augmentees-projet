@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { useState, useEffect } from 'react';
 import { useSocketContext } from '@utils/global';
+import { getServerInfo } from 'utils/network';
 
 export default function PollStudents() {
     const [status, setStatus] = useState<(boolean | undefined)[]>([]);
@@ -10,9 +11,7 @@ export default function PollStudents() {
     });
     const socket = useSocketContext();
     const [pollConnection, setPollConnection] = useState<boolean>(false);
-    const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-    const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
-
+    const { host, port } = getServerInfo();
     function handleGesture(gesture: any) {
         console.log(gesture);
         //Concurrency handling for button press + thumbs up/ thumbs down

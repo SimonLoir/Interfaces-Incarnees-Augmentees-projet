@@ -1,6 +1,6 @@
 import style from '@style/3d.module.scss';
-const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+import { getServerInfo } from 'utils/network';
+const { host, port } = getServerInfo();
 export default function Object3D() {
     return (
         <iframe

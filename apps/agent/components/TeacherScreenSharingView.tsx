@@ -1,13 +1,13 @@
 import { usePeerContext } from '@utils/global';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { getServerInfo } from 'utils/network';
 
 export default function TeacherScreenSharingView() {
     const peer = usePeerContext();
     const video = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
-        const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-        const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+        const { host, port } = getServerInfo();
         fetch(`http://${host}:${port}/connect/` + peer.id);
     }, [peer]);
 

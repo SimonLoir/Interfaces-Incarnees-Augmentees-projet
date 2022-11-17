@@ -7,6 +7,7 @@ import QCMStudent from './QCMStudent';
 import Object3D from './Object3D';
 import HomeScreenView from './HomeScreenView';
 import DocumentShareView from './DocumentShareView';
+import { getServerInfo } from 'utils/network';
 
 /* eslint-disable camelcase */
 const views = {
@@ -20,12 +21,11 @@ const views = {
 };
 /* eslint-enable camelcase */
 
+const { host, port } = getServerInfo();
+
 export default function ViewManager() {
     const socket = useSocketContext();
     const [viewID, setViewID] = useState<keyof typeof views>('home');
-
-    const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-    const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
 
     useEffect(() => {
         //Instead of broadcasting current view every second, lets the client ask for the current view

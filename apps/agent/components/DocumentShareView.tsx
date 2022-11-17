@@ -1,5 +1,6 @@
 import { useSocketContext } from '@utils/global';
 import { useCallback, useEffect, useState } from 'react';
+import { getServerInfo } from 'utils/network';
 
 export default function DocumentShareView() {
     const socket = useSocketContext();
@@ -9,8 +10,7 @@ export default function DocumentShareView() {
         if (!doc) return;
         console.log(doc);
         const a = document.createElement('a');
-        const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-        const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+        const { host, port } = getServerInfo();
 
         a.href = `http://${host}:${port}/${doc}`;
         a.download = doc;

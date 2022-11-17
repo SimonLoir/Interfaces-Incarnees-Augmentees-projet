@@ -1,6 +1,8 @@
 import { useSocketContext } from '@utils/global';
 import { useEffect, useState } from 'react';
+import { getServerInfo } from 'utils/network';
 
+const { host, port } = getServerInfo();
 export default function QCMAnswers({
     questionId,
     question,
@@ -15,9 +17,6 @@ export default function QCMAnswers({
     setStatus: (n: number) => void;
 }) {
     const socket = useSocketContext();
-
-    const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-    const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
 
     function handleGesture(answerNum: number) {
         //Concurrency handling

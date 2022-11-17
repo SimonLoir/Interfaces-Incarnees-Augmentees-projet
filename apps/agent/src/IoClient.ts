@@ -1,12 +1,12 @@
 import { io, Socket } from 'socket.io-client';
+import { getServerInfo } from '../utils/network';
 import Server from './Server';
 
 export default class IoClient {
     private io: Socket;
 
     public constructor(server: Server) {
-        const host = process.env.NEXT_PUBLIC_SERVER_HOST || 'localhost';
-        const port = process.env.NEXT_PUBLIC_SERVER_PORT || '3001';
+        const { host, port } = getServerInfo();
         this.io = io(`http://${host}:${port}`);
         this.io.on('screen_share_accepted', (sharerId: string) => {
             server.acceptScreenShare(sharerId);
