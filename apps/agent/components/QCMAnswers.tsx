@@ -29,7 +29,7 @@ export default function QCMAnswers({
 
     useEffect(() => {
         socket.on('extended_fingers_gesture', (id) => {
-            handleGesture(id);
+            if (answers.length > id) handleGesture(id);
         });
         return () => {
             socket.off('extended_fingers_gesture');
