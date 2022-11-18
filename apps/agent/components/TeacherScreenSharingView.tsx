@@ -1,10 +1,11 @@
 import { usePeerContext } from '@utils/global';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getServerInfo } from 'utils/network';
 
 export default function TeacherScreenSharingView() {
     const peer = usePeerContext();
     const video = useRef<HTMLVideoElement>(null);
+    const [streaming, setStreaming] = useState<boolean>(false);
 
     useEffect(() => {
         const { host, port } = getServerInfo();
@@ -25,8 +26,13 @@ export default function TeacherScreenSharingView() {
         };
     }, [peer]);
     return (
-        <>
-            <video src='' ref={video}></video>
-        </>
+        <div className='center'>
+            <div>
+                <video
+                    ref={video}
+                    style={{ maxWidth: '80vw', maxHeight: '80vh' }}
+                />
+            </div>
+        </div>
     );
 }

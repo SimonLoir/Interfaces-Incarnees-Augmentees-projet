@@ -1,0 +1,28 @@
+.main {
+    text-align: center;
+    h2 {
+        line-height: 1.8;
+    }
+
+    button {
+        $color: rgb(175, 48, 51);
+        position: relative;
+        padding: 8px 16px;
+        border-radius: 15px;
+        border: 3px solid $color;
+        color: $color;
+        background-color: white;
+        & + button {
+            margin-left: 30px;
+        }
+        &.clicked {
+            background-color: $color;
+            color: white;
+        }
+        &.disabled {
+            background-color: rgb(248, 248, 248);
+            color: gray;
+            border-color: gray;
+        }
+    }
+}

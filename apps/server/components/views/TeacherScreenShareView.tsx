@@ -29,7 +29,7 @@ export default function TeacherScreenShareView() {
     }, []);
 
     return (
-        <>
+        <div className='center'>
             <ScreenSelector
                 onSelect={async (source) => {
                     const sourceId = source.id;
@@ -62,6 +62,6 @@ export default function TeacherScreenShareView() {
                     });
                 }}
             />
-        </>
+        </div>
     );
 }

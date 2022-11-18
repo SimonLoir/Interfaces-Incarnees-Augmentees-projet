@@ -1,10 +1,10 @@
-export interface Gesture<T extends 'static' | 'dynamic'> {
+export type Gesture<T extends 'static' | 'dynamic'> = {
     name: string;
     type: T;
     description: string;
     data: T extends 'static' ? Model : Model[];
     coolDown?: number;
-}
+};
 
 export type FingersModel = (
     | {
@@ -19,14 +19,14 @@ export type FingersModel = (
       }
 ) & { details?: { [k in Finger]?: SingleFingerModel } };
 
-export interface VectorModel {
+export type VectorModel = {
     minX?: number;
     maxX?: number;
     minY?: number;
     maxY?: number;
     minZ?: number;
     maxZ?: number;
-}
+};
 
 export type Finger =
     | 'thumb'
@@ -35,21 +35,21 @@ export type Finger =
     | 'ringFinger'
     | 'pinky';
 
-export interface SingleFingerModel {
+export type SingleFingerModel = {
     direction?: VectorModel;
     extended?: boolean;
-}
+};
 
-export interface Model {
+export type Model = {
     minDuration: number;
     maxDuration?: number;
     hands?: HandModel[];
     fingers?: FingersModel;
     handsCount?: number;
     allowOnlyOneHandMatch?: boolean;
-}
+};
 
-export interface HandModel {
+export type HandModel = {
     type?: 'left' | 'right';
 
     fingers?: FingersModel;
@@ -59,9 +59,9 @@ export interface HandModel {
     palmVelocity?: VectorModel;
     minGrabStrength?: number;
     maxGrabStrength?: number;
-}
+};
 
-export interface FrameDiffExport {
+export type FrameDiffExport = {
     frame1: number;
     frame2: number;
     handCountDiff: number;
@@ -69,18 +69,18 @@ export interface FrameDiffExport {
     fingerCountDiff: number;
     timeDiff: number;
     handDiffs: { [id: string]: HandDiffExport };
-}
+};
 
-export interface HandDiffExport {
+export type HandDiffExport = {
     type: 'left' | 'right';
     fingerCountDiff: number;
     velocityDiff: [number, number, number];
     commonFingers: string[];
     fingerDiff: { [id: string]: FingerDiffExport };
     palmPositionDiff: [number, number, number];
-}
+};
 
-export interface FingerDiffExport {
+export type FingerDiffExport = {
     extend?: boolean;
     retract?: boolean;
-}
+};

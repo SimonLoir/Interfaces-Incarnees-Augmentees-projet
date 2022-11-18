@@ -38,15 +38,18 @@ export default function StudentsScreenSharingView() {
 
     if (status === 'sent') {
         return (
-            <div>
-                <p>En attente de réponse</p>
+            <div className='center'>
+                <div>
+                    <span className='loader'></span>
+                    <p>En attente de réponse</p>
+                </div>
             </div>
         );
     }
 
     if (status === 'waiting')
         return (
-            <>
+            <div className='center'>
                 <ScreenSelector
                     onSelect={async (source) => {
                         const sourceId = source.id;
@@ -70,7 +73,12 @@ export default function StudentsScreenSharingView() {
                         setStream(stream);
                     }}
                 />
-            </>
+            </div>
         );
-    return <> Vous êtes en train de partager votre écran</>;
+    return (
+        <div className='center'>
+            {' '}
+            <div>Vous êtes en train de partager votre écran</div>
+        </div>
+    );
 }

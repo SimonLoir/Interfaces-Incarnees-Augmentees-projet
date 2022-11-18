@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSocketContext } from '@utils/global';
 import { getServerInfo } from 'utils/network';
+import style from '@style/poll.module.scss';
 
 export default function PollStudents() {
     const [status, setStatus] = useState<(boolean | undefined)[]>([]);
@@ -79,63 +80,45 @@ export default function PollStudents() {
         handleGesture('thumb-position-down');
     }
 
-    return (
-        <div>
-            {question.question ? (
+    if (question.question === '')
+        return (
+            <div className='center'>
                 <div>
-                    {question.question}
-                    <button
-                        style={
-                            status[question.id] === undefined
-                                ? {
-                                      backgroundColor: 'rgb(175, 48, 51)',
-                                      color: 'white',
-                                      pointerEvents: 'auto',
-                                  }
-                                : status[question.id] === true
-                                ? {
-                                      backgroundColor: 'rgb(175, 48, 51)',
-                                      color: 'goldenrod',
-                                      pointerEvents: 'none',
-                                  }
-                                : {
-                                      backgroundColor: 'gray',
-                                      color: 'white',
-                                      pointerEvents: 'none',
-                                  }
-                        }
-                        onClick={approval}
-                    >
-                        Vrai
-                    </button>
-                    <button
-                        style={
-                            status[question.id] === undefined
-                                ? {
-                                      backgroundColor: 'rgb(175, 48, 51)',
-                                      color: 'white',
-                                      pointerEvents: 'auto',
-                                  }
-                                : status[question.id] === false
-                                ? {
-                                      backgroundColor: 'rgb(175, 48, 51)',
-                                      color: 'goldenrod',
-                                      pointerEvents: 'none',
-                                  }
-                                : {
-                                      backgroundColor: 'gray',
-                                      color: 'white',
-                                      pointerEvents: 'none',
-                                  }
-                        }
-                        onClick={refusal}
-                    >
-                        Faux
-                    </button>
+                    <span className='loader'></span>
+                    <p>En attente de question</p>
                 </div>
-            ) : (
-                'Pas de question'
-            )}
+            </div>
+        );
+
+    return (
+        <div className='center'>
+            <div className={style.main}>
+                <h2>{question.question}</h2>
+                <button
+                    className={
+                        status[question.id] === undefined
+                            ? style.allowClick
+                            : status[question.id] === true
+                            ? style.clicked
+                            : style.disabled
+                    }
+                    onClick={approval}
+                >
+                    Vrai 👍
+                </button>
+                <button
+                    className={
+                        status[question.id] === undefined
+                            ? style.allowClick
+                            : status[question.id] === false
+                            ? style.clicked
+                            : style.disabled
+                    }
+                    onClick={refusal}
+                >
+                    Faux 👎
+                </button>
+            </div>
         </div>
     );
 }
