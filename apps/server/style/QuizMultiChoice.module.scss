@@ -100,6 +100,17 @@
             font-size: large;
         }
     }
+
+    > .end {
+        border: 3px solid rgb(175, 48, 51);
+        border-radius: 10px;
+        padding: 1rem;
+        font-size: large;
+        justify-self: center;
+        align-self: center;
+        color: grey;
+    }
+
     > .menu {
         display: grid;
         grid-area: poll-menu;
