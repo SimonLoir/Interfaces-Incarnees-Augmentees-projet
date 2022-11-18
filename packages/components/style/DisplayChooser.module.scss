@@ -27,5 +27,34 @@
 }
 
 .selected {
-    background-color: rgba(126, 214, 255, 0.05);
+    position: relative;
+    $color: rgba(175, 48, 51, 0.8);
+    $space: -25px;
+    &:after {
+        position: absolute;
+        content: '';
+        width: 0px;
+        height: 0px;
+        border-bottom: 15px solid $color;
+        border-right: 15px solid transparent;
+        border-top: 15px solid transparent;
+        border-left: 15px solid transparent;
+        bottom: $space;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &:before {
+        position: absolute;
+        content: '';
+        width: 0px;
+        height: 0px;
+        border-top: 15px solid $color;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-left: 15px solid transparent;
+        top: $space;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
