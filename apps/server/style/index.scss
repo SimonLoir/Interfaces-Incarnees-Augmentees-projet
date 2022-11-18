@@ -5,6 +5,7 @@ body {
     width: 100vw;
     padding: 0;
     margin: 0;
+    user-select: none;
 }
 
 .center {
@@ -17,5 +18,21 @@ body {
     p {
         line-height: 1.8;
         margin-top: 25px;
+    }
+    & .yes-no-modal {
+        text-align: center;
+        & button {
+            cursor: pointer;
+            $color: rgb(175, 48, 51);
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 15px;
+            border: 3px solid $color;
+            color: $color;
+            background-color: white;
+            & + button {
+                margin-left: 25px;
+            }
+        }
     }
 }

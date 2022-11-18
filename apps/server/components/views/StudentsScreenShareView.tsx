@@ -79,10 +79,12 @@ export default function StudentsScreenShareView() {
     else if (current === 'incoming') {
         const call = queue[0];
         return (
-            <div className={style.center}>
-                <p>{call.peer} veut partager son écran</p>
-                <button onClick={acceptScreenShare}>Accepter</button>
-                <button onClick={rejectScreenShare}>Refuser</button>
+            <div className='center'>
+                <div className='yes-no-modal'>
+                    <p>{call.peer} veut partager son écran</p>
+                    <button onClick={acceptScreenShare}>Accepter</button>
+                    <button onClick={rejectScreenShare}>Refuser</button>
+                </div>
             </div>
         );
     }

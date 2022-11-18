@@ -13,7 +13,8 @@ export default function DocumentShareView() {
         const { host, port } = getServerInfo();
 
         a.href = `http://${host}:${port}/${doc}`;
-        a.download = doc;
+        a.setAttribute('download', doc);
+        a.target = '_blank';
         a.click();
         setDocument(null);
     }, [doc]);
@@ -48,12 +49,16 @@ export default function DocumentShareView() {
                     </>
                 ) : (
                     <>
-                        <p style={{ maxWidth: '80vw', textAlign: 'center' }}>
-                            Le professeur souhaite partager le document &quot;
-                            {doc}&quot;. Voulez-vous le télécharger ?
-                            <button onClick={acceptDocument}>Oui</button>
-                            <button onClick={rejectDocument}>Non</button>
-                        </p>
+                        <div className='yes-no-modal'>
+                            <p>
+                                Le professeur souhaite partager le document
+                                &quot;
+                                {doc}&quot;. Voulez-vous le télécharger ?
+                            </p>
+
+                            <button onClick={acceptDocument}>Oui 👍</button>
+                            <button onClick={rejectDocument}>Non 👎</button>
+                        </div>
                     </>
                 )}
             </div>

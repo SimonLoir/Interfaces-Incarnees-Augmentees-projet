@@ -1,0 +1,33 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 25px;
+    position: relative;
+    width: 80%;
+    > div {
+        aspect-ratio: 1;
+        display: grid;
+        grid-template-rows: 1fr 25px;
+        text-align: center;
+        color: rgb(60, 60, 60);
+        & .option {
+            position: relative;
+            font-size: 2rem;
+            font-weight: 700;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            & .circle {
+                width: calc(100% - 60px);
+                aspect-ratio: 1;
+                border-radius: 50%;
+                background-color: #fefefe;
+
+                display: grid;
+                align-items: center;
+                border: 3px solid gray;
+            }
+            cursor: pointer;
+        }
+    }
+}
