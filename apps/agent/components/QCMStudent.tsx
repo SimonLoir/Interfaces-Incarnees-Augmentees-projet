@@ -33,7 +33,7 @@ export default function QCMStudent() {
     });
 
     return (
-        <div>
+        <div className='center'>
             {qcm.questionId !== -1 ? (
                 <QCMAnswers
                     questionId={qcm.questionId}

@@ -1,0 +1,34 @@
+.main {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-around;
+    max-width: 100%;
+    width: max-content;
+    h2 {
+        line-height: 1.8;
+    }
+
+    button {
+        $color: rgb(175, 48, 51);
+        position: relative;
+        padding: 8px 16px;
+        border-radius: 15px;
+        border: 3px solid $color;
+        color: $color;
+        background-color: white;
+        width: 100%;
+        &.clicked {
+            background-color: $color;
+            color: white;
+            cursor: not-allowed;
+        }
+        &.disabled {
+            background-color: rgb(248, 248, 248);
+            color: gray;
+            border-color: gray;
+            cursor: not-allowed;
+        }
+    }
+}

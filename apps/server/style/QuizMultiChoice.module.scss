@@ -123,6 +123,16 @@
                             }
                         }
                     }
+
+                    > tbody {
+                        > tr {
+                            > td {
+                                text-align: center;
+                                color: blue;
+                                font-size: large;
+                            }
+                        }
+                    }
                 }
             }
             div + div {

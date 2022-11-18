@@ -1,6 +1,7 @@
 import { useSocketContext } from '@utils/global';
 import { useEffect, useState } from 'react';
 import { getServerInfo } from 'utils/network';
+import style from '@style/qcm.module.scss';
 
 const { host, port } = getServerInfo();
 export default function QCMAnswers({
@@ -36,40 +37,31 @@ export default function QCMAnswers({
     });
 
     return (
-        <div>
-            <h1>{question}</h1>
+        <div className={style.main}>
+            <h2>{question}</h2>
 
             {answers.map(
                 (answer, index) => (
                     console.log(answer),
                     (
-                        <button
-                            key={answer.answer}
-                            style={
-                                status[questionId] === -1
-                                    ? {
-                                          backgroundColor: 'rgb(175, 48, 51)',
-                                          color: 'white',
-                                          pointerEvents: 'auto',
-                                      }
-                                    : status[questionId] === index
-                                    ? {
-                                          backgroundColor: 'rgb(175, 48, 51)',
-                                          color: 'goldenrod',
-                                          pointerEvents: 'none',
-                                      }
-                                    : {
-                                          backgroundColor: 'gray',
-                                          color: 'white',
-                                          pointerEvents: 'none',
-                                      }
-                            }
-                            onClick={() => {
-                                handleGesture(index);
-                            }}
-                        >
-                            {answer.answer}
-                        </button>
+                        <div>
+                            <h2>{index}</h2>
+                            <button
+                                key={answer.answer}
+                                className={
+                                    status[questionId] === -1
+                                        ? style.allowClick
+                                        : status[questionId] === index
+                                        ? style.clicked
+                                        : style.disabled
+                                }
+                                onClick={() => {
+                                    handleGesture(index);
+                                }}
+                            >
+                                {answer.answer}
+                            </button>
+                        </div>
                     )
                 )
             )}
