@@ -90,12 +90,13 @@
         }
     }
     > .end {
-        display: grid;
-        grid-area: question;
+        border: 3px solid rgb(175, 48, 51);
+        border-radius: 10px;
+        padding: 1rem;
         font-size: large;
-        justify-content: center;
-        align-content: center;
-        color: rgb(175, 48, 51);
+        justify-self: center;
+        align-self: center;
+        color: grey;
     }
     > .menu {
         display: grid;
