@@ -12,17 +12,20 @@
         border: 3px solid $color;
         color: $color;
         background-color: white;
+        cursor: pointer;
         & + button {
             margin-left: 30px;
         }
         &.clicked {
             background-color: $color;
             color: white;
+            cursor: not-allowed;
         }
         &.disabled {
             background-color: rgb(248, 248, 248);
             color: gray;
             border-color: gray;
+            cursor: not-allowed;
         }
     }
 }

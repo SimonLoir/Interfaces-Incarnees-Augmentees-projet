@@ -58,7 +58,13 @@ export function ScreenSelector({
         };
     }, [onSelect, socket, selected]);
 
-    if (selected === null) return <div>Impossible de trouver un écran</div>;
+    if (selected === null)
+        return (
+            <div>
+                <span className='loader'></span>
+                <p>Récupération des écrans disponibles</p>
+            </div>
+        );
 
     const index = sources.findIndex((s) => s.id === selected.id);
     const previousSource = getAt(sources, index - 1);
