@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import style from '@style/QuizMultiChoice.module.scss';
 import { useSocketContext } from '@utils/global';
 
@@ -23,6 +23,20 @@ export default function QuizMultiChoice() {
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [newQcm, setNewQcm] = useState<boolean>(true);
+    const [answer1, setAnswer1] = useState('');
+    const [answer2, setAnswer2] = useState('');
+    const [answer3, setAnswer3] = useState('');
+    const [answer4, setAnswer4] = useState('');
+    const [answer5, setAnswer5] = useState('');
+    const [question, setQuestion] = useState('');
+    const setters = [
+        setAnswer1,
+        setAnswer2,
+        setAnswer3,
+        setAnswer4,
+        setAnswer5,
+    ];
+    const answers = [answer1, answer2, answer3, answer4, answer5];
 
     const socket = useSocketContext();
 
@@ -220,32 +234,32 @@ export default function QuizMultiChoice() {
                             answers: [],
                         };
 
-                        inputs.question = e.target.question.value;
+                        inputs.question = question;
 
-                        if (e.target.answer1.value !== '')
+                        if (answer1 !== '')
                             inputs.answers.push({
                                 counter: 0,
-                                answer: e.target.answer1.value,
+                                answer: answer1,
                             });
-                        if (e.target.answer2.value !== '')
+                        if (answer2 !== '')
                             inputs.answers.push({
                                 counter: 0,
-                                answer: e.target.answer2.value,
+                                answer: answer2,
                             });
-                        if (e.target.answer3.value !== '')
+                        if (answer3 !== '')
                             inputs.answers.push({
                                 counter: 0,
-                                answer: e.target.answer3.value,
+                                answer: answer3,
                             });
-                        if (e.target.answer4.value !== '')
+                        if (answer5 !== '')
                             inputs.answers.push({
                                 counter: 0,
-                                answer: e.target.answer4.value,
+                                answer: answer4,
                             });
-                        if (e.target.answer5.value !== '')
+                        if (answer5 !== '')
                             inputs.answers.push({
                                 counter: 0,
-                                answer: e.target.answer5.value,
+                                answer: answer5,
                             });
 
                         console.info('inputs', inputs);
@@ -258,6 +272,8 @@ export default function QuizMultiChoice() {
                         name='question'
                         type='text'
                         placeholder='question'
+                        onChange={(e) => setQuestion(e.target.value)}
+                        value={question}
                     ></input>
 
                     {Array.from({
@@ -269,6 +285,8 @@ export default function QuizMultiChoice() {
                             name={'answer' + (i + 1)}
                             type='text'
                             placeholder={'answer ' + (i + 1)}
+                            onChange={(e) => setters[i](e.target.value)}
+                            value={answers[i]}
                         ></input>
                     ))}
 

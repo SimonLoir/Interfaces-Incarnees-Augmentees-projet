@@ -47,7 +47,10 @@ export default function QCMStudent() {
                     }
                 />
             ) : (
-                'Pas de question'
+                <div>
+                    <span className='loader'></span>
+                    <p>En attente de questions</p>
+                </div>
             )}
         </div>
     );

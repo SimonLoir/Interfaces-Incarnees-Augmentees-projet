@@ -15,6 +15,7 @@ export default function QuizSingleChoice() {
 
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [question, setQuestion] = useState('');
     const socket = useSocketContext();
 
     function resetCounter(): void {
@@ -207,7 +208,7 @@ export default function QuizSingleChoice() {
                         }[] = [];
 
                         inputs.push({
-                            question: e.target.question_input.value,
+                            question,
                             counter: [0, 0],
                         });
 
@@ -220,6 +221,8 @@ export default function QuizSingleChoice() {
                         name='question_input'
                         type='text'
                         placeholder='question'
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
                     ></input>
                     <button type='submit'>add question</button>
                 </form>
