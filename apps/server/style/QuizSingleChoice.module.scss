@@ -112,10 +112,24 @@
                 display: grid;
                 grid-area: answers;
                 > table {
+                    justify-self: center;
                     width: 70%;
-                    > tr {
-                        > th {
-                            font-size: large;
+                    border: 3px solid rgb(175, 48, 51);
+                    border-radius: 10px;
+                    padding-inline: 1rem;
+                    > thead {
+                        > tr {
+                            > th {
+                                font-size: large;
+                            }
+                        }
+                    }
+                    > tbody {
+                        > tr {
+                            > td {
+                                text-align: center;
+                                font-size: large;
+                            }
                         }
                     }
                 }

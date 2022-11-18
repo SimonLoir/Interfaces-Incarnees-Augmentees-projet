@@ -127,10 +127,12 @@
                 > table {
                     margin-inline: 1rem;
                     max-width: 100%;
+                    border: 3px solid rgb(175, 48, 51);
+                    border-radius: 10px;
+                    padding: 1rem;
                     > thead {
                         > tr {
                             > th {
-                                color: blue;
                                 font-size: large;
                             }
                         }
@@ -140,7 +142,6 @@
                         > tr {
                             > td {
                                 text-align: center;
-                                color: blue;
                                 font-size: large;
                             }
                         }

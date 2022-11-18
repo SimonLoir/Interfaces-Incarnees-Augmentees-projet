@@ -134,15 +134,15 @@ export default function QuizSingleChoice() {
                                             style={{
                                                 backgroundColor:
                                                     currentQuestionIndex === i
-                                                        ? 'rgba(255,255,0, 0.5)'
+                                                        ? 'lightgrey'
                                                         : '',
                                             }}
                                         >
-                                            <th>
+                                            <td>
                                                 #{i + 1} {poll.question}
-                                            </th>
-                                            <th>{poll.counter[0]}</th>
-                                            <th>{poll.counter[1]}</th>
+                                            </td>
+                                            <td>{poll.counter[0]}</td>
+                                            <td>{poll.counter[1]}</td>
                                         </tr>
                                     ))}
                                 </tbody>
