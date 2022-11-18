@@ -236,31 +236,13 @@ export default function QuizMultiChoice() {
 
                         inputs.question = question;
 
-                        if (answer1 !== '')
+                        answers.forEach((answer) => {
+                            if (answer === '') return;
                             inputs.answers.push({
                                 counter: 0,
-                                answer: answer1,
+                                answer,
                             });
-                        if (answer2 !== '')
-                            inputs.answers.push({
-                                counter: 0,
-                                answer: answer2,
-                            });
-                        if (answer3 !== '')
-                            inputs.answers.push({
-                                counter: 0,
-                                answer: answer3,
-                            });
-                        if (answer5 !== '')
-                            inputs.answers.push({
-                                counter: 0,
-                                answer: answer4,
-                            });
-                        if (answer5 !== '')
-                            inputs.answers.push({
-                                counter: 0,
-                                answer: answer5,
-                            });
+                        });
 
                         console.info('inputs', inputs);
 
