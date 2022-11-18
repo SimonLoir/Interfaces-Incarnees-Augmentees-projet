@@ -90,6 +90,7 @@
         }
     }
     > .end {
+        grid-area: question;
         border: 3px solid rgb(175, 48, 51);
         border-radius: 10px;
         padding: 1rem;
@@ -163,7 +164,7 @@
 .mainAwaiting {
     display: grid;
     grid: 'waiting-text' 'q-list';
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 15% 85%;
     grid-template-columns: 100%;
     height: 100%;
     width: 100%;
@@ -172,43 +173,50 @@
         grid-area: waiting-text;
         display: grid;
         justify-self: center;
+        align-self: center;
+        font-size: larger;
         color: rgb(175, 48, 51);
     }
     div {
         display: grid;
         grid-area: q-list;
-        grid: 'qlist' 'next';
+        grid: 'qlist' 'buttons';
         grid-template-columns: 100%;
         grid-template-rows: 85% 15%;
-        ul {
+        div {
             grid-area: qlist;
-            display: flex;
-            flex-direction: column;
-            list-style: none;
-            overflow-y: scroll;
-            border: 1px solid grey;
-            border-radius: 5px;
-            margin-inline: 10%;
-            padding-inline-start: 0;
-            li {
+            ul {
                 display: flex;
-                margin: 1rem;
-                height: fit-content;
-                border: 1px solid rgb(175, 48, 51);
+                flex-direction: column;
+                list-style: none;
+                overflow-y: scroll;
+                border: 1px solid grey;
                 border-radius: 5px;
-                padding: 1rem;
+                margin-inline: 10%;
+                padding-inline-start: 0;
+                li {
+                    display: flex;
+                    margin: 1rem;
+                    height: fit-content;
+                    border: 1px solid rgb(175, 48, 51);
+                    border-radius: 5px;
+                    padding: 1rem;
+                }
             }
         }
-        button {
-            grid-area: next;
-            justify-self: center;
-            width: 120px;
-            height: 30px;
-            margin-inline: 1rem;
-            border: 1px solid rgb(175, 48, 51);
-            border-radius: 3px;
-            background-color: rgb(175, 48, 51);
-            color: white;
+        div + div {
+            grid-area: buttons;
+            display: flex;
+            justify-content: center;
+            button {
+                width: 120px;
+                height: 30px;
+                margin-inline: 1rem;
+                border: 1px solid rgb(175, 48, 51);
+                border-radius: 3px;
+                background-color: rgb(175, 48, 51);
+                color: white;
+            }
         }
     }
 }

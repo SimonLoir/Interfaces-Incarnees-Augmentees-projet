@@ -77,26 +77,27 @@ export default function QuizMultiChoice() {
     if (currentState === 'awaiting') {
         return (
             <div className={style.mainAwaiting}>
-                <p>Waiting for people to connect</p>
-                <p className={style.presetName}>Unnamed preset</p>
+                <p className={style.presetName}>List of questions</p>
 
-                <DisplayQuestions
-                    questionList={questionList}
-                    maxAnswersNum={maxAnswersNum}
-                />
                 <div>
-                    <button onClick={() => setCurrentState('creation')}>
-                        back
-                    </button>
-                    <button
-                        onClick={() => {
-                            setNewQcm(true);
-                            resetCounter();
-                            setCurrentState('ongoing');
-                        }}
-                    >
-                        start poll
-                    </button>
+                    <DisplayQuestions
+                        questionList={questionList}
+                        maxAnswersNum={maxAnswersNum}
+                    />
+                    <div>
+                        <button onClick={() => setCurrentState('creation')}>
+                            back
+                        </button>
+                        <button
+                            onClick={() => {
+                                setNewQcm(true);
+                                resetCounter();
+                                setCurrentState('ongoing');
+                            }}
+                        >
+                            start poll
+                        </button>
+                    </div>
                 </div>
             </div>
         );

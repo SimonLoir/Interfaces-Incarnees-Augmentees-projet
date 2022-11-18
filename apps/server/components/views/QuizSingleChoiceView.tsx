@@ -79,23 +79,27 @@ export default function QuizSingleChoice() {
             <div className={style.mainAwaiting}>
                 <p>Waiting for people to connect</p>
                 <div>
-                    <ul>
-                        {questionList.map((poll, i) => {
-                            return <li key={i}>{poll.question}</li>;
-                        })}
-                    </ul>
-                    <button onClick={() => setCurrentState('creation')}>
-                        back
-                    </button>
-                    <button
-                        onClick={() => {
-                            resetCounter();
-                            setNewPoll(true);
-                            setCurrentState('ongoing');
-                        }}
-                    >
-                        start poll
-                    </button>
+                    <div>
+                        <ul>
+                            {questionList.map((poll, i) => {
+                                return <li key={i}>{poll.question}</li>;
+                            })}
+                        </ul>
+                    </div>
+                    <div>
+                        <button onClick={() => setCurrentState('creation')}>
+                            back
+                        </button>
+                        <button
+                            onClick={() => {
+                                resetCounter();
+                                setNewPoll(true);
+                                setCurrentState('ongoing');
+                            }}
+                        >
+                            start poll
+                        </button>
+                    </div>
                 </div>
             </div>
         );
