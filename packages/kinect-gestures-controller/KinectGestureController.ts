@@ -10,13 +10,15 @@ export default class KinectGestureController {
 
     constructor() {
         const kinect = new Kinect2();
-        if (kinect.open()) {
-            kinect.openBodyReader();
-            kinect.on('bodyFrame', (bodyFrame) => {
-                const frame = new Frame(bodyFrame);
-                this.eventListeners.frame.forEach((l) => l(frame));
-            });
-        }
+        setTimeout(() => {
+            if (kinect.open()) {
+                kinect.openBodyReader();
+                kinect.on('bodyFrame', (bodyFrame) => {
+                    const frame = new Frame(bodyFrame);
+                    this.eventListeners.frame.forEach((l) => l(frame));
+                });
+            }
+        }, 100);
     }
 
     /**

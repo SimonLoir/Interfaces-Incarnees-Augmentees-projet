@@ -1,5 +1,6 @@
 import GestureController from 'gestures-controller';
 import KinectController from 'kinect-gestures-controller';
+import * as fs from 'fs';
 
 class Controller extends GestureController {
     constructor() {
@@ -15,9 +16,8 @@ new Controller();
 class XBoxController extends KinectController {
     constructor() {
         super();
-        this.addEventListener('frame', (f) => console.log(f));
+        this.addEventListener('frame', (f) => {});
     }
 }
 
 new XBoxController();
-console.log('test');

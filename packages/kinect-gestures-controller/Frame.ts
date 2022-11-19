@@ -5,6 +5,9 @@ export default class Frame {
     constructor(initialFrame: BodyFrame) {
         this.__bodies = initialFrame.bodies.map((body) => {
             const newBody: Body = {} as Body;
+
+            if (!body.tracked) return newBody;
+
             for (const joint of body.joints) {
                 const jointType = JoinTypes[joint.jointType];
                 newBody[jointType] = joint;
