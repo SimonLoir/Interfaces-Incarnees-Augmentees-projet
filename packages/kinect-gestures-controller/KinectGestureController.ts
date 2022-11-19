@@ -1,4 +1,5 @@
 import Kinect2 from 'kinect2';
+import Frame from './Frame';
 import { EventListeners, EventListenerStore } from './types';
 
 export default class KinectGestureController {
@@ -12,7 +13,8 @@ export default class KinectGestureController {
         if (kinect.open()) {
             kinect.openBodyReader();
             kinect.on('bodyFrame', (bodyFrame) => {
-                this.eventListeners.frame.forEach((l) => l(bodyFrame));
+                const frame = new Frame(bodyFrame);
+                this.eventListeners.frame.forEach((l) => l(frame));
             });
         }
     }

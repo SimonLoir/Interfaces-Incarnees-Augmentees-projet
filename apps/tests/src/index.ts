@@ -15,6 +15,7 @@ new Controller();
 class XBoxController extends KinectController {
     constructor() {
         super();
+        this.addEventListener('frame', (f) => console.log(f));
     }
 }
 

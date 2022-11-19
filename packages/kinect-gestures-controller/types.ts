@@ -1,7 +1,8 @@
 import { BodyFrame, Joint } from 'kinect2';
+import Frame from './Frame';
 
 export type EventListeners = {
-    frame: (frame: BodyFrame) => void;
+    frame: (frame: Frame) => void;
     gesture: (gesture: any) => void;
 };
 
