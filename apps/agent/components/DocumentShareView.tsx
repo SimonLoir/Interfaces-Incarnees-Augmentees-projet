@@ -22,6 +22,13 @@ export default function DocumentShareView() {
                 a.click();
                 URL.revokeObjectURL(href);
                 setDocument(null);
+            })
+            .catch((e) => {
+                alert(
+                    'Une erreur est survenue lors du téléchargement du document'
+                );
+                console.error(e);
+                setDocument(null);
             });
     }, [doc]);
 
