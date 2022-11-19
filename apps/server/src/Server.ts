@@ -153,6 +153,9 @@ export default class Server {
             socket.on('pollEvent', (event: string) => {
                 this.io.emit('pollEvent', event);
             });
+            socket.on('QCMEvent', (event: string) => {
+                this.io.emit('QCMEvent', event);
+            });
         });
 
         setInterval(() => {

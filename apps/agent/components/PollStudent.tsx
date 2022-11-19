@@ -77,6 +77,7 @@ export default function PollStudents() {
             socket.off('pollConnected');
             socket.off('thumbs_up_gesture');
             socket.off('thumbs_down_gesture');
+            socket.off('pollEvent');
         };
     }, [socket, status, question, pollConnection]);
 

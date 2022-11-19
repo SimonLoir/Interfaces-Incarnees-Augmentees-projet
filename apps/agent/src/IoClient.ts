@@ -36,5 +36,8 @@ export default class IoClient {
         this.io.on('pollEvent', (event: string) => {
             server.pollEvent(event);
         });
+        this.io.on('QCMEvent', (event: string) => {
+            server.QCMEvent(event);
+        });
     }
 }

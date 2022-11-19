@@ -112,6 +112,9 @@ export default class Server {
     public pollEvent(event: string) {
         this.io.emit('pollEvent', event);
     }
+    public QCMEvent(event: string) {
+        this.io.emit('QCMEvent', event);
+    }
 
     public sendGesture(gesture: Gesture<any>) {
         switch (gesture.name) {

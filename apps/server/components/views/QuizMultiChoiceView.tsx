@@ -171,6 +171,7 @@ export default function QuizMultiChoice() {
                                     setCurrentState('creation');
                                     setCurrentQuestionIndex(0);
                                     resetCounter();
+                                    socket.emit('QCMEvent', 'end');
                                 }}
                             >
                                 exit

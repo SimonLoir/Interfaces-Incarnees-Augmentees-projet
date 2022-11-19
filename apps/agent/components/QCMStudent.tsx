@@ -27,8 +27,16 @@ export default function QCMStudent() {
                 setStatus([...status, -1]);
             }
         });
+        socket.on('QCMEvent', (msg) => {
+            if (msg === 'end') {
+                setStatus([]);
+                setQuestion({ questionId: -1, question: '', answers: [] });
+            }
+        });
+
         return () => {
             socket.off('QCMQuestion');
+            socket.off('QCMEvent');
         };
     });
 
