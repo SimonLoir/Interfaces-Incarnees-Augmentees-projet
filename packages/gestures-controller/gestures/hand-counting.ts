@@ -10,16 +10,27 @@ function gestureGenerator(count: number, countStr: string): Gesture<'static'> {
             minDuration: 1 * 1_000_000,
             hands: [
                 {
+                    type: 'right',
+                    onlyIfPresent: true,
                     palmVelocity: {
                         maxX: 15,
                         maxY: 15,
                         maxZ: 15,
                     },
-                    fingers: {
-                        exactExtended: count,
+                },
+                {
+                    type: 'left',
+                    onlyIfPresent: true,
+                    palmVelocity: {
+                        maxX: 15,
+                        maxY: 15,
+                        maxZ: 15,
                     },
                 },
             ],
+            fingers: {
+                exactExtended: count,
+            },
         },
     };
 }
@@ -40,4 +51,29 @@ export const fourFingersUpGesture: Gesture<'static'> = gestureGenerator(
 export const fiveFingersUpGesture: Gesture<'static'> = gestureGenerator(
     5,
     'five'
+);
+
+export const sixFingersUpGesture: Gesture<'static'> = gestureGenerator(
+    6,
+    'six'
+);
+
+export const sevenFingersUpGesture: Gesture<'static'> = gestureGenerator(
+    7,
+    'seven'
+);
+
+export const eightFingersUpGesture: Gesture<'static'> = gestureGenerator(
+    8,
+    'eight'
+);
+
+export const nineFingersUpGesture: Gesture<'static'> = gestureGenerator(
+    9,
+    'nine'
+);
+
+export const tenFingersUpGesture: Gesture<'static'> = gestureGenerator(
+    10,
+    'ten'
 );

@@ -5,8 +5,7 @@ export type Gesture<T extends 'static' | 'dynamic'> = {
     data: T extends 'static' ? Model : Model[];
     coolDown?: number;
 };
-
-export type FingersModel = (
+export type BasicFingersModel =
     | {
           minExtended?: never;
           maxExtended?: never;
@@ -16,8 +15,11 @@ export type FingersModel = (
           minExtended?: number;
           maxExtended?: number;
           exactExtended?: never;
-      }
-) & { details?: { [k in Finger]?: SingleFingerModel } };
+      };
+
+export type FingersModel = BasicFingersModel & {
+    details?: { [k in Finger]?: SingleFingerModel };
+};
 
 export type VectorModel = {
     minX?: number;
@@ -44,7 +46,7 @@ export type Model = {
     minDuration: number;
     maxDuration?: number;
     hands?: HandModel[];
-    fingers?: FingersModel;
+    fingers?: BasicFingersModel;
     handsCount?: number;
     allowOnlyOneHandMatch?: boolean;
 };
@@ -59,6 +61,7 @@ export type HandModel = {
     palmVelocity?: VectorModel;
     minGrabStrength?: number;
     maxGrabStrength?: number;
+    onlyIfPresent?: boolean;
 };
 
 export type FrameDiffExport = {

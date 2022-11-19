@@ -15,6 +15,11 @@ import {
     threeFingersUpGesture,
     fourFingersUpGesture,
     fiveFingersUpGesture,
+    sixFingersUpGesture,
+    sevenFingersUpGesture,
+    eightFingersUpGesture,
+    nineFingersUpGesture,
+    tenFingersUpGesture,
 } from './gestures/hand-counting';
 import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
@@ -42,6 +47,11 @@ export default abstract class GesturesController {
         threeFingersUpGesture,
         fourFingersUpGesture,
         fiveFingersUpGesture,
+        sixFingersUpGesture,
+        sevenFingersUpGesture,
+        eightFingersUpGesture,
+        nineFingersUpGesture,
+        tenFingersUpGesture,
         thumbDownGesture,
         thumbUpGesture,
     ];
@@ -203,7 +213,6 @@ export default abstract class GesturesController {
         if (frames.length < 3) return false;
         // Gets the last frame in the buffer
         const lastFrame = frames[frames.length - 1];
-
         // Checks that the last frame matches the model. If it does not, the gesture does not match
         if (!this.checkStaticPropertiesForModel(gesture.data, lastFrame))
             return false;
@@ -221,7 +230,6 @@ export default abstract class GesturesController {
             i--;
             firstFrame = frames[frames.length + i];
         }
-
         // If there is no frame that matches the model's duration, the gesture does not match
         // if the first frame that matches the model's duration does not match the model, the gesture does not match
         if (
@@ -310,19 +318,46 @@ export default abstract class GesturesController {
         model: Model,
         frame: Leap.Frame
     ): boolean {
-        const { hands: handsInModel } = model;
+        const { hands: handsInModel, fingers: fingersInModel } = model;
         const { hands: handsInFrame }: { hands: Leap.Hand[] } = frame;
+
+        if (fingersInModel) {
+            const { exactExtended, minExtended, maxExtended } = fingersInModel;
+            // Computes the number of extended fingers
+            const extendedFingers = handsInFrame
+                .map(({ fingers }: { fingers: Leap.Finger[] }) =>
+                    fingers.reduce(
+                        (acc, finger) => (acc += finger.extended ? 1 : 0),
+                        0
+                    )
+                )
+                .reduce((a, b) => a + b, 0);
+
+            // Checks if the number of extended fingers matches the model
+            if (
+                exactExtended !== undefined &&
+                extendedFingers !== exactExtended
+            )
+                return false;
+
+            // Check if there are enough extended fingers
+            if (minExtended !== undefined && extendedFingers < minExtended)
+                return false;
+
+            // Check if there are not too much extended fingers
+            if (maxExtended !== undefined && extendedFingers > maxExtended)
+                return false;
+        }
 
         // If the model provides data about the hands
         if (handsInModel && handsInModel.length > 0) {
             //if (handsInGesture.length !== handsInFrame.length) return false;
-
             // Checks if there are enough hands in the frame
-            if (
-                !model.allowOnlyOneHandMatch &&
-                handsInFrame.length < handsInModel.length
-            )
-                return false;
+            //if (
+            //    !model.allowOnlyOneHandMatch &&
+            //    handsInFrame.length < handsInModel.length
+            //)
+            //    return false;
 
             let inValidCount = 0;
             for (const handInModel of handsInModel) {
@@ -334,7 +369,7 @@ export default abstract class GesturesController {
 
                     // If the hand of the type specified in the model is not in the frame, the gesture does not match
                     if (!handInFrame) {
-                        inValidCount++;
+                        if (handInModel.onlyIfPresent !== true) inValidCount++;
                         continue;
                     }
 
@@ -357,6 +392,7 @@ export default abstract class GesturesController {
                     }
                 }
             }
+
             if (!model.allowOnlyOneHandMatch && inValidCount > 0) return false;
             if (
                 model.allowOnlyOneHandMatch &&
@@ -512,9 +548,10 @@ export default abstract class GesturesController {
                     const handDiff = Object.values(handsInDiff).find(
                         (h) => h.type === handInModel.type
                     );
+
                     // If the hand of the type specified in the model is not in the frameDiff, the gesture does not match
                     if (!handDiff) {
-                        inValidCount++;
+                        if (handInModel.onlyIfPresent !== true) inValidCount++;
                         continue;
                     }
 

@@ -26,6 +26,21 @@ export default function DocumentSharingView() {
         }
     }, [selectedFile, socket]);
 
+    useEffect(() => {
+        socket.on('extended_fingers_gesture', (id) => {
+            if (files.length > id) setSelectedFile(files[id]);
+        });
+
+        socket.on('thumbs_up_gesture', sendSelectedFile);
+        socket.on('thumbs_down_gesture', () => setSelectedFile(null));
+
+        return () => {
+            socket.off('extended_fingers_gesture');
+            socket.off('thumbs_up_gesture', sendSelectedFile);
+            socket.off('thumbs_down_gesture');
+        };
+    }, [files, socket, sendSelectedFile]);
+
     if (selectedFile !== null)
         return (
             <div className='center'>

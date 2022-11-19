@@ -42,7 +42,7 @@ export default function QuizSingleChoice() {
                 }
             }
         }
-    }, [currentState, currentQuestionIndex]);
+    }, [currentState, currentQuestionIndex, socket]);
 
     useEffect(() => {
         socket.on('approval', (id) => {

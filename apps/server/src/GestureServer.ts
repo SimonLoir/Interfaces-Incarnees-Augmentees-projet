@@ -11,6 +11,16 @@ export default class GestureServer extends GestureController {
             'swipe-right',
             'scroll-right',
             'scroll-left',
+            'one-extended-fingers',
+            'two-extended-fingers',
+            'three-extended-fingers',
+            'four-extended-fingers',
+            'five-extended-fingers',
+            'six-extended-fingers',
+            'seven-extended-fingers',
+            'eight-extended-fingers',
+            'nine-extended-fingers',
+            'ten-extended-fingers',
         ]);
         this.addEventListener('gesture', (g) => {
             console.log('received gesture', g);

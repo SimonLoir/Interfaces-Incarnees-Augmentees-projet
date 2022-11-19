@@ -208,6 +208,37 @@ export default class Server {
             case 'scroll-left':
                 this.io.emit('scroll_left_gesture');
                 break;
+            case 'one-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 0);
+                break;
+            case 'two-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 1);
+                break;
+            case 'three-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 2);
+                break;
+            case 'four-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 3);
+                break;
+            case 'five-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 4);
+                break;
+            case 'six-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 5);
+                break;
+            case 'seven-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 6);
+                break;
+            case 'eight-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 7);
+                break;
+            case 'nine-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 8);
+                break;
+            case 'ten-extended-fingers':
+                this.io.emit('extended_fingers_gesture', 9);
+                break;
+
             default:
                 break;
         }

@@ -50,6 +50,8 @@ export default function DocumentShareView() {
 
         return () => {
             socket.off('document');
+            socket.off('thumbs_up_gesture');
+            socket.off('thumbs_down_gesture');
         };
     }, [socket, acceptDocument]);
     return (
