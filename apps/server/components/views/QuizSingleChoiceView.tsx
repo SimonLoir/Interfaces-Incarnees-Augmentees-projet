@@ -8,7 +8,11 @@ type stateType = 'creation' | 'awaiting' | 'ongoing';
 export default function QuizSingleChoice() {
     const [questionList, setQuestionList] = useState<
         { question: string; counter: number[] }[]
-    >([]);
+    >(() => {
+        const initPreset = localStorage.getItem('pollPreset');
+        if (initPreset) return JSON.parse(initPreset);
+        return [];
+    });
     const [newPoll, setNewPoll] = useState<boolean>(true);
     // id = index of the question, [number,number] = results (left: approval, right: refusal)
     // to keep historic for teacher
@@ -43,6 +47,10 @@ export default function QuizSingleChoice() {
             }
         }
     }, [currentState, currentQuestionIndex, socket]);
+
+    useEffect(() => {
+        localStorage.setItem('pollPreset', JSON.stringify(questionList));
+    }, [questionList]);
 
     useEffect(() => {
         socket.on('approval', (id) => {
@@ -237,12 +245,22 @@ export default function QuizSingleChoice() {
                     )}
 
                     {questionList.length !== 0 && (
-                        <button
-                            type='button'
-                            onClick={() => setCurrentState('awaiting')}
-                        >
-                            Start poll
-                        </button>
+                        <div>
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    setQuestionList([]);
+                                }}
+                            >
+                                reset list
+                            </button>
+                            <button
+                                type='button'
+                                onClick={() => setCurrentState('awaiting')}
+                            >
+                                Start poll
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>

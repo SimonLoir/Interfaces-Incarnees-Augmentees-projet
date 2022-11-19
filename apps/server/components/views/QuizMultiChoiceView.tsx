@@ -19,7 +19,11 @@ export default function QuizMultiChoice() {
             question: string;
             answers: { counter: number; answer: string }[];
         }[]
-    >([]);
+    >(() => {
+        const initPreset = localStorage.getItem('qcmPreset');
+        if (initPreset) return JSON.parse(initPreset);
+        return [];
+    });
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [newQcm, setNewQcm] = useState<boolean>(true);
@@ -51,6 +55,10 @@ export default function QuizMultiChoice() {
             })
         );
     }
+
+    useEffect(() => {
+        localStorage.setItem('qcmPreset', JSON.stringify(questionList));
+    }, [questionList]);
 
     useEffect(() => {
         if (currentState !== 'creation') {
@@ -210,6 +218,7 @@ export default function QuizMultiChoice() {
     }
 
     if (currentState === 'creation') {
+        console.log(questionList);
         return (
             <div className={style.main}>
                 <form
@@ -264,18 +273,30 @@ export default function QuizMultiChoice() {
                     <button type='submit'>add question</button>
                 </form>
                 {questionList.length > 0 && (
-                    <p className={style.presetName}>Unnamed preset</p>
+                    <p className={style.presetName}>Question list</p>
                 )}
 
                 <DisplayQuestions questionList={questionList} />
                 <div>
                     {questionList.length !== 0 && (
-                        <button
-                            type='button'
-                            onClick={() => setCurrentState('awaiting')}
-                        >
-                            Start poll
-                        </button>
+                        <div>
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    setQuestionList([]);
+                                }}
+                            >
+                                reset list
+                            </button>
+                            <button
+                                type='button'
+                                onClick={() => {
+                                    setCurrentState('awaiting');
+                                }}
+                            >
+                                next
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
