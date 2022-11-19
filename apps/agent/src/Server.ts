@@ -109,6 +109,9 @@ export default class Server {
     public downloadDocument(document: string) {
         this.io.emit('document', document);
     }
+    public pollEvent(event: string) {
+        this.io.emit('pollEvent', event);
+    }
 
     public sendGesture(gesture: Gesture<any>) {
         switch (gesture.name) {

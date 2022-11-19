@@ -33,5 +33,8 @@ export default class IoClient {
             console.log('document', document);
             server.downloadDocument(document);
         });
+        this.io.on('pollEvent', (event: string) => {
+            server.pollEvent(event);
+        });
     }
 }

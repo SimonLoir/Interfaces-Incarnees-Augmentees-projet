@@ -43,6 +43,14 @@ export default function PollStudents() {
             fetch(`http://${host}:${port}/poll-connect/`);
         }
 
+        socket.on('pollEvent', (msg) => {
+            if (msg === 'end') {
+                setStatus([]);
+                setQuestion({ id: -1, question: '' });
+                setPollConnection(false);
+            }
+        });
+
         socket.on('pollQuestion', ([id, poll, newPoll]) => {
             const question = poll.question;
             setQuestion({ id, question });

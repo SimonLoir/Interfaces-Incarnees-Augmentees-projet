@@ -155,6 +155,7 @@ export default function QuizSingleChoice() {
                                     setCurrentState('creation');
                                     resetCounter();
                                     setCurrentQuestionIndex(0);
+                                    socket.emit('pollEvent', 'end');
                                 }}
                             >
                                 exit

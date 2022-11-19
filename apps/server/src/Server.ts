@@ -150,6 +150,9 @@ export default class Server {
                 console.log('document', url);
                 this.io.emit('document', url);
             });
+            socket.on('pollEvent', (event: string) => {
+                this.io.emit('pollEvent', event);
+            });
         });
 
         setInterval(() => {
