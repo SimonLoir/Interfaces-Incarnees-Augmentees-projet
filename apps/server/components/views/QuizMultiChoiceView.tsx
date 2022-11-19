@@ -94,10 +94,7 @@ export default function QuizMultiChoice() {
                 <p className={style.presetName}>List of questions</p>
 
                 <div>
-                    <DisplayQuestions
-                        questionList={questionList}
-                        maxAnswersNum={maxAnswersNum}
-                    />
+                    <DisplayQuestions questionList={questionList} />
                     <div>
                         <button onClick={() => setCurrentState('creation')}>
                             back
@@ -134,30 +131,22 @@ export default function QuizMultiChoice() {
                                 <table>
                                     <thead>
                                         <tr>
-                                            {Array.from({
-                                                length: maxAnswersNum,
-                                            }).map((x, i) => (
+                                            {questionList[
+                                                currentQuestionIndex
+                                            ].answers.map((answer, i) => (
                                                 <th key={'answer ' + i}>
-                                                    {
-                                                        questionList[
-                                                            currentQuestionIndex
-                                                        ].answers[i].answer
-                                                    }
+                                                    {answer.answer}
                                                 </th>
                                             ))}
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {Array.from({
-                                                length: maxAnswersNum,
-                                            }).map((x, i) => (
+                                            {questionList[
+                                                currentQuestionIndex
+                                            ].answers.map((answer, i) => (
                                                 <td key={'answer count ' + i}>
-                                                    {
-                                                        questionList[
-                                                            currentQuestionIndex
-                                                        ].answers[i].counter
-                                                    }
+                                                    {answer.counter}
                                                 </td>
                                             ))}
                                         </tr>
@@ -264,7 +253,6 @@ export default function QuizMultiChoice() {
                     }).map((x, i) => (
                         <input
                             key={'input_answer' + (i + 1)}
-                            required={true}
                             name={'answer' + (i + 1)}
                             type='text'
                             placeholder={'answer ' + (i + 1)}
@@ -279,10 +267,7 @@ export default function QuizMultiChoice() {
                     <p className={style.presetName}>Unnamed preset</p>
                 )}
 
-                <DisplayQuestions
-                    questionList={questionList}
-                    maxAnswersNum={maxAnswersNum}
-                />
+                <DisplayQuestions questionList={questionList} />
                 <div>
                     {questionList.length !== 0 && (
                         <button

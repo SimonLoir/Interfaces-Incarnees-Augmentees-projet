@@ -1,12 +1,10 @@
 export default function DisplayQuestions({
     questionList,
-    maxAnswersNum,
 }: {
     questionList: {
         question: string;
         answers: { counter: number; answer: string }[];
     }[];
-    maxAnswersNum: number;
 }): JSX.Element {
     return (
         <div>
@@ -23,9 +21,7 @@ export default function DisplayQuestions({
                                 >
                                     {qcm.question}
                                 </p>
-                                {Array.from({
-                                    length: maxAnswersNum,
-                                }).map((x, i) => (
+                                {qcm.answers.map((x, i) => (
                                     <p
                                         key={
                                             'display question ' +

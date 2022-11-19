@@ -45,7 +45,7 @@ export default function QCMAnswers({
                     console.log(answer),
                     (
                         <div>
-                            <h2>{index}</h2>
+                            <h2>{index + 1}</h2>
                             <button
                                 key={answer.answer}
                                 className={
