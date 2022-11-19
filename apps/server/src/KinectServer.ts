@@ -2,6 +2,69 @@ import Kinect2 from 'kinect2';
 import Server from './Server';
 import * as fs from 'fs';
 
+/*
+#ifndef Kinect2_Structs_h
+#define Kinect2_Structs_h
+
+#include "Globals.h"
+
+typedef struct _JSJoint
+{
+	float depthX;
+	float depthY;
+	float colorX;
+	float colorY;
+	float cameraX;
+	float cameraY;
+	float cameraZ;
+	//
+	bool hasFloorData;
+	float floorDepthX;
+	float floorDepthY;
+	float floorColorX;
+	float floorColorY;
+	float floorCameraX;
+	float floorCameraY;
+	float floorCameraZ;
+	//
+	float orientationX;
+	float orientationY;
+	float orientationZ;
+	float orientationW;
+	//
+	int jointType;
+	//
+	char trackingState;
+} JSJoint;
+
+typedef struct _JSBody
+{
+	bool tracked;
+	bool hasPixels;
+	UINT64 trackingId;
+	char leftHandState;
+	char rightHandState;
+	JSJoint joints[JointType_Count];
+} JSBody;
+
+typedef struct _JSBodyFrame
+{
+	JSBody bodies[BODY_COUNT];
+	//
+	bool hasFloorClipPlane;
+	float floorClipPlaneX;
+	float floorClipPlaneY;
+	float floorClipPlaneZ;
+	float floorClipPlaneW;
+	//
+	float cameraAngle;
+	float cosCameraAngle;
+	float sinCameraAngle;
+} JSBodyFrame;
+
+#endif
+*/
+
 type Joint = {
     depthX: number;
     depthY: number;
@@ -26,6 +89,13 @@ type KinectBody = {
     rightHandState: number;
     joints: Joint[];
 };
+
+function computeDiffBetweenJoints(joint1: Joint, joint2: Joint): number[] {
+    const xDiff = Math.abs(joint1.cameraX - joint2.cameraX);
+    const yDiff = Math.abs(joint1.cameraY - joint2.cameraY);
+    const zDiff = Math.abs(joint1.cameraZ - joint2.cameraZ);
+    return [xDiff, yDiff, zDiff];
+}
 
 export default class KinectServer {
     private frameBuffer: KinectBody[];
@@ -59,48 +129,18 @@ export default class KinectServer {
                             body.joints[4].trackingState > 0 &&
                             body.joints[5].trackingState > 0
                         ) {
-                            this.leftArmDiffStart = [];
-                            this.leftArmDiffStart.push(
-                                Math.abs(
-                                    body.joints[4].cameraX -
-                                        body.joints[5].cameraX
-                                )
-                            );
-                            this.leftArmDiffStart.push(
-                                Math.abs(
-                                    body.joints[4].cameraY -
-                                        body.joints[5].cameraY
-                                )
-                            );
-                            this.leftArmDiffStart.push(
-                                Math.abs(
-                                    body.joints[5].cameraZ -
-                                        body.joints[4].cameraZ
-                                )
+                            this.leftArmDiffStart = computeDiffBetweenJoints(
+                                body.joints[4],
+                                body.joints[5]
                             );
                         }
                         if (
                             body.joints[8].trackingState > 0 &&
                             body.joints[9].trackingState > 0
                         ) {
-                            this.rightArmDiffStart = [];
-                            this.rightArmDiffStart.push(
-                                Math.abs(
-                                    body.joints[8].cameraX +
-                                        body.joints[9].cameraX
-                                )
-                            );
-                            this.rightArmDiffStart.push(
-                                Math.abs(
-                                    body.joints[8].cameraY -
-                                        body.joints[9].cameraY
-                                )
-                            );
-                            this.rightArmDiffStart.push(
-                                Math.abs(
-                                    body.joints[9].cameraZ -
-                                        body.joints[8].cameraZ
-                                )
+                            this.rightArmDiffStart = computeDiffBetweenJoints(
+                                body.joints[8],
+                                body.joints[9]
                             );
                         }
                         //open arm gesture
@@ -184,46 +224,18 @@ export default class KinectServer {
                         }
 
                         if (this.frameBuffer.length > 29) {
-                            this.frameBuffer.reverse().pop;
-                            this.frameBuffer.reverse;
-                            this.leftArmDiffEnd = [];
-                            this.leftArmDiffEnd.push(
-                                Math.abs(
-                                    body.joints[4].cameraX -
-                                        body.joints[5].cameraX
-                                )
+                            this.frameBuffer.shift();
+
+                            this.leftArmDiffEnd = computeDiffBetweenJoints(
+                                body.joints[4],
+                                body.joints[5]
                             );
-                            this.leftArmDiffEnd.push(
-                                Math.abs(
-                                    body.joints[4].cameraY -
-                                        body.joints[5].cameraY
-                                )
+
+                            this.rightArmDiffEnd = computeDiffBetweenJoints(
+                                body.joints[8],
+                                body.joints[9]
                             );
-                            this.leftArmDiffEnd.push(
-                                Math.abs(
-                                    body.joints[5].cameraZ -
-                                        body.joints[4].cameraZ
-                                )
-                            );
-                            this.rightArmDiffEnd = [];
-                            this.rightArmDiffEnd.push(
-                                Math.abs(
-                                    body.joints[8].cameraX +
-                                        body.joints[9].cameraX
-                                )
-                            );
-                            this.rightArmDiffEnd.push(
-                                Math.abs(
-                                    body.joints[8].cameraY -
-                                        body.joints[9].cameraY
-                                )
-                            );
-                            this.rightArmDiffEnd.push(
-                                Math.abs(
-                                    body.joints[9].cameraZ -
-                                        body.joints[8].cameraZ
-                                )
-                            );
+
                             fs.writeFileSync(
                                 '../tests/kinectBodyFrame.json',
                                 JSON.stringify(this.frameBuffer)
