@@ -11,6 +11,7 @@ export type EventListenerStore = {
 };
 
 export const joints = [
+    'SpineBase',
     'SpineMid',
     'Neck',
     'Head',
