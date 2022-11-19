@@ -9,14 +9,20 @@ export default function DocumentShareView() {
     const acceptDocument = useCallback(() => {
         if (!doc) return;
         console.log(doc);
-        const a = document.createElement('a');
-        const { host, port } = getServerInfo();
 
-        a.href = `http://${host}:${port}/${doc}`;
-        a.setAttribute('download', doc);
-        a.target = '_blank';
-        a.click();
-        setDocument(null);
+        const { host, port } = getServerInfo();
+        fetch(`http://${host}:${port}/${doc}`)
+            .then((res) => res.blob())
+            .then((res) => {
+                const a = document.createElement('a');
+                a.setAttribute('download', doc);
+                const href = URL.createObjectURL(res);
+                a.setAttribute('href', href);
+                a.setAttribute('target', '_blank');
+                a.click();
+                URL.revokeObjectURL(href);
+                setDocument(null);
+            });
     }, [doc]);
 
     const rejectDocument = () => {
