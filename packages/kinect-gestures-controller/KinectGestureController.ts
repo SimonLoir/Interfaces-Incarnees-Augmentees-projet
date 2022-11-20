@@ -27,22 +27,9 @@ export default class KinectGestureController extends AbstractGestureController<F
         this.kinectController.on('bodyFrame', (bodyFrame) => {
             const frame = new Frame(bodyFrame);
             // Ensures a nearly steady frame rate
-            if (frame.id % Math.floor(frame.frameRate / this.frameRate) === 0)
+            if (frame.id % Math.floor(frame.frameRate / this.frameRate) !== 0)
                 return;
-            // Add frame to frameStore
-            this.frameStore.push(frame);
-            // Remove old frames
-            if (this.frameStore.length > this.frameStoreLength)
-                this.frameStore.shift();
-            // Emit frame event
-            this.eventListeners.frame.forEach((l) => l(frame));
-
-            // Get gesture listeners
-            const gestureListeners = this.eventListeners.gesture;
-
-            this.extractFromFrames(this.frameStore).forEach((gesture) => {
-                gestureListeners.forEach((listener) => listener(gesture));
-            });
+            this.handleFrame(frame);
         });
     }
     protected matchStaticGesture(
