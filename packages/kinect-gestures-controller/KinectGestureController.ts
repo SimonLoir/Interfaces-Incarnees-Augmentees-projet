@@ -8,17 +8,31 @@ export default class KinectGestureController {
         gesture: [],
     };
 
+    private frameRate = 4;
+    private frameStoreLength = this.frameRate * 3; // 3 seconds
+    private frameStore: Frame[] = [];
+
     constructor() {
         const kinect = new Kinect2();
-        setTimeout(() => {
-            if (kinect.open()) {
-                kinect.openBodyReader();
-                kinect.on('bodyFrame', (bodyFrame) => {
-                    const frame = new Frame(bodyFrame);
+        if (kinect.open()) {
+            kinect.openBodyReader();
+            kinect.on('bodyFrame', (bodyFrame) => {
+                const frame = new Frame(bodyFrame);
+
+                if (
+                    frame.id %
+                        Math.floor(frame.currentFrameRate / this.frameRate) ===
+                    0
+                ) {
+                    this.frameStore.push(frame);
+                    if (this.frameStore.length > this.frameStoreLength)
+                        this.frameStore.shift();
                     this.eventListeners.frame.forEach((l) => l(frame));
-                });
-            }
-        }, 100);
+                }
+            });
+        }
+
+        this.addEventListener('frame', (f) => {});
     }
 
     /**

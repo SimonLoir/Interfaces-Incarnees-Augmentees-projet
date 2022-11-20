@@ -21,4 +21,12 @@ export default class Frame {
         });
         console.log(this.__id, this.__timestamp);
     }
+
+    get id() {
+        return this.__id;
+    }
+
+    get currentFrameRate() {
+        return 1;
+    }
 }
