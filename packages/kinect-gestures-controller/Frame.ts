@@ -5,6 +5,7 @@ export default class Frame {
     private __bodies: { [key: number]: Body } = {};
     private __timestamp: number = Date.now();
     private __id = Frame.id++;
+    private __frameRate = 30;
 
     constructor(frame: BodyFrame) {
         frame.bodies.forEach((body) => {
@@ -26,7 +27,7 @@ export default class Frame {
         return this.__id;
     }
 
-    get currentFrameRate() {
-        return 1;
+    get frameRate() {
+        return this.__frameRate;
     }
 }

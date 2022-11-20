@@ -41,3 +41,10 @@ export const joints = [
 export type Body = {
     [key in typeof joints[number]]: Joint;
 };
+
+export type Gesture = {
+    name: string;
+    description: string;
+    data: [];
+    coolDown?: number;
+};
