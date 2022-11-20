@@ -27,20 +27,8 @@ export default function QuizMultiChoice() {
     const [currentState, setCurrentState] = useState<stateType>('creation');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [newQcm, setNewQcm] = useState<boolean>(true);
-    const [answer1, setAnswer1] = useState('');
-    const [answer2, setAnswer2] = useState('');
-    const [answer3, setAnswer3] = useState('');
-    const [answer4, setAnswer4] = useState('');
-    const [answer5, setAnswer5] = useState('');
     const [question, setQuestion] = useState('');
-    const setters = [
-        setAnswer1,
-        setAnswer2,
-        setAnswer3,
-        setAnswer4,
-        setAnswer5,
-    ];
-    const answers = [answer1, answer2, answer3, answer4, answer5];
+    const [answers, setAnswers] = useState<string[]>(['', '', '', '', '']);
 
     const socket = useSocketContext();
 
@@ -265,7 +253,13 @@ export default function QuizMultiChoice() {
                             name={'answer' + (i + 1)}
                             type='text'
                             placeholder={'answer ' + (i + 1)}
-                            onChange={(e) => setters[i](e.target.value)}
+                            onChange={(e) =>
+                                setAnswers((a) =>
+                                    a.map((answer, j) =>
+                                        j === i ? e.target.value : answer
+                                    )
+                                )
+                            }
                             value={answers[i]}
                         ></input>
                     ))}
