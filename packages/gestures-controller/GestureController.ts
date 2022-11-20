@@ -28,14 +28,10 @@ import { swipeLeftGesture, swipeRightGesture } from './gestures/swipe';
 import { scrollLeftGesture, scrollRightGesture } from './gestures/scroll';
 import { AbstractGestureController } from 'project-types';
 
-export default class GesturesController extends AbstractGestureController<
-    Leap.Frame,
-    Gesture<any>
-> {
-    private lastOccurrence: { [key: string]: number } = {};
-    private frameRate = 4;
-    private frameStoreLength = this.frameRate * 3; // 3 seconds
-    private frameStore: Leap.Frame[] = [];
+export default class GesturesController extends AbstractGestureController<Leap.Frame> {
+    protected frameRate = 4;
+    protected frameStoreLength = this.frameRate * 3; // 3 seconds
+    protected frameStore: Leap.Frame[] = [];
     protected staticGestures: Gesture<'static'>[] = [
         oneFingerUpGesture,
         twoFingersUpGesture,
@@ -92,36 +88,7 @@ export default class GesturesController extends AbstractGestureController<
                 0
             )
                 return;
-
-            // Stores the frame in the frame buffer
-            this.frameStore.push(frame);
-
-            // Removes the oldest frame if the buffer is too long
-            if (this.frameStore.length > this.frameStoreLength)
-                this.frameStore.shift();
-
-            // Sends the frame to the event handlers of the frame event
-            this.eventListeners.frame.forEach((listener) => listener(frame));
-
-            const gestureListeners = this.eventListeners.gesture;
-
-            this.extractFromFrames(this.frameStore).forEach((gesture) => {
-                if (gesture.coolDown !== undefined) {
-                    // Checks that the gesture has not been triggered recently
-                    if (this.lastOccurrence[gesture.name] !== undefined) {
-                        if (
-                            Date.now() - this.lastOccurrence[gesture.name] <
-                            gesture.coolDown
-                        ) {
-                            return;
-                        }
-                    }
-                    // Stores the last time the gesture was triggered
-                    this.lastOccurrence[gesture.name] = Date.now();
-                }
-                // Sends the gesture to the event handlers of the gesture event
-                gestureListeners.forEach((listener) => listener(gesture));
-            });
+            this.handleFrame(frame);
         });
         this.leapController.connect();
     }
@@ -137,40 +104,12 @@ export default class GesturesController extends AbstractGestureController<
     }
 
     /**
-     * Extracts a list of gestures from a buffer of frames
-     * @param frames A frame buffer
-     * @returns a list of gestures found in the buffer
-     */
-    public extractFromFrames(frames: Leap.Frame[]): Gesture<any>[] {
-        // A list of gestures found in the buffer
-        const gesturesFound: Gesture<any>[] = [];
-        // A list of gestures that are currently being checked
-        const gestures: Gesture<any>[] = [
-            ...this.staticGestures,
-            ...this.dynamicGestures,
-        ];
-
-        for (const gesture of gestures) {
-            if (gesture.type === 'static') {
-                if (this.matchStaticGesture(gesture, frames)) {
-                    gesturesFound.push(gesture);
-                }
-            } else if (gesture.type === 'dynamic') {
-                if (this.matchDynamicGesture(gesture, frames)) {
-                    gesturesFound.push(gesture);
-                }
-            }
-        }
-
-        return gesturesFound;
-    }
-    /**
      * Checks if the frame buffer matches the model of the gesture
      * @param gesture The gesture
      * @param frames A buffer of frames
      * @returns true if the buffer matches the model, false otherwise
      */
-    public matchStaticGesture(
+    protected matchStaticGesture(
         gesture: Gesture<'static'>,
         frames: Leap.Frame[]
     ): boolean {
@@ -212,7 +151,7 @@ export default class GesturesController extends AbstractGestureController<
         );
     }
 
-    public matchDynamicGesture(
+    protected matchDynamicGesture(
         gesture: Gesture<'dynamic'>,
         frames: Leap.Frame[]
     ): boolean {

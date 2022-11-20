@@ -1,10 +1,9 @@
-export type Gesture<T extends 'static' | 'dynamic'> = {
-    name: string;
-    type: T;
-    description: string;
+import { AbstractGesture } from 'project-types';
+
+export interface Gesture<T extends 'static' | 'dynamic'>
+    extends AbstractGesture<T> {
     data: T extends 'static' ? Model : Model[];
-    coolDown?: number;
-};
+}
 export type BasicFingersModel =
     | {
           minExtended?: never;

@@ -1,17 +1,15 @@
 import Kinect2 from 'kinect2';
 import Frame from './Frame';
 import { EventListeners, EventListenerStore, Gesture } from './types';
-import { AbstractGestureController } from 'project-types';
+import { AbstractGesture, AbstractGestureController } from 'project-types';
 
-export default class KinectGestureController extends AbstractGestureController<
-    Frame,
-    Gesture
-> {
-    private frameRate = 4;
-    private frameStoreLength = this.frameRate * 3; // 3 seconds
-    private frameStore: Frame[] = [];
-    private kinectController: Kinect2;
-    protected gestures: Gesture[] = [];
+export default class KinectGestureController extends AbstractGestureController<Frame> {
+    protected frameRate = 4;
+    protected frameStoreLength = this.frameRate * 3; // 3 seconds
+    protected frameStore: Frame[] = [];
+    protected kinectController: Kinect2;
+    protected dynamicGestures: Gesture<'dynamic'>[] = [];
+    protected staticGestures: Gesture<'static'>[] = [];
 
     constructor() {
         super();
@@ -47,22 +45,17 @@ export default class KinectGestureController extends AbstractGestureController<
             });
         });
     }
-
-    public extractFromFrames(frames: Frame[]): Gesture[] {
-        const gesturesFound: Gesture[] = [];
-        // require better implementation of type Gesture
-        for (const gesture of this.gestures) {
-            if (this.matchGesture(gesture, frames)) {
-                gesturesFound.push(gesture);
-            }
-        }
-
-        return gesturesFound;
+    protected matchStaticGesture(
+        gesture: Gesture<'static'>,
+        frames: Frame[]
+    ): boolean {
+        return true;
     }
 
-    public matchGesture(gesture: Gesture, frames: Frame[]): boolean {
-        // Create Gesture recognition logic here
-        // require better implementation of type Gesture
-        return false;
+    protected matchDynamicGesture(
+        gesture: Gesture<'dynamic'>,
+        frame: Frame[]
+    ): boolean {
+        return true;
     }
 }

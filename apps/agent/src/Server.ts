@@ -4,8 +4,8 @@ import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import IoClient from './IoClient';
-import { Gesture } from 'gestures-controller';
 import GestureServer from './GestureServer';
+import { AbstractGesture } from 'project-types';
 
 export default class Server {
     private static instance: Server;
@@ -116,7 +116,7 @@ export default class Server {
         this.io.emit('QCMEvent', event);
     }
 
-    public sendGesture(gesture: Gesture<any>) {
+    public sendGesture(gesture: AbstractGesture<any>) {
         switch (gesture.name) {
             case 'screen-sharing':
                 this.io.emit('screen_share_gesture');

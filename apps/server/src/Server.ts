@@ -9,6 +9,7 @@ import { PeerServer } from 'peer';
 import cors from 'cors';
 import GestureServer from './GestureServer';
 import { Gesture } from 'gestures-controller';
+import { AbstractGesture } from 'project-types';
 
 export default class Server {
     private static instance: Server;
@@ -191,7 +192,7 @@ export default class Server {
      * Sends a gesture to the client
      * @param gesture The gesture to send
      */
-    public sendGesture(gesture: Gesture<any>) {
+    public sendGesture(gesture: AbstractGesture<any>) {
         switch (gesture.name) {
             case 'screen-sharing':
                 this.io.emit('screen_share_gesture');

@@ -1,4 +1,5 @@
 import { BodyFrame, Joint } from 'kinect2';
+import { AbstractGesture } from 'project-types';
 import Frame from './Frame';
 
 export type EventListeners = {
@@ -41,10 +42,7 @@ export const joints = [
 export type Body = {
     [key in typeof joints[number]]: Joint;
 };
-
-export type Gesture = {
-    name: string;
-    description: string;
-    data: [];
-    coolDown?: number;
-};
+export interface Gesture<T extends 'static' | 'dynamic'>
+    extends AbstractGesture<T> {
+    data: any[];
+}
