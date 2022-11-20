@@ -26,17 +26,12 @@ import { screenSharingGesture } from './gestures/screen-sharing';
 import { thumbDownGesture, thumbUpGesture } from './gestures/thumb-position';
 import { swipeLeftGesture, swipeRightGesture } from './gestures/swipe';
 import { scrollLeftGesture, scrollRightGesture } from './gestures/scroll';
+import { AbstractGestureController } from 'project-types';
 
-type EventListeners = {
-    frame: (frame: Leap.Frame) => void;
-    gesture: (gesture: Gesture<any>) => void;
-};
-
-type EventListenerStore = {
-    [K in keyof EventListeners]: EventListeners[K][];
-};
-
-export default abstract class GesturesController {
+export default class GesturesController extends AbstractGestureController<
+    Leap.Frame,
+    Gesture<any>
+> {
     private lastOccurrence: { [key: string]: number } = {};
     private frameRate = 4;
     private frameStoreLength = this.frameRate * 3; // 3 seconds
@@ -64,15 +59,12 @@ export default abstract class GesturesController {
         scrollRightGesture,
     ];
     protected leapController: Leap.Controller;
-    private eventListeners: EventListenerStore = {
-        frame: [],
-        gesture: [],
-    };
 
     constructor(
         controllerOptions: Leap.ControllerOptions,
         allowedGestures: string[] = []
     ) {
+        super();
         this.leapController = new Leap.Controller(controllerOptions);
         if (allowedGestures.length !== 0) {
             // Filters the static gestures to keep only the allowed ones
@@ -91,7 +83,7 @@ export default abstract class GesturesController {
     /**
      * Initializes the Leap Motion controller by adding the proper event handlers.
      */
-    private initController() {
+    initController() {
         this.leapController.on('frame', (frame) => {
             // Ensures a nearly steady frame rate
             if (
@@ -132,34 +124,6 @@ export default abstract class GesturesController {
             });
         });
         this.leapController.connect();
-    }
-
-    /**
-     * Adds an event listener to the controller
-     * @param type The type of the event
-     * @param handler The event handler
-     * @returns A list containing the type of the event and the event handler
-     */
-    protected addEventListener<T extends keyof EventListeners>(
-        type: T,
-        handler: EventListeners[T]
-    ) {
-        this.eventListeners[type].push(handler);
-        return [type, handler] as [T, EventListeners[T]];
-    }
-
-    /**
-     * Removes an event listener from the controller
-     * @param type The type of the event
-     * @param handler The event handler
-     */
-    protected removeEventListener<T extends keyof EventListeners>(
-        type: T,
-        handler: EventListeners[T]
-    ) {
-        this.eventListeners[type] = this.eventListeners[type].filter(
-            (l) => l !== handler
-        ) as EventListenerStore[T];
     }
 
     /**

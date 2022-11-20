@@ -10,7 +10,8 @@
         "eslint": "^8.26.0",
         "jest": "^29.2.2",
         "ts-jest": "^29.0.3",
-        "tsconfig": "*"
+        "tsconfig": "*",
+        "project-types": "*"
     },
     "dependencies": {
         "leapjs": "^1.1.1",

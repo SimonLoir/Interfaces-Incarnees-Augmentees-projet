@@ -1,5 +1,5 @@
 {
-    "name": "kinect-gestures-controller",
+    "name": "project-types",
     "main": "index.ts",
     "scripts": {
         "lint": "eslint . --ext .ts --fix",
@@ -10,11 +10,7 @@
         "eslint": "^8.26.0",
         "jest": "^29.2.2",
         "ts-jest": "^29.0.3",
-        "tsconfig": "*",
-        "kinect-2-types": "*",
-        "project-types": "*"
+        "tsconfig": "*"
     },
-    "dependencies": {
-        "kinect2": "^0.2.6"
-    }
+    "dependencies": {}
 }
