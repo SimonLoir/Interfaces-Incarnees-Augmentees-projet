@@ -1,5 +1,5 @@
 import Server from './Server';
-import LeapMotionGestureController from 'gestures-controller';
+import LeapMotionGestureController from 'leap-gestures-controller';
 
 export default class LeapMotionServer extends LeapMotionGestureController {
     constructor(server: Server) {

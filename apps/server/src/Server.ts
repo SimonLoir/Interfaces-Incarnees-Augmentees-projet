@@ -8,7 +8,7 @@ import KinectServer from './KinectServer';
 import { PeerServer } from 'peer';
 import cors from 'cors';
 import LeapMotionServer from './LeapMotionServer';
-import { Gesture } from 'gestures-controller';
+import { Gesture } from 'leap-gestures-controller';
 import { AbstractGesture } from 'project-types';
 
 export default class Server {

@@ -1,4 +1,4 @@
-import GestureController from 'gestures-controller';
+import GestureController from 'leap-gestures-controller';
 import KinectController from 'kinect-gestures-controller';
 
 class Controller extends GestureController {
