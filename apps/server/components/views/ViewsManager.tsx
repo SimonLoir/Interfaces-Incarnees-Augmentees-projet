@@ -8,6 +8,7 @@ import style from '@style/ViewManager.module.scss';
 import HomeView from './HomeView';
 import Object3dView from './Object3dView';
 import DocumentSharingView from './DocumentSharingView';
+import PollView from './PollView';
 
 const views = [
     {
@@ -18,7 +19,7 @@ const views = [
     {
         id: 'poll',
         name: 'Sondage',
-        component: QuizSingleChoice,
+        component: PollView,
     },
     {
         id: 'object3D',
@@ -59,12 +60,6 @@ export default function ViewManager() {
             if (viewID === null) return;
             setViewID((viewID - 1 + views.length) % views.length);
         });
-
-        // socket.on('gesture', (gesture) => {
-        //     if (gesture.name === "screen-sharing") {
-        //         setViewId(0)
-        //     }
-        // })
 
         return () => {
             socket.off('swipe_right_gesture');

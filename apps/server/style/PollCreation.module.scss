@@ -1,0 +1,57 @@
+$color: rgb(175, 48, 51);
+.input {
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 80vw;
+    max-width: 400px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    &:focus {
+        border-color: $color;
+    }
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.input,
+.input + button {
+    line-height: 35px;
+    outline: none;
+}
+.input + button {
+    margin-top: 10px;
+    $padding: 25px;
+    padding-left: $padding;
+    padding-right: $padding;
+    background-color: $color;
+    color: white;
+    border: 1px solid $color;
+    border-left: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    cursor: pointer;
+}
+
+.table {
+    margin: auto;
+    margin-bottom: 25px;
+    text-align: left;
+    max-width: 600px;
+    td {
+        padding: 10px;
+        line-height: 1.5;
+    }
+}
+
+.ball {
+    text-align: center;
+    display: grid;
+    align-items: center;
+    $size: 25px;
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    margin-right: 5px;
+    border: 1px solid rgb(48, 48, 48);
+}
