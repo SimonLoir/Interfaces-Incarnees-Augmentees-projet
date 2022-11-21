@@ -9,6 +9,7 @@ import HomeView from './HomeView';
 import Object3dView from './Object3dView';
 import DocumentSharingView from './DocumentSharingView';
 import PollView from './PollView';
+import QCMView from './QCMView';
 
 const views = [
     {
@@ -30,7 +31,7 @@ const views = [
     },
     { id: 'home', name: 'Accueil', component: HomeView },
     { id: 'document', name: 'Document Share', component: DocumentSharingView },
-    { id: 'qcm', name: 'QCM', component: QuizMultiChoice },
+    { id: 'qcm', name: 'QCM', component: QCMView },
     {
         id: 'student_screen_share',
         name: "Partage d'écran d'étudiants",
