@@ -11,7 +11,7 @@ function updateInputs(list: string[], value: string, index: number) {
     return list;
 }
 
-let maxAnswersNum = 5;
+const maxAnswersNum = 5;
 
 export default function QuizMultiChoice() {
     const [questionList, setQuestionList] = useState<

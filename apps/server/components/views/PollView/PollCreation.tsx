@@ -21,24 +21,24 @@ export default function PollCreation({
         return (
             <div className='center'>
                 <div style={{ textAlign: 'center' }}>
-                    <input
-                        type='text'
-                        placeholder='Votre question'
-                        className={style.input}
-                        value={question}
-                        onChange={(e) => setQuestion(e.target.value)}
-                    />
-                    <button
-                        className={style.add}
-                        onClick={() => {
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
                             if (question.trim() === '') return;
                             addQuestion(question);
                             setQuestion('');
                             setShowModal(false);
                         }}
                     >
-                        Valider
-                    </button>
+                        <input
+                            type='text'
+                            placeholder='Votre question'
+                            className={style.input}
+                            value={question}
+                            onChange={(e) => setQuestion(e.target.value)}
+                        />
+                        <button className={style.add}>Valider</button>
+                    </form>
 
                     <p>
                         <button
