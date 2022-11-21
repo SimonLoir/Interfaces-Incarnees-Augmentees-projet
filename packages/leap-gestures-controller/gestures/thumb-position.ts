@@ -1,4 +1,5 @@
-import { Gesture, HandModel, VectorModel } from '../Interfaces';
+import { VectorModel } from 'project-types';
+import { Gesture, HandModel } from '../Interfaces';
 /*
 arm basis down : [[0.43,0.61,-0.65],[-0.45,0.78,0.48]]
 palmNormalDown : [0.26,-0.75,-0.59]

@@ -1,3 +1,4 @@
+import { VectorModel } from '.';
 import { AbstractGesture } from './AbstractGesture';
 export type EventListeners<Frame, Gesture> = {
     frame: (frame: Frame) => void;
@@ -107,7 +108,7 @@ export default abstract class AbstractGestureController<Frame> {
 
     protected abstract matchDynamicGesture(
         gesture: AbstractGesture<any>,
-        frame: Frame[]
+        frames: Frame[]
     ): boolean;
 
     /**
@@ -137,5 +138,20 @@ export default abstract class AbstractGestureController<Frame> {
         }
 
         return gesturesFound;
+    }
+    // Utility function to compare Vectorial[3] min/max values
+    protected checkVectorModel(
+        vectorModel: VectorModel,
+        vector: [number, number, number]
+    ) {
+        const { minX, minY, minZ, maxX, maxY, maxZ } = vectorModel;
+        const [x, y, z] = vector;
+        if (minX !== undefined && x < minX) return false;
+        if (minY !== undefined && y < minY) return false;
+        if (minZ !== undefined && z < minZ) return false;
+        if (maxX !== undefined && x > maxX) return false;
+        if (maxY !== undefined && y > maxY) return false;
+        if (maxZ !== undefined && z > maxZ) return false;
+        return true;
     }
 }

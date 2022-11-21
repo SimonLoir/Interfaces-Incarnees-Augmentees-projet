@@ -15,7 +15,9 @@ export default class Frame {
 
             for (const joint of body.joints) {
                 const jointType = JoinTypes[joint.jointType];
-                newBody[jointType] = joint;
+                if (joint.trackingState > 0) {
+                    newBody[jointType] = joint;
+                }
             }
 
             this.__bodies[body.trackingId] = newBody;
@@ -29,5 +31,9 @@ export default class Frame {
 
     get frameRate() {
         return this.__frameRate;
+    }
+
+    get body(): Body {
+        return Object.values(this.__bodies)[0];
     }
 }

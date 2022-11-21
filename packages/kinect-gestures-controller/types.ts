@@ -1,15 +1,6 @@
 import { BodyFrame, Joint } from 'kinect2';
-import { AbstractGesture } from 'project-types';
+import { AbstractGesture, VectorModel } from 'project-types';
 import Frame from './Frame';
-
-export type EventListeners = {
-    frame: (frame: Frame) => void;
-    gesture: (gesture: any) => void;
-};
-
-export type EventListenerStore = {
-    [K in keyof EventListeners]: EventListeners[K][];
-};
 
 export const joints = [
     'SpineBase',
@@ -40,7 +31,7 @@ export const joints = [
 ] as const;
 
 export type Body = {
-    [key in typeof joints[number]]: Joint;
+    [key in typeof joints[number]]?: Joint;
 };
 export interface Gesture<T extends 'static' | 'dynamic'>
     extends AbstractGesture<T> {
@@ -60,15 +51,6 @@ export type BodyModel = {
 
 export type JointsDiffModel = {
     type?: 'left' | 'right';
-    direction: DirectionVector;
-    directionDiff?: DirectionVector;
-};
-
-export type DirectionVector = {
-    minX?: number;
-    maxX?: number;
-    minY?: number;
-    maxY?: number;
-    minZ?: number;
-    maxZ?: number;
+    direction: VectorModel;
+    directionDiff?: VectorModel;
 };

@@ -5,7 +5,6 @@ import {
     HandModel,
     FrameDiffExport,
     HandDiffExport,
-    VectorModel,
     Finger,
     SingleFingerModel,
 } from './Interfaces';
@@ -401,22 +400,6 @@ export default class LeapMotionGestureController extends AbstractGestureControll
         )
             // Check if the position of the palm in the frame matches the position of the one in the model
             return false;
-        return true;
-    }
-
-    // Utility function to compare Vectorial[3] min/max values
-    private checkVectorModel(
-        vectorModel: VectorModel,
-        vector: [number, number, number]
-    ) {
-        const { minX, minY, minZ, maxX, maxY, maxZ } = vectorModel;
-        const [x, y, z] = vector;
-        if (minX !== undefined && x < minX) return false;
-        if (minY !== undefined && y < minY) return false;
-        if (minZ !== undefined && z < minZ) return false;
-        if (maxX !== undefined && x > maxX) return false;
-        if (maxY !== undefined && y > maxY) return false;
-        if (maxZ !== undefined && z > maxZ) return false;
         return true;
     }
 

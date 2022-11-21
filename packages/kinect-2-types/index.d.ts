@@ -20,6 +20,7 @@ declare module 'kinect2' {
         orientationZ: number;
         orientationW: number;
         jointType: number;
+        trackingState: number;
     };
 
     export type Body = {

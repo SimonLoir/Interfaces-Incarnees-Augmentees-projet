@@ -1,6 +1,6 @@
-import Kinect2 from 'kinect2';
+import Kinect2, { Joint } from 'kinect2';
 import Frame from './Frame';
-import { EventListeners, EventListenerStore, Gesture } from './types';
+import { BodyModel, Model, Gesture } from './types';
 import { AbstractGesture, AbstractGestureController } from 'project-types';
 
 export default class KinectGestureController extends AbstractGestureController<Frame> {
@@ -41,8 +41,95 @@ export default class KinectGestureController extends AbstractGestureController<F
 
     protected matchDynamicGesture(
         gesture: Gesture<'dynamic'>,
-        frame: Frame[]
+        frames: Frame[]
     ): boolean {
+        if (frames.length < 3) return false;
+
+        // Gets the last frame in the buffer
+        let last = frames[frames.length - 1];
+        // Gets the last frame in the model
+        const lastFrameModel = gesture.data[gesture.data.length - 1];
+
+        if (!this.checkStaticPropertiesForModel(lastFrameModel, last))
+            return false;
+
         return true;
+    }
+
+    protected checkStaticPropertiesForModel(
+        model: Model,
+        frame: Frame
+    ): boolean {
+        const { body: bodyModel } = model;
+        const { arms: armsInModel, forearms: forearmsInModel } = bodyModel;
+
+        if (armsInModel) {
+            for (const arm of armsInModel) {
+                const { type, direction } = arm;
+                const { body } = frame;
+                if (type === 'left') {
+                    if (!body.ShoulderLeft || !body.ElbowLeft) return false;
+                    const directionVector = this.generateDirectionBetweenJoints(
+                        body.ShoulderLeft,
+                        body.ElbowLeft
+                    );
+                    if (!this.checkVectorModel(direction, directionVector))
+                        return false;
+                } else if (type === 'right') {
+                    if (!body.ShoulderRight || !body.ElbowRight) return false;
+                    const directionVector = this.generateDirectionBetweenJoints(
+                        body.ShoulderRight,
+                        body.ElbowRight
+                    );
+                    if (!this.checkVectorModel(direction, directionVector))
+                        return false;
+                }
+            }
+        }
+
+        if (forearmsInModel) {
+            for (const arm of forearmsInModel) {
+                const { type, direction } = arm;
+                const { body } = frame;
+                if (type === 'left') {
+                    if (!body.ElbowLeft || !body.WristLeft) return false;
+                    const directionVector = this.generateDirectionBetweenJoints(
+                        body.ElbowLeft,
+                        body.WristLeft
+                    );
+                    if (!this.checkVectorModel(direction, directionVector))
+                        return false;
+                } else if (type === 'right') {
+                    if (!body.ElbowRight || !body.WristRight) return false;
+                    const directionVector = this.generateDirectionBetweenJoints(
+                        body.ElbowRight,
+                        body.WristRight
+                    );
+                    if (!this.checkVectorModel(direction, directionVector))
+                        return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    // Utility function to compare Vectorial[3] min/max values
+
+    protected generateDirectionBetweenJoints(
+        firstJoint: Joint,
+        secondJoint: Joint
+    ): [number, number, number] {
+        const direction: number[] = [];
+        direction.push(secondJoint.cameraX - firstJoint.cameraX);
+        direction.push(secondJoint.cameraY - firstJoint.cameraY);
+        direction.push(secondJoint.cameraZ - firstJoint.cameraZ);
+        const distance = Math.sqrt(
+            direction[0] ** 2 + direction[1] ** 2 + direction[2] ** 2
+        );
+        return direction.map((value) => value / distance) as [
+            number,
+            number,
+            number
+        ];
     }
 }

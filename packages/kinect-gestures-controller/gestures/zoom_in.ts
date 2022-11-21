@@ -1,6 +1,7 @@
-import { Gesture, DirectionVector } from '../types';
+import { VectorModel } from 'project-types';
+import { Gesture } from '../types';
 
-const directionLeft: DirectionVector = {
+const directionLeft: VectorModel = {
     minX: -1,
     maxX: 0,
     minY: -0.5,
@@ -9,7 +10,7 @@ const directionLeft: DirectionVector = {
     maxZ: 0,
 };
 
-const directionRight: DirectionVector = {
+const directionRight: VectorModel = {
     minX: 0,
     maxX: 1,
     minY: -0.5,
