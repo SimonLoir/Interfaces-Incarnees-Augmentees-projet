@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import PollAwaiting from './PollAwaiting';
 import PollCreation from './PollCreation';
 import PollOngoing from './PollOngoing';
+import PollResults from './PollResults';
 
-type stateType = 'creation' | 'awaiting' | 'ongoing';
+type stateType = 'creation' | 'awaiting' | 'ongoing' | 'results';
 export type Question = { question: string; counter: number[] };
 
 export default function PollView() {
@@ -15,7 +16,10 @@ export default function PollView() {
     });
 
     useEffect(() => {
-        localStorage.setItem('pollPreset', JSON.stringify(questionList));
+        localStorage.setItem(
+            'pollPreset',
+            JSON.stringify(questionList.map((q) => ({ ...q, counter: [0, 0] })))
+        );
     }, [questionList]);
 
     const addQuestion = useCallback((question: string) => {
@@ -43,6 +47,19 @@ export default function PollView() {
                 startPoll={() => setCurrentState('ongoing')}
             />
         );
-
-    return <PollOngoing exitPoll={() => setCurrentState('creation')} />;
+    if (currentState === 'ongoing')
+        return (
+            <PollOngoing
+                exitPoll={() => setCurrentState('creation')}
+                questionList={questionList}
+                setQuestionList={setQuestionList}
+                showResults={() => setCurrentState('results')}
+            />
+        );
+    return (
+        <PollResults
+            questionList={questionList}
+            exitPoll={() => setCurrentState('creation')}
+        />
+    );
 }

@@ -1,0 +1,30 @@
+.main {
+    $height: 25px;
+    position: relative;
+    display: inline-block;
+    width: 80vw;
+    max-width: 400px;
+    line-height: $height;
+    height: $height;
+    border: 2px solid rgb(175, 48, 51);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    & > div {
+        display: inline-block;
+        overflow: hidden;
+        height: $height;
+    }
+    & .for {
+        background-color: rgb(175, 48, 51);
+        color: white;
+        border-radius: 4px;
+    }
+    margin: 10px;
+}
+
+.main,
+.outLabel {
+    vertical-align: middle;
+}
