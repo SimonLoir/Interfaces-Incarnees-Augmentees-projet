@@ -2,6 +2,7 @@ import { Joint } from 'kinect2';
 import { Vector } from 'project-types';
 import Frame from '../Frame';
 import AbstractFrameDiff from 'project-types/AbstractFrameDiff';
+import { FrameDiffExport } from '../types';
 
 export default class FrameDiff extends AbstractFrameDiff {
     protected timeDiff: number;
@@ -112,9 +113,9 @@ export default class FrameDiff extends AbstractFrameDiff {
         vector2: Vector
     ): { positionDiff: Vector; velocityDiff: Vector } {
         const positionDiff: Vector = [
-            vector1[0] - vector2[0],
-            vector1[1] - vector2[1],
-            vector1[2] - vector2[2],
+            vector2[0] - vector1[0],
+            vector2[1] - vector1[1],
+            vector2[2] - vector1[2],
         ];
 
         const velocityDiff: Vector = positionDiff.map(
@@ -122,5 +123,17 @@ export default class FrameDiff extends AbstractFrameDiff {
         ) as Vector;
 
         return { positionDiff, velocityDiff };
+    }
+
+    public export(): FrameDiffExport {
+        return {
+            frame1: this.frame1.id,
+            frame2: this.frame2.id,
+            armVelocityDiff: this.armVelocityDiff,
+            armPositionDiff: this.armPositionDiff,
+            forearmVelocityDiff: this.forearmVelocityDiff,
+            forearmPositionDiff: this.forearmPositionDiff,
+            timeDiff: this.timeDiff,
+        };
     }
 }

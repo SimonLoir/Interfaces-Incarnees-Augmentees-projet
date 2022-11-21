@@ -22,7 +22,6 @@ export default class Frame {
 
             this.__bodies[body.trackingId] = newBody;
         });
-        console.log(this.__id, this.__timestamp);
     }
 
     get id() {

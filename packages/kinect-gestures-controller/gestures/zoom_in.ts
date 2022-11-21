@@ -59,12 +59,21 @@ export const zoomInGesture: Gesture<'dynamic'> = {
                     {
                         type: 'left',
                         direction: { ...directionLeft },
-                        directionDiff: {},
+                        velocityDiff: {
+                            maxX: -70,
+                            minY: -30,
+                            maxY: 30,
+                        },
                     },
                     {
                         type: 'right',
 
                         direction: { ...directionRight },
+                        velocityDiff: {
+                            minX: 70,
+                            minY: -30,
+                            maxY: 30,
+                        },
                     },
                 ],
 
@@ -72,10 +81,20 @@ export const zoomInGesture: Gesture<'dynamic'> = {
                     {
                         type: 'left',
                         direction: { ...directionLeft },
+                        velocityDiff: {
+                            maxX: -70,
+                            minY: -30,
+                            maxY: 30,
+                        },
                     },
                     {
                         type: 'right',
                         direction: { ...directionRight },
+                        velocityDiff: {
+                            minX: 70,
+                            minY: -30,
+                            maxY: 30,
+                        },
                     },
                 ],
             },

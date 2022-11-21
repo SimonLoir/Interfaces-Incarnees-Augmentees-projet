@@ -1,5 +1,5 @@
 import { BodyFrame, Joint } from 'kinect2';
-import { AbstractGesture, VectorModel } from 'project-types';
+import { AbstractGesture, VectorModel, Vector } from 'project-types';
 import { AbstractModel } from 'project-types/AbstractGesture';
 import Frame from './Frame';
 
@@ -51,5 +51,29 @@ export type BodyModel = {
 export type JointsDiffModel = {
     type?: 'left' | 'right';
     direction: VectorModel;
-    directionDiff?: VectorModel;
+    velocityDiff?: VectorModel;
+};
+
+export type FrameDiffExport = {
+    frame1: number;
+    frame2: number;
+    armVelocityDiff: {
+        left: Vector | undefined;
+        right: Vector | undefined;
+    };
+    armPositionDiff: {
+        left: Vector | undefined;
+        right: Vector | undefined;
+    };
+
+    forearmVelocityDiff: {
+        left: Vector | undefined;
+        right: Vector | undefined;
+    };
+
+    forearmPositionDiff: {
+        left: Vector | undefined;
+        right: Vector | undefined;
+    };
+    timeDiff: number;
 };

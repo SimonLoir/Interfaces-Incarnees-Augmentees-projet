@@ -1,6 +1,7 @@
 import Kinect2, { Joint } from 'kinect2';
 import Frame from './Frame';
 import { BodyModel, Model, Gesture } from './types';
+import { zoomInGesture } from './gestures/zoom_in';
 import {
     AbstractGesture,
     AbstractGestureController,
@@ -13,7 +14,7 @@ export default class KinectGestureController extends AbstractGestureController<F
     protected frameStoreLength = this.frameRate * 3; // 3 seconds
     protected frameStore: Frame[] = [];
 
-    protected dynamicGestures: Gesture<'dynamic'>[] = [];
+    protected dynamicGestures: Gesture<'dynamic'>[] = [zoomInGesture];
     protected staticGestures: Gesture<'static'>[] = [];
     protected kinectController: Kinect2;
     constructor(allowedGestures: string[] = []) {
@@ -31,6 +32,7 @@ export default class KinectGestureController extends AbstractGestureController<F
     public initController() {
         this.kinectController.on('bodyFrame', (bodyFrame) => {
             const frame = new Frame(bodyFrame);
+
             // Ensures a nearly steady frame rate
             if (frame.id % Math.floor(frame.frameRate / this.frameRate) !== 0)
                 return;
@@ -55,6 +57,7 @@ export default class KinectGestureController extends AbstractGestureController<F
             for (const arm of armsInModel) {
                 const { type, direction } = arm;
                 const { body } = frame;
+
                 if (type === 'left') {
                     if (!body.ShoulderLeft || !body.ElbowLeft) return false;
                     const directionVector = this.generateDirectionBetweenJoints(
@@ -106,6 +109,70 @@ export default class KinectGestureController extends AbstractGestureController<F
         model: Model,
         frameDiff: FrameDiff
     ): boolean {
+        const { body: bodyModel } = model;
+        const { arms: armsInModel, forearms: forearmsInModel } = bodyModel;
+
+        const exportDiff = frameDiff.export();
+        const { armVelocityDiff, forearmVelocityDiff } = exportDiff;
+
+        if (armsInModel && armsInModel.length > 0) {
+            for (const arm of armsInModel) {
+                const { velocityDiff, type } = arm;
+                if (type) {
+                    if (velocityDiff) {
+                        if (type === 'right' && armVelocityDiff.right) {
+                            if (
+                                !this.checkVectorModel(
+                                    velocityDiff,
+                                    armVelocityDiff.right
+                                )
+                            ) {
+                                console.log('x: ', armVelocityDiff.right[0]);
+                                console.log('y: ', armVelocityDiff.right[1]);
+                                console.log('z: ', armVelocityDiff.right[2]);
+                                return false;
+                            }
+                        } else if (type === 'left' && armVelocityDiff.left) {
+                            if (
+                                !this.checkVectorModel(
+                                    velocityDiff,
+                                    armVelocityDiff.left
+                                )
+                            )
+                                return false;
+                        } else return false;
+                    }
+                }
+            }
+            if (forearmsInModel && forearmsInModel.length > 0) {
+                for (const forearm of forearmsInModel) {
+                    const { velocityDiff, type } = forearm;
+
+                    if (velocityDiff) {
+                        if (type === 'right' && forearmVelocityDiff.right) {
+                            if (
+                                !this.checkVectorModel(
+                                    velocityDiff,
+                                    forearmVelocityDiff.right
+                                )
+                            )
+                                return false;
+                        } else if (
+                            type === 'left' &&
+                            forearmVelocityDiff.left
+                        ) {
+                            if (
+                                !this.checkVectorModel(
+                                    velocityDiff,
+                                    forearmVelocityDiff.left
+                                )
+                            )
+                                return false;
+                        } else return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 
