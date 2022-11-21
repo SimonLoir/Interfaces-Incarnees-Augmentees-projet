@@ -1,4 +1,5 @@
 import { AbstractGesture, VectorModel } from 'project-types';
+import { AbstractModel } from 'project-types/AbstractGesture';
 
 export interface Gesture<T extends 'static' | 'dynamic'>
     extends AbstractGesture<T> {
@@ -32,9 +33,7 @@ export type SingleFingerModel = {
     extended?: boolean;
 };
 
-export type Model = {
-    minDuration: number;
-    maxDuration?: number;
+export type Model = AbstractModel & {
     hands?: HandModel[];
     fingers?: BasicFingersModel;
     handsCount?: number;

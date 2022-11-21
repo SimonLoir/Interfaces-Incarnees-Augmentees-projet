@@ -135,70 +135,7 @@ export default class LeapMotionGestureController extends AbstractGestureControll
         const frameDiff = this.frameDiff(firstFrame, lastFrame);
 
         // Checks if the differences between the first frame and the last frame match the model
-        return this.checkDynamicPropertiesForModel(
-            gesture.data,
-            frameDiff.export()
-        );
-    }
-
-    protected matchDynamicGesture(
-        gesture: Gesture<'dynamic'>,
-        frames: Leap.Frame[]
-    ): boolean {
-        if (frames.length < 3) return false;
-
-        // Gets the last frame in the buffer
-        let last = frames[frames.length - 1];
-        const model = gesture.data[gesture.data.length - 1];
-        let lastFrameID = -2;
-        if (!this.checkStaticPropertiesForModel(model, last)) return false;
-
-        for (let i = gesture.data.length - 2; i >= 0; i--) {
-            let found: Leap.Frame | undefined = undefined;
-
-            const model = gesture.data[i];
-
-            while (found === undefined && -lastFrameID < frames.length) {
-                const frame = frames[frames.length + lastFrameID];
-                const duration = last.timestamp - frame.timestamp;
-
-                if (
-                    model.maxDuration !== undefined &&
-                    duration > model.maxDuration
-                )
-                    return false;
-
-                if (
-                    model.minDuration !== undefined &&
-                    duration < model.minDuration
-                ) {
-                    lastFrameID--;
-                    continue;
-                }
-
-                if (this.checkStaticPropertiesForModel(model, frame)) {
-                    found = frame;
-                }
-                lastFrameID--;
-            }
-
-            if (found === undefined) return false;
-
-            const frameDiff = this.frameDiff(found, last);
-
-            if (
-                !this.checkDynamicPropertiesForModel(
-                    gesture.data[i + 1],
-                    frameDiff.export()
-                )
-            ) {
-                return false;
-            }
-
-            last = found;
-        }
-
-        return true;
+        return this.checkDynamicPropertiesForModel(gesture.data, frameDiff);
     }
 
     /**
@@ -409,13 +346,14 @@ export default class LeapMotionGestureController extends AbstractGestureControll
      * @param diff The difference between the two frames
      * @returns true if the frames match the model, false otherwise
      */
-    public checkDynamicPropertiesForModel(model: Model, diff: FrameDiffExport) {
+    public checkDynamicPropertiesForModel(model: Model, diff: FrameDiff) {
         // Gets the hands in the model
+        const exportDiff = diff.export();
         const { hands: handsInModel, allowOnlyOneHandMatch: oneMatch } = model;
         // Gets the hands difference in the frames
         const {
             handDiffs: handsInDiff,
-        }: { handDiffs: { [key: string]: HandDiffExport } } = diff;
+        }: { handDiffs: { [key: string]: HandDiffExport } } = exportDiff;
 
         if (handsInModel && handsInModel.length > 0) {
             let inValidCount = 0;

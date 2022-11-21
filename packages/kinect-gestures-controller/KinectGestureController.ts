@@ -44,68 +44,6 @@ export default class KinectGestureController extends AbstractGestureController<F
         return false;
     }
 
-    protected matchDynamicGesture(
-        gesture: Gesture<'dynamic'>,
-        frames: Frame[]
-    ): boolean {
-        if (frames.length < 3) return false;
-
-        // Gets the last frame in the buffer
-        let last = frames[frames.length - 1];
-        // Gets the last frame in the model
-        const lastFrameModel = gesture.data[gesture.data.length - 1];
-
-        if (!this.checkStaticPropertiesForModel(lastFrameModel, last))
-            return false;
-
-        let lastFrameID = -2;
-        // for each frame in the model
-        for (let i = gesture.data.length - 2; i >= 0; i--) {
-            const model = gesture.data[i];
-            let found: Frame | undefined = undefined;
-
-            //Check if we found a correpsonding frame in the real frames
-            while (!found && -lastFrameID < frames.length) {
-                const frame = frames[frames.length + lastFrameID];
-                const duration = last.timestamp - frame.timestamp;
-                if (
-                    model.maxDuration !== undefined &&
-                    duration > model.maxDuration
-                )
-                    return false;
-
-                if (
-                    model.minDuration !== undefined &&
-                    duration < model.minDuration
-                ) {
-                    lastFrameID--;
-                    continue;
-                }
-
-                if (this.checkStaticPropertiesForModel(model, frame)) {
-                    found = frame;
-                }
-                lastFrameID--;
-            }
-            if (found === undefined) return false;
-
-            const frameDiff = new FrameDiff(found, last);
-
-            if (
-                !this.checkDynamicPropertiesForModel(
-                    gesture.data[i + 1],
-                    frameDiff
-                )
-            ) {
-                return false;
-            }
-
-            last = found;
-        }
-
-        return true;
-    }
-
     protected checkStaticPropertiesForModel(
         model: Model,
         frame: Frame
@@ -185,5 +123,9 @@ export default class KinectGestureController extends AbstractGestureController<F
             direction[0] ** 2 + direction[1] ** 2 + direction[2] ** 2
         );
         return direction.map((value) => value / distance) as Vector;
+    }
+
+    public frameDiff(from: Frame, to: Frame) {
+        return new FrameDiff(from, to);
     }
 }

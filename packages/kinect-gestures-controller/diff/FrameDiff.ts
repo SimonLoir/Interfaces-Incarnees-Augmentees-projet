@@ -1,8 +1,9 @@
 import { Joint } from 'kinect2';
 import { Vector } from 'project-types';
 import Frame from '../Frame';
+import AbstractFrameDiff from 'project-types/AbstractFrameDiff';
 
-export default class FrameDiff {
+export default class FrameDiff extends AbstractFrameDiff {
     protected timeDiff: number;
     protected armVelocityDiff: {
         left: Vector | undefined;
@@ -22,6 +23,7 @@ export default class FrameDiff {
     } = { left: undefined, right: undefined };
 
     constructor(private frame1: Frame, private frame2: Frame) {
+        super();
         this.timeDiff = this.frame2.timestamp - this.frame1.timestamp;
         this.armsDiff();
         this.forearmsDiff();

@@ -1,5 +1,6 @@
 import { BodyFrame, Joint } from 'kinect2';
 import { AbstractGesture, VectorModel } from 'project-types';
+import { AbstractModel } from 'project-types/AbstractGesture';
 import Frame from './Frame';
 
 export const joints = [
@@ -38,9 +39,7 @@ export interface Gesture<T extends 'static' | 'dynamic'>
     data: T extends 'static' ? Model : Model[];
 }
 
-export type Model = {
-    minDuration: number;
-    maxDuration?: number;
+export type Model = AbstractModel & {
     body: BodyModel;
 };
 

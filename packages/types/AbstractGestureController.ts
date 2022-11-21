@@ -1,5 +1,6 @@
 import { VectorModel } from '.';
-import { AbstractGesture } from './AbstractGesture';
+import AbstractFrameDiff from './AbstractFrameDiff';
+import { AbstractGesture, AbstractModel } from './AbstractGesture';
 export type EventListeners<Frame, Gesture> = {
     frame: (frame: Frame) => void;
     gesture: (gesture: Gesture) => void;
@@ -11,7 +12,9 @@ export type EventListenerStore<Frame, Gesture> = {
         Gesture
     >[K][];
 };
-export default abstract class AbstractGestureController<Frame> {
+export default abstract class AbstractGestureController<
+    Frame extends { timestamp: number }
+> {
     private lastOccurrence: { [key: string]: number } = {};
     protected abstract frameRate: number;
     protected abstract frameStore: Frame[];
@@ -102,14 +105,77 @@ export default abstract class AbstractGestureController<Frame> {
     }
 
     protected abstract matchStaticGesture(
-        gesture: AbstractGesture<any>,
+        gesture: AbstractGesture<'static'>,
         frames: Frame[]
     ): boolean;
 
-    protected abstract matchDynamicGesture(
-        gesture: AbstractGesture<any>,
+    /**
+     * Checks if the frame buffer matches the model of the gesture
+     * @param gesture The gesture
+     * @param frames A buffer of frames
+     * @returns true if the buffer matches the model, false otherwise
+     */
+    protected matchDynamicGesture(
+        gesture: AbstractGesture<'dynamic'>,
         frames: Frame[]
-    ): boolean;
+    ): boolean {
+        if (frames.length < 3) return false;
+
+        // Gets the last frame in the buffer
+        let last = frames[frames.length - 1];
+        // Gets the last frame in the model
+        const lastFrameModel = gesture.data[gesture.data.length - 1];
+
+        if (!this.checkStaticPropertiesForModel(lastFrameModel, last))
+            return false;
+
+        let lastFrameID = -2;
+        // for each frame in the model
+        for (let i = gesture.data.length - 2; i >= 0; i--) {
+            const model = gesture.data[i];
+            let found: Frame | undefined = undefined;
+
+            //Check if we found a correpsonding frame in the real frames
+            while (!found && -lastFrameID < frames.length) {
+                const frame = frames[frames.length + lastFrameID];
+                const duration = last.timestamp - frame.timestamp;
+                if (
+                    model.maxDuration !== undefined &&
+                    duration > model.maxDuration
+                )
+                    return false;
+
+                if (
+                    model.minDuration !== undefined &&
+                    duration < model.minDuration
+                ) {
+                    lastFrameID--;
+                    continue;
+                }
+
+                if (this.checkStaticPropertiesForModel(model, frame)) {
+                    found = frame;
+                }
+                lastFrameID--;
+            }
+            if (found === undefined) return false;
+
+            const frameDiff = this.frameDiff(found, last);
+
+            if (
+                !this.checkDynamicPropertiesForModel(
+                    gesture.data[i + 1],
+                    frameDiff
+                )
+            ) {
+                return false;
+            }
+
+            last = found;
+        }
+
+        return true;
+    }
 
     /**
      * Extracts a list of gestures from a buffer of frames
@@ -154,4 +220,19 @@ export default abstract class AbstractGestureController<Frame> {
         if (maxZ !== undefined && z > maxZ) return false;
         return true;
     }
+
+    protected abstract frameDiff(
+        frame1: Frame,
+        frame2: Frame
+    ): AbstractFrameDiff;
+
+    protected abstract checkStaticPropertiesForModel(
+        model: AbstractModel,
+        frame: Frame
+    ): boolean;
+
+    protected abstract checkDynamicPropertiesForModel(
+        model: AbstractModel,
+        frameDiff: AbstractFrameDiff
+    ): boolean;
 }
