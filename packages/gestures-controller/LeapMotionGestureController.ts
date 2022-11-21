@@ -28,7 +28,7 @@ import { swipeLeftGesture, swipeRightGesture } from './gestures/swipe';
 import { scrollLeftGesture, scrollRightGesture } from './gestures/scroll';
 import { AbstractGestureController } from 'project-types';
 
-export default class GesturesController extends AbstractGestureController<Leap.Frame> {
+export default class LeapMotionGestureController extends AbstractGestureController<Leap.Frame> {
     protected frameRate = 4;
     protected frameStoreLength = this.frameRate * 3; // 3 seconds
     protected frameStore: Leap.Frame[] = [];

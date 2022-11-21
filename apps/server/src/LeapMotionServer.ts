@@ -1,7 +1,7 @@
 import Server from './Server';
-import GestureController from 'gestures-controller';
+import LeapMotionGestureController from 'gestures-controller';
 
-export default class GestureServer extends GestureController {
+export default class LeapMotionServer extends LeapMotionGestureController {
     constructor(server: Server) {
         super({}, [
             'thumb-position-down',

@@ -1,8 +1,41 @@
+import Server from './Server';
+import KinectGestureController from 'kinect-gestures-controller';
+
+export default class KinectServer extends KinectGestureController {
+    constructor(server: Server) {
+        super([
+            'thumb-position-down',
+            'thumb-position-up',
+            'screen-sharing',
+            'swipe-left',
+            'swipe-right',
+            'scroll-right',
+            'scroll-left',
+            'one-extended-fingers',
+            'two-extended-fingers',
+            'three-extended-fingers',
+            'four-extended-fingers',
+            'five-extended-fingers',
+            'six-extended-fingers',
+            'seven-extended-fingers',
+            'eight-extended-fingers',
+            'nine-extended-fingers',
+            'ten-extended-fingers',
+        ]);
+        this.addEventListener('gesture', (g) => {
+            console.log('received gesture', g);
+            server.sendGesture(g);
+        });
+    }
+}
+
+/*
+
+@@ -1,251 +1,30 @@
 import Kinect2 from 'kinect2';
 import Server from './Server';
 import * as fs from 'fs';
 
-/*
 #ifndef Kinect2_Structs_h
 #define Kinect2_Structs_h
 
@@ -63,7 +96,7 @@ typedef struct _JSBodyFrame
 } JSBodyFrame;
 
 #endif
-*/
+
 
 type Joint = {
     depthX: number;
@@ -114,6 +147,33 @@ export default class KinectServer {
         this.rightArmDiffStart = [];
         this.leftArmDiffEnd = [];
         this.rightArmDiffEnd = [];
+import KinectGestureController from 'kinect-gestures-controller';
+
+export default class GestureServer extends KinectGestureController {
+    constructor(server: Server) {
+        super([
+            'thumb-position-down',
+            'thumb-position-up',
+            'screen-sharing',
+            'swipe-left',
+            'swipe-right',
+            'scroll-right',
+            'scroll-left',
+            'one-extended-fingers',
+            'two-extended-fingers',
+            'three-extended-fingers',
+            'four-extended-fingers',
+            'five-extended-fingers',
+            'six-extended-fingers',
+            'seven-extended-fingers',
+            'eight-extended-fingers',
+            'nine-extended-fingers',
+            'ten-extended-fingers',
+        ]);
+        this.addEventListener('gesture', (g) => {
+            console.log('received gesture', g);
+            server.sendGesture(g);
+        });
     }
 
     startKinect = () => {
@@ -249,3 +309,4 @@ export default class KinectServer {
         }
     };
 }
+ */

@@ -7,7 +7,7 @@ import { Server as SocketIOServer } from 'socket.io';
 import KinectServer from './KinectServer';
 import { PeerServer } from 'peer';
 import cors from 'cors';
-import GestureServer from './GestureServer';
+import LeapMotionServer from './LeapMotionServer';
 import { Gesture } from 'gestures-controller';
 import { AbstractGesture } from 'project-types';
 
@@ -17,25 +17,24 @@ export default class Server {
     private handle: RequestHandler;
     private port: number;
     private io: SocketIOServer;
-    private kinect: Kinect2;
     private httpServer: HTTPServer;
     private expressServer: express.Express;
     private kinectServer: KinectServer;
-    private gestureServer: GestureServer;
+    private leapMotionServer: LeapMotionServer;
     private currentView: string = 'home';
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
         this.handle = this.nextServer.getRequestHandler();
         this.port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
-        this.kinect = new Kinect2();
+
         this.expressServer = express();
         this.expressServer.use(cors({ origin: '*' }));
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
-        this.kinectServer = new KinectServer(this.kinect, this);
+        this.kinectServer = new KinectServer(this);
         PeerServer({ port: 3002, path: '/' });
-        this.gestureServer = new GestureServer(this);
+        this.leapMotionServer = new LeapMotionServer(this);
     }
 
     /**
@@ -45,7 +44,7 @@ export default class Server {
     public async start() {
         try {
             await this.nextServer.prepare();
-            this.kinectServer.startKinect();
+
             this.expressServer.get(
                 '/connect/:id',
                 (req: Request, res: Response) => {

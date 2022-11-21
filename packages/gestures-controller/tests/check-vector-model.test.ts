@@ -1,9 +1,9 @@
 import { describe, expect, test } from '@jest/globals';
-import GestureController from '../GestureController';
+import LeapMotionGestureController from '../LeapMotionGestureController';
 describe('vector model check', () => {
     test('valid vectors', () => {
         const checkVectorModel =
-            GestureController['prototype']['checkVectorModel'];
+            LeapMotionGestureController['prototype']['checkVectorModel'];
         expect(checkVectorModel({}, [0, 0, 0])).toBe(true);
 
         expect(checkVectorModel({ minX: -1 }, [0, 0, 0])).toBe(true);
@@ -18,7 +18,7 @@ describe('vector model check', () => {
 
     test('invalid vectors', () => {
         const checkVectorModel =
-            GestureController['prototype']['checkVectorModel'];
+            LeapMotionGestureController['prototype']['checkVectorModel'];
 
         expect(checkVectorModel({ minX: -1 }, [-2, 0, 0])).toBe(false);
         expect(checkVectorModel({ maxX: 1 }, [2, 0, 0])).toBe(false);

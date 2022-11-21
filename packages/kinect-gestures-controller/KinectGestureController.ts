@@ -7,16 +7,27 @@ export default class KinectGestureController extends AbstractGestureController<F
     protected frameRate = 4;
     protected frameStoreLength = this.frameRate * 3; // 3 seconds
     protected frameStore: Frame[] = [];
-    protected kinectController: Kinect2;
+
     protected dynamicGestures: Gesture<'dynamic'>[] = [];
     protected staticGestures: Gesture<'static'>[] = [];
-
-    constructor() {
+    protected kinectController: Kinect2;
+    constructor(allowedGestures: string[] = []) {
         super();
         this.kinectController = new Kinect2();
         this.addEventListener('frame', (f) => {});
         if (this.kinectController.open()) {
             this.kinectController.openBodyReader();
+            if (allowedGestures.length !== 0) {
+                // Filters the static gestures to keep only the allowed ones
+                this.staticGestures = this.staticGestures.filter((gesture) =>
+                    allowedGestures.includes(gesture.name)
+                );
+
+                // Filters the dynamic gestures to keep only the allowed ones
+                this.dynamicGestures = this.dynamicGestures.filter((gesture) =>
+                    allowedGestures.includes(gesture.name)
+                );
+            }
             this.initController();
         }
     }

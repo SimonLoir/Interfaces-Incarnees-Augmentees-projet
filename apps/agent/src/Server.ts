@@ -4,7 +4,7 @@ import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import IoClient from './IoClient';
-import GestureServer from './GestureServer';
+import LeapMotionServer from './LeapMotionServer';
 import { AbstractGesture } from 'project-types';
 
 export default class Server {
@@ -16,7 +16,7 @@ export default class Server {
     private httpServer: HTTPServer;
     private expressServer: express.Express;
     private ioClient: IoClient;
-    private gestureServer: GestureServer;
+    private leapMotionServer: LeapMotionServer;
 
     private constructor() {
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -26,7 +26,7 @@ export default class Server {
         this.httpServer = createServer(this.expressServer);
         this.io = new SocketIOServer(this.httpServer);
         this.ioClient = new IoClient(this);
-        this.gestureServer = new GestureServer(this);
+        this.leapMotionServer = new LeapMotionServer(this);
     }
 
     /**

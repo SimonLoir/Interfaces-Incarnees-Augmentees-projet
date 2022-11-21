@@ -1,8 +1,8 @@
 import { describe, expect, test } from '@jest/globals';
-import GestureController from '..';
+import LeapMotionGestureController from '..';
 import { thumbUpGesture } from '../gestures/thumb-position';
 
-class Controller extends GestureController {
+class Controller extends LeapMotionGestureController {
     constructor(gestures?: string[]) {
         super({}, gestures);
     }

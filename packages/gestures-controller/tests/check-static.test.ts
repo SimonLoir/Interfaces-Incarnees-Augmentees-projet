@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import GestureController from '..';
+import LeapMotionGestureController from '..';
 import {
     frameEmpty,
     frameHandWith3Fingers,
@@ -20,7 +20,7 @@ import {
     modelWithRightHand,
 } from './dataset';
 
-class Controller extends GestureController {
+class Controller extends LeapMotionGestureController {
     constructor() {
         super({});
     }
