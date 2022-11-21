@@ -3,25 +3,7 @@ import KinectGestureController from 'kinect-gestures-controller';
 
 export default class KinectServer extends KinectGestureController {
     constructor(server: Server) {
-        super([
-            'thumb-position-down',
-            'thumb-position-up',
-            'screen-sharing',
-            'swipe-left',
-            'swipe-right',
-            'scroll-right',
-            'scroll-left',
-            'one-extended-fingers',
-            'two-extended-fingers',
-            'three-extended-fingers',
-            'four-extended-fingers',
-            'five-extended-fingers',
-            'six-extended-fingers',
-            'seven-extended-fingers',
-            'eight-extended-fingers',
-            'nine-extended-fingers',
-            'ten-extended-fingers',
-        ]);
+        super([]);
         this.addEventListener('gesture', (g) => {
             console.log('received gesture', g);
             server.sendGesture(g);
