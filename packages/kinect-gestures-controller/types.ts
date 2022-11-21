@@ -44,5 +44,31 @@ export type Body = {
 };
 export interface Gesture<T extends 'static' | 'dynamic'>
     extends AbstractGesture<T> {
-    data: any[];
+    data: T extends 'static' ? Model : Model[];
 }
+
+export type Model = {
+    minDuration: number;
+    maxDuration?: number;
+    body: BodyModel;
+};
+
+export type BodyModel = {
+    arms?: JointsDiffModel[];
+    forearms?: JointsDiffModel[];
+};
+
+export type JointsDiffModel = {
+    type?: 'left' | 'right';
+    direction: DirectionVector;
+    directionDiff?: DirectionVector;
+};
+
+export type DirectionVector = {
+    minX?: number;
+    maxX?: number;
+    minY?: number;
+    maxY?: number;
+    minZ?: number;
+    maxZ?: number;
+};

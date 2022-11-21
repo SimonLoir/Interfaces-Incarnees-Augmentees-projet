@@ -62,17 +62,8 @@ export default class LeapMotionGestureController extends AbstractGestureControll
     ) {
         super();
         this.leapController = new Leap.Controller(controllerOptions);
-        if (allowedGestures.length !== 0) {
-            // Filters the static gestures to keep only the allowed ones
-            this.staticGestures = this.staticGestures.filter((gesture) =>
-                allowedGestures.includes(gesture.name)
-            );
+        this.setAllowedGestures(allowedGestures);
 
-            // Filters the dynamic gestures to keep only the allowed ones
-            this.dynamicGestures = this.dynamicGestures.filter((gesture) =>
-                allowedGestures.includes(gesture.name)
-            );
-        }
         this.initController();
     }
 

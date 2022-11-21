@@ -19,6 +19,20 @@ export default abstract class AbstractGestureController<Frame> {
     protected abstract dynamicGestures: AbstractGesture<'dynamic'>[];
     abstract initController(): void;
 
+    protected setAllowedGestures(allowedGestures: string[]) {
+        if (allowedGestures.length !== 0) {
+            // Filters the static gestures to keep only the allowed ones
+            this.staticGestures = this.staticGestures.filter((gesture) =>
+                allowedGestures.includes(gesture.name)
+            );
+
+            // Filters the dynamic gestures to keep only the allowed ones
+            this.dynamicGestures = this.dynamicGestures.filter((gesture) =>
+                allowedGestures.includes(gesture.name)
+            );
+        }
+    }
+
     protected eventListeners: EventListenerStore<Frame, AbstractGesture<any>> =
         {
             frame: [],

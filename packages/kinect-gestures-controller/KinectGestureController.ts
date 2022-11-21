@@ -4,7 +4,7 @@ import { EventListeners, EventListenerStore, Gesture } from './types';
 import { AbstractGesture, AbstractGestureController } from 'project-types';
 
 export default class KinectGestureController extends AbstractGestureController<Frame> {
-    protected frameRate = 4;
+    protected frameRate = 8;
     protected frameStoreLength = this.frameRate * 3; // 3 seconds
     protected frameStore: Frame[] = [];
 
@@ -14,20 +14,9 @@ export default class KinectGestureController extends AbstractGestureController<F
     constructor(allowedGestures: string[] = []) {
         super();
         this.kinectController = new Kinect2();
-        this.addEventListener('frame', (f) => {});
+        this.setAllowedGestures(allowedGestures);
         if (this.kinectController.open()) {
             this.kinectController.openBodyReader();
-            if (allowedGestures.length !== 0) {
-                // Filters the static gestures to keep only the allowed ones
-                this.staticGestures = this.staticGestures.filter((gesture) =>
-                    allowedGestures.includes(gesture.name)
-                );
-
-                // Filters the dynamic gestures to keep only the allowed ones
-                this.dynamicGestures = this.dynamicGestures.filter((gesture) =>
-                    allowedGestures.includes(gesture.name)
-                );
-            }
             this.initController();
         }
     }
@@ -47,7 +36,7 @@ export default class KinectGestureController extends AbstractGestureController<F
         gesture: Gesture<'static'>,
         frames: Frame[]
     ): boolean {
-        return true;
+        return false;
     }
 
     protected matchDynamicGesture(
