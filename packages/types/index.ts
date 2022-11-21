@@ -12,3 +12,5 @@ export type VectorModel = {
     minZ?: number;
     maxZ?: number;
 };
+
+export type Vector = [number, number, number];

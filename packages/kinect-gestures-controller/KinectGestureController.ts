@@ -1,7 +1,12 @@
 import Kinect2, { Joint } from 'kinect2';
 import Frame from './Frame';
 import { BodyModel, Model, Gesture } from './types';
-import { AbstractGesture, AbstractGestureController } from 'project-types';
+import {
+    AbstractGesture,
+    AbstractGestureController,
+    Vector,
+} from 'project-types';
+import FrameDiff from './diff/FrameDiff';
 
 export default class KinectGestureController extends AbstractGestureController<Frame> {
     protected frameRate = 8;
@@ -53,6 +58,51 @@ export default class KinectGestureController extends AbstractGestureController<F
         if (!this.checkStaticPropertiesForModel(lastFrameModel, last))
             return false;
 
+        let lastFrameID = -2;
+        // for each frame in the model
+        for (let i = gesture.data.length - 2; i >= 0; i--) {
+            const model = gesture.data[i];
+            let found: Frame | undefined = undefined;
+
+            //Check if we found a correpsonding frame in the real frames
+            while (!found && -lastFrameID < frames.length) {
+                const frame = frames[frames.length + lastFrameID];
+                const duration = last.timestamp - frame.timestamp;
+                if (
+                    model.maxDuration !== undefined &&
+                    duration > model.maxDuration
+                )
+                    return false;
+
+                if (
+                    model.minDuration !== undefined &&
+                    duration < model.minDuration
+                ) {
+                    lastFrameID--;
+                    continue;
+                }
+
+                if (this.checkStaticPropertiesForModel(model, frame)) {
+                    found = frame;
+                }
+                lastFrameID--;
+            }
+            if (found === undefined) return false;
+
+            const frameDiff = new FrameDiff(found, last);
+
+            if (
+                !this.checkDynamicPropertiesForModel(
+                    gesture.data[i + 1],
+                    frameDiff
+                )
+            ) {
+                return false;
+            }
+
+            last = found;
+        }
+
         return true;
     }
 
@@ -88,8 +138,8 @@ export default class KinectGestureController extends AbstractGestureController<F
         }
 
         if (forearmsInModel) {
-            for (const arm of forearmsInModel) {
-                const { type, direction } = arm;
+            for (const forearm of forearmsInModel) {
+                const { type, direction } = forearm;
                 const { body } = frame;
                 if (type === 'left') {
                     if (!body.ElbowLeft || !body.WristLeft) return false;
@@ -113,12 +163,20 @@ export default class KinectGestureController extends AbstractGestureController<F
 
         return true;
     }
+
+    protected checkDynamicPropertiesForModel(
+        model: Model,
+        frameDiff: FrameDiff
+    ): boolean {
+        return true;
+    }
+
     // Utility function to compare Vectorial[3] min/max values
 
     protected generateDirectionBetweenJoints(
         firstJoint: Joint,
         secondJoint: Joint
-    ): [number, number, number] {
+    ): Vector {
         const direction: number[] = [];
         direction.push(secondJoint.cameraX - firstJoint.cameraX);
         direction.push(secondJoint.cameraY - firstJoint.cameraY);
@@ -126,10 +184,6 @@ export default class KinectGestureController extends AbstractGestureController<F
         const distance = Math.sqrt(
             direction[0] ** 2 + direction[1] ** 2 + direction[2] ** 2
         );
-        return direction.map((value) => value / distance) as [
-            number,
-            number,
-            number
-        ];
+        return direction.map((value) => value / distance) as Vector;
     }
 }

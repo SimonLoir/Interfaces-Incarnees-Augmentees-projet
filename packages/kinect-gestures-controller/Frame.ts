@@ -36,4 +36,7 @@ export default class Frame {
     get body(): Body {
         return Object.values(this.__bodies)[0];
     }
+    get timestamp(): number {
+        return this.__timestamp;
+    }
 }
