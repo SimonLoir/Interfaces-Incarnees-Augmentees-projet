@@ -54,3 +54,7 @@ body {
 .va-middle {
     vertical-align: middle;
 }
+
+.thumb-rotate {
+    transform: rotate(90deg) scaleX(-1);
+}

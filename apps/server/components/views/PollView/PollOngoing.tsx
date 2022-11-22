@@ -2,7 +2,12 @@ import { useSocketContext } from '@utils/global';
 import { useEffect, useState, useCallback } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import {
+    BsArrowClockwise,
+    BsArrowCounterclockwise,
+    BsHandThumbsUp,
+} from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 interface PollOngoingProps {
     exitPoll: () => void;
@@ -114,7 +119,7 @@ export default function PollOngoing({
                 )}
                 <p>
                     <button onClick={() => exitPoll()} className='button'>
-                        <BsArrowCounterclockwise className='va-middle' />{' '}
+                        <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                         <span className='va-middle'>Quitter</span>
                     </button>
                     {currentQuestionIndex < questionList.length - 1 ? (
@@ -127,7 +132,7 @@ export default function PollOngoing({
                             className='button'
                         >
                             <span className='va-middle'>Suivant</span>{' '}
-                            <BsArrowClockwise className='va-middle' />
+                            <FaThumbsUp className='va-middle thumb-rotate' />
                         </button>
                     ) : (
                         <button
@@ -137,7 +142,7 @@ export default function PollOngoing({
                             className='button'
                         >
                             <span className='va-middle'>Résultats</span>{' '}
-                            <BsArrowClockwise className='va-middle' />
+                            <FaThumbsUp className='va-middle thumb-rotate' />
                         </button>
                     )}
                 </p>
