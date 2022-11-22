@@ -2,22 +2,22 @@ import { VectorModel } from 'project-types';
 import { Gesture } from '../types';
 
 const initFrameDirection: VectorModel = {
-    minX: -0.3,
-    maxX: 0.3,
-    minY: 0,
-    maxY: 0.3,
+    minX: -0.5,
+    maxX: 0.5,
+    minY: -0.3,
+    maxY: 0.2,
 };
 const finalFrameDirection: VectorModel = {
-    minX: -0.3,
-    maxX: 0.3,
-    minY: 0.5,
+    minX: -0.5,
+    maxX: 0.5,
+    minY: 0.4,
 };
 
 export const spawnGesture: Gesture<'dynamic'> = {
     name: 'spawn',
     type: 'dynamic',
     description: 'Spawns the 3D Object',
-    coolDown: 4000,
+    coolDown: 1000,
     data: [
         {
             minDuration: 0,
@@ -40,7 +40,7 @@ export const spawnGesture: Gesture<'dynamic'> = {
         },
         {
             minDuration: 0,
-            maxDuration: 1 * 1_000_000,
+            maxDuration: 1.5 * 1_000_000,
             body: {
                 arms: [
                     {

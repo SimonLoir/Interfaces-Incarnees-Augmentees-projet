@@ -2,19 +2,30 @@ import Kinect2, { Joint } from 'kinect2';
 import Frame from './Frame';
 import { BodyModel, Model, Gesture } from './types';
 import { zoomInGesture } from './gestures/zoom_in';
+import { zoomOutGesture } from './gestures/zoom_out';
+import { VanishGesture } from './gestures/vanish';
+import { spawnGesture } from './gestures/spawn';
 import {
     AbstractGesture,
     AbstractGestureController,
     Vector,
 } from 'project-types';
 import FrameDiff from './diff/FrameDiff';
+import { rotateLeftGesture, rotateRightGesture } from './gestures/rotate';
 
 export default class KinectGestureController extends AbstractGestureController<Frame> {
     protected frameRate = 8;
     protected frameStoreLength = this.frameRate * 3; // 3 seconds
     protected frameStore: Frame[] = [];
 
-    protected dynamicGestures: Gesture<'dynamic'>[] = [zoomInGesture];
+    protected dynamicGestures: Gesture<'dynamic'>[] = [
+        zoomInGesture,
+        zoomOutGesture,
+        VanishGesture,
+        spawnGesture,
+        rotateLeftGesture,
+        rotateRightGesture,
+    ];
     protected staticGestures: Gesture<'static'>[] = [];
     protected kinectController: Kinect2;
     constructor(allowedGestures: string[] = []) {
@@ -174,12 +185,8 @@ export default class KinectGestureController extends AbstractGestureController<F
                                     velocityDiff,
                                     armVelocityDiff.right
                                 )
-                            ) {
-                                console.log('x: ', armVelocityDiff.right[0]);
-                                console.log('y: ', armVelocityDiff.right[1]);
-                                console.log('z: ', armVelocityDiff.right[2]);
+                            )
                                 return false;
-                            }
                         } else if (type === 'left' && armVelocityDiff.left) {
                             if (
                                 !this.checkVectorModel(
@@ -188,7 +195,25 @@ export default class KinectGestureController extends AbstractGestureController<F
                                 )
                             )
                                 return false;
-                        } else return false;
+                        } else {
+                            if (
+                                armVelocityDiff.right &&
+                                this.checkVectorModel(
+                                    velocityDiff,
+                                    armVelocityDiff.right
+                                )
+                            )
+                                break;
+                            if (
+                                armVelocityDiff.left &&
+                                this.checkVectorModel(
+                                    velocityDiff,
+                                    armVelocityDiff.left
+                                )
+                            )
+                                break;
+                            return false;
+                        }
                     }
                 }
             }
@@ -216,7 +241,25 @@ export default class KinectGestureController extends AbstractGestureController<F
                                 )
                             )
                                 return false;
-                        } else return false;
+                        } else {
+                            if (
+                                forearmVelocityDiff.right &&
+                                this.checkVectorModel(
+                                    velocityDiff,
+                                    forearmVelocityDiff.right
+                                )
+                            )
+                                break;
+                            if (
+                                forearmVelocityDiff.left &&
+                                this.checkVectorModel(
+                                    velocityDiff,
+                                    forearmVelocityDiff.left
+                                )
+                            )
+                                break;
+                            return false;
+                        }
                     }
                 }
             }
