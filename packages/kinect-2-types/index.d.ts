@@ -27,8 +27,10 @@ declare module 'kinect2' {
         tracked: boolean;
         joints: Joint[];
         trackingId: number;
-        HandLeftState?: number;
-        HandRightState?: number;
+        // 0: not tracked | 1: infered | 2: open hand | 3: closed hand | 4: some fingers up
+        leftHandState: number;
+        // 0: not tracked | 1: infered | 2: open hand | 3: closed hand | 4: some fingers up
+        rightHandState: number;
     };
 
     export type BodyFrame = {

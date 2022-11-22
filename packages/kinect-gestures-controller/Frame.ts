@@ -19,7 +19,8 @@ export default class Frame {
                     newBody[jointType] = joint;
                 }
             }
-
+            newBody.leftHandState = body.leftHandState;
+            newBody.rightHandState = body.rightHandState;
             this.__bodies[body.trackingId] = newBody;
         });
     }

@@ -31,7 +31,6 @@ export default class KinectGestureController extends AbstractGestureController<F
     */
     public initController() {
         this.kinectController.on('bodyFrame', (bodyFrame) => {
-            console.log(bodyFrame.bodies[0].HandLeftState);
             const frame = new Frame(bodyFrame);
 
             // Ensures a nearly steady frame rate
@@ -52,7 +51,13 @@ export default class KinectGestureController extends AbstractGestureController<F
         frame: Frame
     ): boolean {
         const { body: bodyModel } = model;
-        const { arms: armsInModel, forearms: forearmsInModel } = bodyModel;
+        const {
+            arms: armsInModel,
+            forearms: forearmsInModel,
+            leftHandState: leftHandInModel,
+            leftHandState: rightHandInModel,
+            allowOnlyOneSide,
+        } = bodyModel;
 
         if (armsInModel) {
             for (const arm of armsInModel) {
@@ -75,6 +80,27 @@ export default class KinectGestureController extends AbstractGestureController<F
                     );
                     if (!this.checkVectorModel(direction, directionVector))
                         return false;
+                } else {
+                    if (body.ShoulderLeft && body.ElbowLeft) {
+                        const directionVector =
+                            this.generateDirectionBetweenJoints(
+                                body.ShoulderLeft,
+                                body.ElbowLeft
+                            );
+                        if (this.checkVectorModel(direction, directionVector))
+                            break;
+                    }
+                    if (body.ShoulderRight && body.ElbowRight) {
+                        const directionVector =
+                            this.generateDirectionBetweenJoints(
+                                body.ShoulderRight,
+                                body.ElbowRight
+                            );
+                        if (this.checkVectorModel(direction, directionVector))
+                            break;
+                    }
+
+                    return false;
                 }
             }
         }
@@ -99,6 +125,27 @@ export default class KinectGestureController extends AbstractGestureController<F
                     );
                     if (!this.checkVectorModel(direction, directionVector))
                         return false;
+                } else {
+                    if (body.ElbowLeft && body.WristLeft) {
+                        const directionVector =
+                            this.generateDirectionBetweenJoints(
+                                body.ElbowLeft,
+                                body.WristLeft
+                            );
+                        if (this.checkVectorModel(direction, directionVector))
+                            break;
+                    }
+                    if (body.ElbowRight && body.WristRight) {
+                        const directionVector =
+                            this.generateDirectionBetweenJoints(
+                                body.ElbowRight,
+                                body.WristRight
+                            );
+                        if (this.checkVectorModel(direction, directionVector))
+                            break;
+                    }
+
+                    return false;
                 }
             }
         }

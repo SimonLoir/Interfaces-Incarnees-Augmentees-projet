@@ -31,8 +31,13 @@ export const joints = [
     'ThumbRight',
 ] as const;
 
-export type Body = {
+export type BodyJoints = {
     [key in typeof joints[number]]?: Joint;
+};
+
+export type Body = BodyJoints & {
+    leftHandState: number;
+    rightHandState: number;
 };
 export interface Gesture<T extends 'static' | 'dynamic'>
     extends AbstractGesture<T> {
@@ -44,8 +49,11 @@ export type Model = AbstractModel & {
 };
 
 export type BodyModel = {
+    leftHandState?: number;
+    rightHandState?: number;
     arms?: JointsDiffModel[];
     forearms?: JointsDiffModel[];
+    allowOnlyOneSide?: boolean;
 };
 
 export type JointsDiffModel = {
