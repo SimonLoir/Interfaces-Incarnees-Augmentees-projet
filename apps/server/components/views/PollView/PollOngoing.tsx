@@ -22,9 +22,14 @@ export default function PollOngoing({
 
     const onClickQuit = useCallback(() => {
         setCurrentQuestionIndex(0);
-        socket.emit('pollEvent', 'end');
         showResults();
-    }, [socket, showResults]);
+    }, [showResults]);
+
+    useEffect(() => {
+        return () => {
+            socket.emit('pollEvent', 'end');
+        };
+    }, []);
 
     useEffect(() => {
         socket.emit('pollQuestion', [
