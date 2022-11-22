@@ -6,6 +6,8 @@ export default class LeapMotionServer extends LeapMotionGestureController {
         super({}, [
             'thumb-position-down',
             'thumb-position-up',
+            'thumb-position-left',
+            'thumb-position-right',
             'screen-sharing',
             'swipe-left',
             'swipe-right',

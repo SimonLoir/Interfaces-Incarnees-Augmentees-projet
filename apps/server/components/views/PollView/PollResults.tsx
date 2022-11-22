@@ -1,3 +1,5 @@
+import { useSocketContext } from '@utils/global';
+import { useEffect } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
 
@@ -9,6 +11,14 @@ export default function PollResults({
     questionList,
     exitPoll,
 }: PollResultsProps) {
+    const socket = useSocketContext();
+
+    useEffect(() => {
+        socket.on('thumbs_left_gesture', () => {
+            exitPoll();
+        });
+    }, [socket, exitPoll]);
+
     return (
         <div className='center'>
             <div style={{ textAlign: 'center' }}>

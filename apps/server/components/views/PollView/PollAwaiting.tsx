@@ -1,3 +1,4 @@
+import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
 interface PollAwaitingProps {
     startPoll: () => void;
@@ -9,9 +10,25 @@ export default function PollAwaiting({
     editQuestions,
     clearAnswers,
 }: PollAwaitingProps) {
+    const socket = useSocketContext();
+
     useEffect(() => {
         clearAnswers();
     }, [clearAnswers]);
+
+    useEffect(() => {
+        socket.on('thumbs_left_gesture', () => {
+            editQuestions();
+        });
+        socket.on('thumbs_right_gesture', () => {
+            startPoll();
+        });
+        return () => {
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_right_gesture');
+        };
+    }, [socket]);
+
     return (
         <div className='center'>
             <div style={{ textAlign: 'center' }}>

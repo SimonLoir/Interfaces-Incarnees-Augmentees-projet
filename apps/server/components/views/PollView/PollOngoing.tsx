@@ -1,5 +1,5 @@
 import { useSocketContext } from '@utils/global';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
 
@@ -19,6 +19,12 @@ export default function PollOngoing({
     const socket = useSocketContext();
     const [newPoll, setNewPoll] = useState<boolean>(true);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+    const onClickQuit = useCallback(() => {
+        setCurrentQuestionIndex(0);
+        socket.emit('pollEvent', 'end');
+        showResults();
+    }, [socket, showResults]);
 
     useEffect(() => {
         socket.emit('pollQuestion', [
@@ -53,12 +59,28 @@ export default function PollOngoing({
                 })
             );
         });
+        socket.on('thumbs_left_gesture', () => {
+            exitPoll();
+        });
+        socket.on('thumbs_right_gesture', () => {
+            if (currentQuestionIndex >= questionList.length - 1) onClickQuit();
+            else setCurrentQuestionIndex(currentQuestionIndex + 1);
+        });
 
         return () => {
             socket.off('approval');
             socket.off('refusal');
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_right_gesture');
         };
-    }, [socket, questionList, setQuestionList]);
+    }, [
+        socket,
+        questionList,
+        setQuestionList,
+        currentQuestionIndex,
+        exitPoll,
+        onClickQuit,
+    ]);
 
     const currentQuestion = questionList[currentQuestionIndex];
     const total = currentQuestion.counter[0] + currentQuestion.counter[1];
@@ -102,9 +124,7 @@ export default function PollOngoing({
                     ) : (
                         <button
                             onClick={() => {
-                                setCurrentQuestionIndex(0);
-                                socket.emit('pollEvent', 'end');
-                                showResults();
+                                onClickQuit();
                             }}
                             className='button'
                         >

@@ -202,6 +202,12 @@ export default class Server {
             case 'thumb-position-down':
                 this.io.emit('thumbs_down_gesture');
                 break;
+            case 'thumb-position-left':
+                this.io.emit('thumbs_left_gesture');
+                break;
+            case 'thumb-position-right':
+                this.io.emit('thumbs_right_gesture');
+                break;
             case 'swipe-left':
                 this.io.emit('swipe_left_gesture');
                 break;

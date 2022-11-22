@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Question } from '.';
 import style from '@style/PollCreation.module.scss';
+import { useSocketContext } from '@utils/global';
 
 interface PollCreationProps {
     startPoll: () => void;
@@ -16,6 +17,29 @@ export default function PollCreation({
 }: PollCreationProps) {
     const [showAddQuestion, setShowModal] = useState(false);
     const [question, setQuestion] = useState('');
+    const socket = useSocketContext();
+
+    useEffect(() => {
+        socket.on('thumbs_up_gesture', () => {
+            setShowModal(true);
+        });
+        socket.on('thumbs_down_gesture', () => {
+            setShowModal(false);
+        });
+        socket.on('thumbs_left_gesture', () => {
+            clearQuestions();
+        });
+        socket.on('thumbs_right_gesture', () => {
+            startPoll();
+        });
+
+        return () => {
+            socket.off('thumbs_up_gesture');
+            socket.off('thumbs_down_gesture');
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_right_gesture');
+        };
+    }, [socket]);
 
     if (showAddQuestion)
         return (
