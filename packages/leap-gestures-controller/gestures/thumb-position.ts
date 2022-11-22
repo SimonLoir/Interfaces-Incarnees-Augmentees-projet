@@ -146,26 +146,26 @@ export const thumbRightGesture: Gesture<'static'> =
         'right',
 
         {
-            minX: -0.3,
-            maxX: 0.3,
+            minX: -0.4,
+            maxX: 0.4,
             minY: 0.8,
         },
         {
-            minX: -0.3,
-            maxX: 0.3,
+            minX: -0.4,
+            maxX: 0.4,
             maxY: -0.8,
         }
     );
 export const thumbLeftGesture: Gesture<'static'> = thumbRightLeftGestureBuilder(
     'left',
     {
-        minX: -0.3,
-        maxX: 0.3,
+        minX: -0.4,
+        maxX: 0.4,
         maxY: -0.8,
     },
     {
-        minX: -0.3,
-        maxX: 0.3,
+        minX: -0.4,
+        maxX: 0.4,
         minY: 0.8,
     }
 );

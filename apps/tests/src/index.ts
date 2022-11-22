@@ -6,7 +6,11 @@ class Controller extends GestureController {
     constructor() {
         super({}, []);
 
-        this.addEventListener('frame', (f) => {});
+        this.addEventListener('frame', (f) => {
+            f.hands.forEach((h) => {
+                console.log(h.palmNormal);
+            });
+        });
         this.addEventListener('gesture', (g) => console.log(g));
     }
 }
