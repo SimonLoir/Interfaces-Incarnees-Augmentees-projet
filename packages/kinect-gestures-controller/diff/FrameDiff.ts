@@ -6,19 +6,19 @@ import { FrameDiffExport } from '../types';
 
 export default class FrameDiff extends AbstractFrameDiff {
     protected timeDiff: number;
-    protected armVelocityDiff: {
+    protected armsVelocityDiff: {
         left: Vector | undefined;
         right: Vector | undefined;
     } = { left: undefined, right: undefined };
-    protected armPositionDiff: {
+    protected armsPositionDiff: {
         left: Vector | undefined;
         right: Vector | undefined;
     } = { left: undefined, right: undefined };
-    protected forearmVelocityDiff: {
+    protected forearmsVelocityDiff: {
         left: Vector | undefined;
         right: Vector | undefined;
     } = { left: undefined, right: undefined };
-    protected forearmPositionDiff: {
+    protected forearmsPositionDiff: {
         left: Vector | undefined;
         right: Vector | undefined;
     } = { left: undefined, right: undefined };
@@ -53,16 +53,16 @@ export default class FrameDiff extends AbstractFrameDiff {
             velocityDiff: leftVelocityDiff,
         } = this.vectorDiff(leftArmMidFrame1, leftArmMidFrame2);
 
-        this.armPositionDiff.left = leftPositionDiff;
-        this.armVelocityDiff.left = leftVelocityDiff;
+        this.armsPositionDiff.left = leftPositionDiff;
+        this.armsVelocityDiff.left = leftVelocityDiff;
 
         const {
             positionDiff: rightPositionDiff,
             velocityDiff: rightVelocityDiff,
         } = this.vectorDiff(rightArmMidFrame1, rightArmMidFrame2);
 
-        this.armPositionDiff.right = rightPositionDiff;
-        this.armVelocityDiff.right = rightVelocityDiff;
+        this.armsPositionDiff.right = rightPositionDiff;
+        this.armsVelocityDiff.right = rightVelocityDiff;
     }
 
     protected forearmsDiff() {
@@ -88,16 +88,16 @@ export default class FrameDiff extends AbstractFrameDiff {
             velocityDiff: leftVelocityDiff,
         } = this.vectorDiff(leftForearmMidFrame1, leftForearmMidFrame2);
 
-        this.forearmPositionDiff.left = leftPositionDiff;
-        this.forearmVelocityDiff.left = leftVelocityDiff;
+        this.forearmsPositionDiff.left = leftPositionDiff;
+        this.forearmsVelocityDiff.left = leftVelocityDiff;
 
         const {
             positionDiff: rightPositionDiff,
             velocityDiff: rightVelocityDiff,
         } = this.vectorDiff(rightForearmMidFrame1, rightForearmMidFrame2);
 
-        this.forearmPositionDiff.right = rightPositionDiff;
-        this.forearmVelocityDiff.right = rightVelocityDiff;
+        this.forearmsPositionDiff.right = rightPositionDiff;
+        this.forearmsVelocityDiff.right = rightVelocityDiff;
     }
 
     protected getMidBone(joint1: Joint, joint2: Joint): Vector {
@@ -129,10 +129,10 @@ export default class FrameDiff extends AbstractFrameDiff {
         return {
             frame1: this.frame1.id,
             frame2: this.frame2.id,
-            armVelocityDiff: this.armVelocityDiff,
-            armPositionDiff: this.armPositionDiff,
-            forearmVelocityDiff: this.forearmVelocityDiff,
-            forearmPositionDiff: this.forearmPositionDiff,
+            armVelocityDiff: this.armsVelocityDiff,
+            armsPositionDiff: this.armsPositionDiff,
+            forearmVelocityDiff: this.forearmsVelocityDiff,
+            forearmsPositionDiff: this.forearmsPositionDiff,
             timeDiff: this.timeDiff,
         };
     }

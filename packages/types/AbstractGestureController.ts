@@ -135,7 +135,7 @@ export default abstract class AbstractGestureController<
             const model = gesture.data[i];
             let found: Frame | undefined = undefined;
 
-            //Check if we found a correpsonding frame in the real frames
+            //Check if we found a corresponding frame in the real frames
             while (!found && -lastFrameID < frames.length) {
                 const frame = frames[frames.length + lastFrameID];
                 const duration = last.timestamp - frame.timestamp;
@@ -160,7 +160,7 @@ export default abstract class AbstractGestureController<
             }
             if (found === undefined) return false;
 
-            const frameDiff = this.frameDiff(found, last);
+            const frameDiff = this.frameDiff(found, last, gesture);
 
             if (
                 !this.checkDynamicPropertiesForModel(
@@ -223,7 +223,8 @@ export default abstract class AbstractGestureController<
 
     protected abstract frameDiff(
         frame1: Frame,
-        frame2: Frame
+        frame2: Frame,
+        gesture?: AbstractGesture<any>
     ): AbstractFrameDiff;
 
     protected abstract checkStaticPropertiesForModel(

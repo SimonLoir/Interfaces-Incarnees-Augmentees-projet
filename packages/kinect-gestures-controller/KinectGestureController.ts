@@ -283,7 +283,9 @@ export default class KinectGestureController extends AbstractGestureController<F
         return direction.map((value) => value / distance) as Vector;
     }
 
-    public frameDiff(from: Frame, to: Frame) {
-        return new FrameDiff(from, to);
+    public frameDiff(from: Frame, to: Frame, gesture: Gesture<any>): FrameDiff {
+        const frameDiff = new FrameDiff(from, to);
+        gesture.found = { frameDiff: frameDiff.export() };
+        return frameDiff;
     }
 }

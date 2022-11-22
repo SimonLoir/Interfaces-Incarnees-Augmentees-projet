@@ -42,6 +42,9 @@ export type Body = BodyJoints & {
 export interface Gesture<T extends 'static' | 'dynamic'>
     extends AbstractGesture<T> {
     data: T extends 'static' ? Model : Model[];
+    found?: {
+        frameDiff: FrameDiffExport;
+    };
 }
 
 export type Model = AbstractModel & {
@@ -69,7 +72,7 @@ export type FrameDiffExport = {
         left: Vector | undefined;
         right: Vector | undefined;
     };
-    armPositionDiff: {
+    armsPositionDiff: {
         left: Vector | undefined;
         right: Vector | undefined;
     };
@@ -79,7 +82,7 @@ export type FrameDiffExport = {
         right: Vector | undefined;
     };
 
-    forearmPositionDiff: {
+    forearmsPositionDiff: {
         left: Vector | undefined;
         right: Vector | undefined;
     };
