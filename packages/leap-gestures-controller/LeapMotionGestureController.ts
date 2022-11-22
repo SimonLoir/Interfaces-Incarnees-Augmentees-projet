@@ -22,7 +22,12 @@ import {
 } from './gestures/hand-counting';
 import FrameDiff from './diff/FrameDiff';
 import { screenSharingGesture } from './gestures/screen-sharing';
-import { thumbDownGesture, thumbUpGesture } from './gestures/thumb-position';
+import {
+    thumbDownGesture,
+    thumbUpGesture,
+    thumbLeftGesture,
+    thumbRightGesture,
+} from './gestures/thumb-position';
 import { swipeLeftGesture, swipeRightGesture } from './gestures/swipe';
 import { scrollLeftGesture, scrollRightGesture } from './gestures/scroll';
 import { AbstractGestureController } from 'project-types';
@@ -44,6 +49,8 @@ export default class LeapMotionGestureController extends AbstractGestureControll
         tenFingersUpGesture,
         thumbDownGesture,
         thumbUpGesture,
+        thumbLeftGesture,
+        thumbRightGesture,
     ];
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [
