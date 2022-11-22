@@ -1,5 +1,6 @@
 import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
+import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
 interface PollAwaitingProps {
     startPoll: () => void;
     editQuestions: () => void;
@@ -27,7 +28,7 @@ export default function PollAwaiting({
             socket.off('thumbs_left_gesture');
             socket.off('thumbs_right_gesture');
         };
-    }, [socket]);
+    }, [socket, editQuestions, startPoll]);
 
     return (
         <div className='center'>
@@ -35,10 +36,12 @@ export default function PollAwaiting({
                 <span className='loader'></span>
                 <p>En attente des participants...</p>
                 <button onClick={editQuestions} className='button'>
-                    Edition des questions
+                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <span className='va-middle'>Edition des questions</span>
                 </button>
                 <button onClick={startPoll} className='button'>
-                    Lancer le sondage
+                    <span className='va-middle'>Lancer le sondage</span>{' '}
+                    <BsArrowClockwise className='va-middle' />
                 </button>
             </div>
         </div>

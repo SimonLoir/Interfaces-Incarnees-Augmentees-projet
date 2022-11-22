@@ -1,6 +1,7 @@
 import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
 import { QCMStates } from '.';
+import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
 
 type QCMAwaitingUsersProps = {
     goTo: (state: QCMStates) => void;
@@ -29,7 +30,7 @@ export default function QCMAwaitingUsers({
             socket.off('thumbs_left_gesture');
             socket.off('thumbs_right_gesture');
         };
-    }, [socket]);
+    }, [socket, goTo]);
 
     return (
         <div className='center'>
@@ -40,10 +41,12 @@ export default function QCMAwaitingUsers({
                     onClick={() => goTo('list_questions')}
                     className='button'
                 >
-                    Edition des questions
+                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <span className='va-middle'> Edition des questions</span>
                 </button>
                 <button onClick={() => goTo('ongoing')} className='button'>
-                    Lancer le questionnaire
+                    <span className='va-middle'>Lancer le questionnaire</span>{' '}
+                    <BsArrowClockwise className='va-middle' />
                 </button>
             </div>
         </div>

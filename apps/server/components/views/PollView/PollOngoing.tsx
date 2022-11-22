@@ -2,6 +2,7 @@ import { useSocketContext } from '@utils/global';
 import { useEffect, useState, useCallback } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
+import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
 
 interface PollOngoingProps {
     exitPoll: () => void;
@@ -113,7 +114,8 @@ export default function PollOngoing({
                 )}
                 <p>
                     <button onClick={() => exitPoll()} className='button'>
-                        Quitter
+                        <BsArrowCounterclockwise className='va-middle' />{' '}
+                        <span className='va-middle'>Quitter</span>
                     </button>
                     {currentQuestionIndex < questionList.length - 1 ? (
                         <button
@@ -124,7 +126,8 @@ export default function PollOngoing({
                             }}
                             className='button'
                         >
-                            Suivant
+                            <span className='va-middle'>Suivant</span>{' '}
+                            <BsArrowClockwise className='va-middle' />
                         </button>
                     ) : (
                         <button
@@ -133,7 +136,8 @@ export default function PollOngoing({
                             }}
                             className='button'
                         >
-                            Résultats
+                            <span className='va-middle'>Résultats</span>{' '}
+                            <BsArrowClockwise className='va-middle' />
                         </button>
                     )}
                 </p>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Question } from '.';
 import style from '@style/PollCreation.module.scss';
 import { useSocketContext } from '@utils/global';
+import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
 
 interface PollCreationProps {
     startPoll: () => void;
@@ -39,7 +40,7 @@ export default function PollCreation({
             socket.off('thumbs_left_gesture');
             socket.off('thumbs_right_gesture');
         };
-    }, [socket]);
+    }, [socket, clearQuestions, startPoll]);
 
     if (showAddQuestion)
         return (
@@ -69,7 +70,7 @@ export default function PollCreation({
                             className='button'
                             onClick={() => setShowModal(false)}
                         >
-                            Annuler
+                            Annuler 👎
                         </button>
                     </p>
                 </div>
@@ -78,7 +79,7 @@ export default function PollCreation({
 
     const addQuestionButton = (
         <button className='button' onClick={() => setShowModal(true)}>
-            Ajouter une question
+            Ajouter une question 👍
         </button>
     );
 
@@ -129,13 +130,19 @@ export default function PollCreation({
                                     }}
                                     className='button'
                                 >
-                                    Réinitialiser
+                                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                                    <span className='va-middle'>
+                                        Réinitialiser
+                                    </span>
                                 </button>
 
                                 {addQuestionButton}
 
                                 <button onClick={startPoll} className='button'>
-                                    Lancer le sondage
+                                    <span className='va-middle'>
+                                        Lancer le sondage
+                                    </span>{' '}
+                                    <BsArrowClockwise className='va-middle' />
                                 </button>
                             </>
                         )}

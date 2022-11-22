@@ -2,6 +2,7 @@ import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
+import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
 
 type PollResultsProps = {
     questionList: Question[];
@@ -53,7 +54,8 @@ export default function PollResults({
                     ))}
                 </div>
                 <button onClick={exitPoll} className='button'>
-                    Quitter
+                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <span className='va-middle'>Quitter</span>
                 </button>
             </div>
         </div>

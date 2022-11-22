@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { QCMQuestion, QCMStates } from '.';
 import style from '@style/QCMCreation.module.scss';
 import { useSocketContext } from '@utils/global';
+import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
 
 type AddQuestionProps = {
     goTo: (state: QCMStates) => void;
@@ -90,16 +91,18 @@ export default function QCMAddQuestion({
                     className={'button'}
                     onClick={() => setOptions((o) => [...o, ''])}
                 >
-                    Ajouter un choix
+                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <span className='va-middle'>Ajouter un choix</span>
                 </button>
                 <button
                     onClick={() => goTo('list_questions')}
                     className={'button'}
                 >
-                    Annuler
+                    Annuler 👎
                 </button>
                 <button className={'button'} onClick={addQuestionToList}>
-                    Ajouter la question
+                    <span className='va-middle'>Ajouter la question</span>{' '}
+                    <BsArrowClockwise className='va-middle' />
                 </button>
             </div>
         </div>
