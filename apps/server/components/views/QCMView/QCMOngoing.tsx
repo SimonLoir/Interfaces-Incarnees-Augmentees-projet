@@ -1,5 +1,5 @@
 import { useSocketContext } from '@utils/global';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { QCMQuestion, QCMStates } from '.';
 import QCMAnswer from './QCMAnswer';
 type QCMOngoingProps = {
@@ -19,12 +19,19 @@ export default function QCMOngoing({
         () => questionList[currentQuestionIndex],
         [currentQuestionIndex, questionList]
     );
+    const next = useCallback(() => {
+        if (currentQuestionIndex + 1 < questionList.length) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            goTo('list_questions');
+        }
+    }, [currentQuestionIndex, goTo, questionList.length]);
 
     useEffect(() => {
         return () => {
             socket.emit('QCMEvent', 'end');
         };
-    }, []);
+    }, [socket]);
 
     useEffect(() => {
         socket.emit('QCMQuestion', [
@@ -55,18 +62,24 @@ export default function QCMOngoing({
         };
     }, [socket, currentQuestionIndex, questionList, setQuestionList]);
 
+    useEffect(() => {
+        socket.on('thumbs_left_gesture', () => {
+            goTo('list_questions');
+        });
+        socket.on('thumbs_right_gesture', () => {
+            next();
+        });
+
+        return () => {
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_right_gesture');
+        };
+    }, [socket, goTo, next]);
+
     const max = currentQuestion.answers.reduce(
         (x, y) => (y.counter > x ? y.counter : x),
         0
     );
-
-    const next = () => {
-        if (currentQuestionIndex + 1 < questionList.length) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
-            goTo('list_questions');
-        }
-    };
 
     return (
         <div style={{ textAlign: 'center' }}>

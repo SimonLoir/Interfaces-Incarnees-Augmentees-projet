@@ -17,6 +17,10 @@ export default function PollResults({
         socket.on('thumbs_left_gesture', () => {
             exitPoll();
         });
+
+        return () => {
+            socket.off('thumbs_left_gesture');
+        };
     }, [socket, exitPoll]);
 
     return (

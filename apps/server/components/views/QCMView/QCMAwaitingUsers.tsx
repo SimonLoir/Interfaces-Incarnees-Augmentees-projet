@@ -1,3 +1,4 @@
+import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
 import { QCMStates } from '.';
 
@@ -13,6 +14,23 @@ export default function QCMAwaitingUsers({
         resetAnswers();
     }, [resetAnswers]);
 
+    const socket = useSocketContext();
+
+    useEffect(() => {
+        socket.on('thumbs_left_gesture', () => {
+            goTo('list_questions');
+        });
+
+        socket.on('thumbs_right_gesture', () => {
+            goTo('ongoing');
+        });
+
+        return () => {
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_right_gesture');
+        };
+    }, [socket]);
+
     return (
         <div className='center'>
             <div style={{ textAlign: 'center' }}>
@@ -25,7 +43,7 @@ export default function QCMAwaitingUsers({
                     Edition des questions
                 </button>
                 <button onClick={() => goTo('ongoing')} className='button'>
-                    Lancer le sondage
+                    Lancer le questionnaire
                 </button>
             </div>
         </div>

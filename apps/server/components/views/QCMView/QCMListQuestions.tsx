@@ -4,7 +4,8 @@ import {
     BsFillArrowLeftCircleFill,
     BsFillArrowRightCircleFill,
 } from 'react-icons/bs';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSocketContext } from '@utils/global';
 
 type ListQuestionsProps = {
     goTo: (state: QCMStates) => void;
@@ -16,12 +17,32 @@ export default function QCMListQuestions({
     questionList,
     clearQcm,
 }: ListQuestionsProps) {
+    const socket = useSocketContext();
     const [questionIndex, setQuestionIndex] = useState(0);
     const addQuestionButton = (
         <button onClick={() => goTo('edit')} className={'button'}>
             Ajouter une question
         </button>
     );
+
+    useEffect(() => {
+        socket.on('thumbs_left_gesture', () => {
+            clearQcm();
+        });
+        socket.on('thumbs_right_gesture', () => {
+            goTo('awaiting');
+        });
+        socket.on('thumbs_up_gesture', () => {
+            goTo('edit');
+        });
+
+        return () => {
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_right_gesture');
+            socket.off('thumbs_up_gesture');
+        };
+    }, [socket, clearQcm, goTo]);
+
     if (questionList.length === 0)
         return (
             <div style={{ textAlign: 'center' }}>
@@ -49,6 +70,7 @@ export default function QCMListQuestions({
                 <BsFillArrowRightCircleFill />
             </span>
         ) : null;
+
     return (
         <div style={{ textAlign: 'center' }}>
             <div className={style.question}>

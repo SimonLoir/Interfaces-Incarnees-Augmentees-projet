@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { QCMQuestion, QCMStates } from '.';
 import style from '@style/QCMCreation.module.scss';
+import { useSocketContext } from '@utils/global';
 
 type AddQuestionProps = {
     goTo: (state: QCMStates) => void;
@@ -12,12 +13,13 @@ export default function QCMAddQuestion({
 }: AddQuestionProps) {
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState<string[]>(['', '']);
+    const socket = useSocketContext();
 
     const removeOption = (index: number) => {
         setOptions(options.filter((_, i) => i !== index));
     };
 
-    const addQuestionToList = () => {
+    const addQuestionToList = useCallback(() => {
         const questionText = question.trim();
 
         if (questionText === '')
@@ -33,7 +35,27 @@ export default function QCMAddQuestion({
             answers: opt.map((o) => ({ answer: o, counter: 0 })),
         });
         goTo('list_questions');
-    };
+    }, [addQuestion, goTo, options, question]);
+
+    useEffect(() => {
+        socket.on('thumbs_left_gesture', () => {
+            setOptions((o) => [...o, '']);
+        });
+
+        socket.on('thumbs_down_gesture', () => {
+            goTo('list_questions');
+        });
+
+        socket.on('thumbs_right_gesture', () => {
+            addQuestionToList;
+        });
+
+        return () => {
+            socket.off('thumbs_left_gesture');
+            socket.off('thumbs_down_gesture');
+            socket.off('thumbs_right_gesture');
+        };
+    }, [socket, addQuestionToList, goTo]);
 
     return (
         <div className={style.main}>
