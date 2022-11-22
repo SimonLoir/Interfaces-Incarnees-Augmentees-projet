@@ -27,6 +27,8 @@ declare module 'kinect2' {
         tracked: boolean;
         joints: Joint[];
         trackingId: number;
+        HandLeftState?: number;
+        HandRightState?: number;
     };
 
     export type BodyFrame = {

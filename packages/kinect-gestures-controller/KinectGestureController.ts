@@ -31,6 +31,7 @@ export default class KinectGestureController extends AbstractGestureController<F
     */
     public initController() {
         this.kinectController.on('bodyFrame', (bodyFrame) => {
+            console.log(bodyFrame.bodies[0].HandLeftState);
             const frame = new Frame(bodyFrame);
 
             // Ensures a nearly steady frame rate
