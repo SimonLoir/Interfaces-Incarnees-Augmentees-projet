@@ -30,6 +30,10 @@ export default function PollView() {
         setQuestionList([]);
     }, []);
 
+    const clearAnswers = useCallback(() => {
+        setQuestionList((prev) => prev.map((q) => ({ ...q, counter: [0, 0] })));
+    }, []);
+
     if (currentState === 'creation')
         return (
             <PollCreation
@@ -45,6 +49,7 @@ export default function PollView() {
             <PollAwaiting
                 editQuestions={() => setCurrentState('creation')}
                 startPoll={() => setCurrentState('ongoing')}
+                clearAnswers={clearAnswers}
             />
         );
     if (currentState === 'ongoing')

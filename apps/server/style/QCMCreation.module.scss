@@ -1,0 +1,40 @@
+$color: rgb(175, 48, 51);
+.option {
+    position: relative;
+    margin-bottom: 25px;
+    &:nth-of-type(1) {
+        margin-top: 25px;
+    }
+}
+
+.input {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 80vw;
+    max-width: 400px;
+
+    &:focus {
+        border-color: $color;
+    }
+    padding-left: 15px;
+    padding-right: 15px;
+
+    line-height: 35px;
+    outline: none;
+    & + button {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background-color: transparent;
+        font-size: 15px;
+        cursor: pointer;
+    }
+}
+
+.main {
+    text-align: center;
+    max-height: 80vh;
+    overflow: auto;
+}

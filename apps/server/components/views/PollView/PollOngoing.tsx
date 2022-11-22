@@ -85,7 +85,9 @@ export default function PollOngoing({
                     </p>
                 )}
                 <p>
-                    <button onClick={() => exitPoll()}>Quitter</button>
+                    <button onClick={() => exitPoll()} className='button'>
+                        Quitter
+                    </button>
                     {currentQuestionIndex < questionList.length - 1 ? (
                         <button
                             onClick={() => {
@@ -93,6 +95,7 @@ export default function PollOngoing({
                                     currentQuestionIndex + 1
                                 );
                             }}
+                            className='button'
                         >
                             Suivant
                         </button>
@@ -103,6 +106,7 @@ export default function PollOngoing({
                                 socket.emit('pollEvent', 'end');
                                 showResults();
                             }}
+                            className='button'
                         >
                             Résultats
                         </button>

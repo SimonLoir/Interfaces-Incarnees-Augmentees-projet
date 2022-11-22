@@ -9,6 +9,7 @@ import HomeView from './HomeView';
 import Object3dView from './Object3dView';
 import DocumentSharingView from './DocumentSharingView';
 import PollView from './PollView';
+import QCMView from './QCMView';
 
 const views = [
     {
@@ -30,7 +31,7 @@ const views = [
     },
     { id: 'home', name: 'Accueil', component: HomeView },
     { id: 'document', name: 'Document Share', component: DocumentSharingView },
-    { id: 'qcm', name: 'QCM', component: QuizMultiChoice },
+    { id: 'qcm', name: 'QCM', component: QCMView },
     {
         id: 'student_screen_share',
         name: "Partage d'écran d'étudiants",
@@ -40,7 +41,13 @@ const views = [
 
 export default function ViewManager() {
     const socket = useSocketContext();
-    const [viewID, setVID] = useState<number | null>(null);
+    const [viewID, setVID] = useState<number | null>(() => {
+        const id = localStorage.getItem('viewID');
+        if (id) {
+            return Number(id);
+        }
+        return null;
+    });
     const setViewID = useCallback(
         (id: number) => {
             setVID(id);
@@ -66,6 +73,11 @@ export default function ViewManager() {
             socket.off('swipe_left_gesture');
         };
     }, [viewID, socket, setViewID]);
+
+    useEffect(() => {
+        if (viewID === null) return;
+        localStorage.setItem('viewID', viewID.toString());
+    }, [viewID]);
 
     if (viewID === null)
         return <>Une erreur est survenue : aucune vue n&apos;a été trouvée</>;
