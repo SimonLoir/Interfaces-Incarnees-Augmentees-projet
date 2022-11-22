@@ -1,11 +1,17 @@
+import { useEffect } from 'react';
 interface PollAwaitingProps {
     startPoll: () => void;
     editQuestions: () => void;
+    clearAnswers: () => void;
 }
 export default function PollAwaiting({
     startPoll,
     editQuestions,
+    clearAnswers,
 }: PollAwaitingProps) {
+    useEffect(() => {
+        clearAnswers();
+    }, [clearAnswers]);
     return (
         <div className='center'>
             <div style={{ textAlign: 'center' }}>

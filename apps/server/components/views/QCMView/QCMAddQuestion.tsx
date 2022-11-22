@@ -1,16 +1,40 @@
 import { useState } from 'react';
-import { QCMStates } from '.';
+import { QCMQuestion, QCMStates } from '.';
 import style from '@style/QCMCreation.module.scss';
 
 type AddQuestionProps = {
     goTo: (state: QCMStates) => void;
+    addQuestion: (question: QCMQuestion) => void;
 };
-export default function QCMAddQuestion({ goTo }: AddQuestionProps) {
+export default function QCMAddQuestion({
+    goTo,
+    addQuestion,
+}: AddQuestionProps) {
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState<string[]>(['', '']);
+
     const removeOption = (index: number) => {
         setOptions(options.filter((_, i) => i !== index));
     };
+
+    const addQuestionToList = () => {
+        const questionText = question.trim();
+
+        if (questionText === '')
+            return alert('Merci de renseigner une question');
+
+        const opt = options.filter((o) => o.trim() !== '');
+
+        if (opt.length < 2)
+            return alert('Merci de renseigner au moins 2 options');
+
+        addQuestion({
+            question: questionText,
+            answers: opt.map((o) => ({ answer: o, counter: 0 })),
+        });
+        goTo('list_questions');
+    };
+
     return (
         <div className={style.main}>
             <input
@@ -24,7 +48,7 @@ export default function QCMAddQuestion({ goTo }: AddQuestionProps) {
                 <div key={index} className={style.option}>
                     <input
                         type='text'
-                        placeholder={`Option ${index + 1}`}
+                        placeholder={`Choix ${index + 1}`}
                         value={option}
                         onChange={(e) => {
                             const newOptions = [...options];
@@ -44,7 +68,7 @@ export default function QCMAddQuestion({ goTo }: AddQuestionProps) {
                     className={'button'}
                     onClick={() => setOptions((o) => [...o, ''])}
                 >
-                    Ajouter une option
+                    Ajouter un choix
                 </button>
                 <button
                     onClick={() => goTo('list_questions')}
@@ -52,7 +76,9 @@ export default function QCMAddQuestion({ goTo }: AddQuestionProps) {
                 >
                     Annuler
                 </button>
-                <button className={'button'}>Ajouter la question</button>
+                <button className={'button'} onClick={addQuestionToList}>
+                    Ajouter la question
+                </button>
             </div>
         </div>
     );

@@ -25,10 +25,12 @@ export default function PollResults({
                             <p style={{ margin: '5px' }}>{question.question}</p>
                             <ProgressBar
                                 progress={
-                                    (question.counter[0] /
-                                        (question.counter[0] +
-                                            question.counter[1])) *
-                                        100 || 50
+                                    question.counter[0] === question.counter[1]
+                                        ? 50
+                                        : (question.counter[0] /
+                                              (question.counter[0] +
+                                                  question.counter[1])) *
+                                          100
                                 }
                                 forCount={question.counter[0]}
                                 against={question.counter[1]}

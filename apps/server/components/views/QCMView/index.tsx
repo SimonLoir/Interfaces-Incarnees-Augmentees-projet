@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import QCMAddQuestion from './QCMAddQuestion';
+import QCMAwaitingUsers from './QCMAwaitingUsers';
 import QCMListQuestions from './QCMListQuestions';
+import QCMOngoing from './QCMOngoing';
 
 export type QCMStates = 'edit' | 'list_questions' | 'awaiting' | 'ongoing';
 export type QCMQuestionOption = { counter: number; answer: string };
@@ -25,7 +27,24 @@ export default function QCMView() {
         setQuestionList([]);
     }, []);
 
-    let content = <></>;
+    const addQuestion = useCallback((question: QCMQuestion) => {
+        setQuestionList((q) => [...q, question]);
+    }, []);
+
+    const resetAnswers = useCallback(() => {
+        setQuestionList((q) => {
+            return q.map((question) => {
+                return {
+                    ...question,
+                    answers: question.answers.map((answer) => {
+                        return { ...answer, counter: 0 };
+                    }),
+                };
+            });
+        });
+    }, []);
+
+    let content: JSX.Element;
     switch (qcmState) {
         case 'list_questions':
             content = (
@@ -37,13 +56,26 @@ export default function QCMView() {
             );
             break;
         case 'edit':
-            content = <QCMAddQuestion goTo={setQcmState} />;
+            content = (
+                <QCMAddQuestion goTo={setQcmState} addQuestion={addQuestion} />
+            );
             break;
         case 'awaiting':
-            content = <div>Awaiting</div>;
+            content = (
+                <QCMAwaitingUsers
+                    goTo={setQcmState}
+                    resetAnswers={resetAnswers}
+                />
+            );
             break;
         case 'ongoing':
-            content = <div>Ongoing</div>;
+            content = (
+                <QCMOngoing
+                    questionList={questionList}
+                    setQuestionList={setQuestionList}
+                    goTo={setQcmState}
+                />
+            );
             break;
     }
     return <div className='center'>{content}</div>;

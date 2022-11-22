@@ -1,4 +1,10 @@
 import { QCMQuestion, QCMStates } from '.';
+import style from '@style/QCMQuestionList.module.scss';
+import {
+    BsFillArrowLeftCircleFill,
+    BsFillArrowRightCircleFill,
+} from 'react-icons/bs';
+import { useState } from 'react';
 
 type ListQuestionsProps = {
     goTo: (state: QCMStates) => void;
@@ -10,6 +16,7 @@ export default function QCMListQuestions({
     questionList,
     clearQcm,
 }: ListQuestionsProps) {
+    const [questionIndex, setQuestionIndex] = useState(0);
     const addQuestionButton = (
         <button onClick={() => goTo('edit')} className={'button'}>
             Ajouter une question
@@ -22,11 +29,47 @@ export default function QCMListQuestions({
                 {addQuestionButton}
             </div>
         );
+
+    const question = questionList[questionIndex];
+    const previousQuestion =
+        questionIndex > 0 ? (
+            <span
+                onClick={() => setQuestionIndex((i) => i - 1)}
+                className={style.arrow}
+            >
+                <BsFillArrowLeftCircleFill />
+            </span>
+        ) : null;
+    const nextQuestion =
+        questionIndex < questionList.length - 1 ? (
+            <span
+                onClick={() => setQuestionIndex((i) => i + 1)}
+                className={style.arrow}
+            >
+                <BsFillArrowRightCircleFill />
+            </span>
+        ) : null;
     return (
-        <div>
-            {JSON.stringify(questionList)}
-            <button onClick={clearQcm}></button>
+        <div style={{ textAlign: 'center' }}>
+            <div className={style.question}>
+                {previousQuestion}
+                <h3>{question.question}</h3>
+                {nextQuestion}
+                <div>
+                    {question.answers.map((answer, index) => (
+                        <span key={index} className={style.choice}>
+                            {answer.answer}
+                        </span>
+                    ))}
+                </div>
+            </div>
+            <button onClick={clearQcm} className='button'>
+                Réinitialiser
+            </button>
             {addQuestionButton}
+            <button onClick={() => goTo('awaiting')} className='button'>
+                Lancer le questionnaire
+            </button>
         </div>
     );
 }
