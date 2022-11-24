@@ -3,8 +3,14 @@ import QCMAddQuestion from './QCMAddQuestion';
 import QCMAwaitingUsers from './QCMAwaitingUsers';
 import QCMListQuestions from './QCMListQuestions';
 import QCMOngoing from './QCMOngoing';
+import QCMResults from './QCMResults';
 
-export type QCMStates = 'edit' | 'list_questions' | 'awaiting' | 'ongoing';
+export type QCMStates =
+    | 'edit'
+    | 'list_questions'
+    | 'awaiting'
+    | 'ongoing'
+    | 'results';
 export type QCMQuestionOption = { counter: number; answer: string };
 export type QCMQuestion = {
     question: string;
@@ -77,6 +83,11 @@ export default function QCMView() {
                 />
             );
             break;
+
+        case 'results':
+            content = (
+                <QCMResults questionList={questionList} goTo={setQcmState} />
+            );
     }
     return <div className='center'>{content}</div>;
 }

@@ -24,7 +24,7 @@ export default function QCMOngoing({
         if (currentQuestionIndex + 1 < questionList.length) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
-            goTo('list_questions');
+            goTo('results');
         }
     }, [currentQuestionIndex, goTo, questionList.length]);
 
@@ -102,7 +102,11 @@ export default function QCMOngoing({
                     <span className='va-middle'>Quitter</span>
                 </button>
                 <button className='button' onClick={next}>
-                    <span className='va-middle'>Suivant</span>{' '}
+                    <span className='va-middle'>
+                        {currentQuestionIndex !== questionList.length - 1
+                            ? 'Suivant'
+                            : 'Résultats'}
+                    </span>{' '}
                     <BsArrowClockwise className='va-middle' />
                 </button>
             </p>
