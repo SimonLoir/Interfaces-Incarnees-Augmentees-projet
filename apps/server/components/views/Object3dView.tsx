@@ -20,35 +20,51 @@ function Scene({
         | null;
 }) {
     const socket = useSocketContext();
-    const obj = useLoader(OBJLoader, '/js.obj');
+    const obj = useLoader(OBJLoader, '/3d-model.obj');
     const ref = useRef<THREE.Mesh>(null);
+
+    function zoomIn() {
+        if (!ref.current) return;
+        if (ref.current.scale.x < 0.045) {
+            ref.current.scale.x += 0.001;
+            ref.current.scale.y += 0.001;
+            ref.current.scale.z += 0.001;
+        }
+    }
+
+    function zoomOut() {
+        if (!ref.current) return;
+        if (ref.current.scale.x > 0.01) {
+            ref.current.scale.x -= 0.001;
+            ref.current.scale.y -= 0.001;
+            ref.current.scale.z -= 0.001;
+        }
+    }
+
+    function rotateLeft() {
+        if (!ref.current) return;
+        ref.current.rotateY(-0.02);
+    }
+
+    function rotateRight() {
+        if (!ref.current) return;
+        ref.current.rotateY(0.02);
+    }
 
     useFrame(() => {
         if (!ref.current) return;
         if (isTeacher) {
-            if (objState === 'rotateRight') ref.current.rotateY(0.01);
-            if (objState === 'rotateLeft') ref.current.rotateY(-0.01);
-            if (objState === 'zoomIn') {
-                if (ref.current.scale.x < 0.05) {
-                    ref.current.scale.x += 0.001;
-                    ref.current.scale.y += 0.001;
-                    ref.current.scale.z += 0.001;
-                }
-            }
+            console.log(objState);
 
-            if (objState === 'zoomOut') {
-                if (ref.current.scale.x > 0) {
-                    ref.current.scale.set(
-                        ref.current.scale.x - 0.001,
-                        ref.current.scale.y - 0.001,
-                        ref.current.scale.z - 0.001
-                    );
-                }
+            if (objState === 'rotateLeft' || objState === 'rotateRight') {
+                objState === 'rotateLeft' ? rotateLeft() : rotateRight();
+                const { x, y, z } = ref.current.rotation;
+                socket.emit('3DRotation', { x, y, z });
+            } else if (objState === 'zoomIn' || objState === 'zoomOut') {
+                objState === 'zoomIn' ? zoomIn() : zoomOut();
+                const { x: sx, y: sy, z: sz } = ref.current.scale;
+                socket.emit('3DZoom', { x: sx, y: sy, z: sz });
             }
-            console.log(ref.current.scale);
-            const { x, y, z } = ref.current.rotation;
-
-            socket.emit('3DRotation', { x, y, z });
         }
     });
 
@@ -57,9 +73,14 @@ function Scene({
             if (!ref.current) return;
             ref.current.rotation.set(x, y, z);
         });
+        socket.on('3DZoom', ({ x, y, z }) => {
+            if (!ref.current) return;
+            ref.current.scale.set(x, y, z);
+        });
 
         return () => {
             socket.off('3DRotation');
+            socket.off('3DZoom');
         };
     }, [socket]);
 
@@ -82,17 +103,29 @@ function Scene({
 export default function Object3DView({ isTeacher = false }) {
     const socket = useSocketContext();
     useEffect(() => {
-        socket.on('spawn', () => {});
+        socket.on('spawn', () => {
+            setObjState('spawn');
+        });
 
-        socket.on('vanish', () => {});
+        socket.on('vanish', () => {
+            setObjState(null);
+        });
 
-        socket.on('rotate_left', () => {});
+        socket.on('rotate_left', () => {
+            setObjState('rotateLeft');
+        });
 
-        socket.on('rotate_right', () => {});
+        socket.on('rotate_right', () => {
+            setObjState('rotateRight');
+        });
 
-        socket.on('zoom_in', () => {});
+        socket.on('zoom_in', () => {
+            setObjState('zoomIn');
+        });
 
-        socket.on('zoom_out', () => {});
+        socket.on('zoom_out', () => {
+            setObjState('zoomOut');
+        });
 
         return () => {
             socket.off('spawn');
@@ -126,28 +159,48 @@ export default function Object3DView({ isTeacher = false }) {
                     <span
                         key={'rotateLeft'}
                         className={style.item}
-                        onClick={() => setObjState('rotateRight')}
+                        onMouseDown={() => {
+                            setObjState('rotateRight');
+                        }}
+                        onMouseUp={() => {
+                            setObjState('spawn');
+                        }}
                     >
                         Rotate right
                     </span>
                     <span
                         key={'rotateRight'}
                         className={style.item}
-                        onClick={() => setObjState('rotateLeft')}
+                        onMouseDown={() => {
+                            setObjState('rotateLeft');
+                        }}
+                        onMouseUp={() => {
+                            setObjState('spawn');
+                        }}
                     >
                         Rotate left
                     </span>
                     <span
                         key={'zoomIn'}
                         className={style.item}
-                        onClick={() => setObjState('zoomIn')}
+                        onMouseDown={() => {
+                            setObjState('zoomIn');
+                        }}
+                        onMouseUp={() => {
+                            setObjState('spawn');
+                        }}
                     >
                         Zoom in
                     </span>
                     <span
                         key={'zoomOut'}
                         className={style.item}
-                        onClick={() => setObjState('zoomOut')}
+                        onMouseDown={() => {
+                            setObjState('zoomOut');
+                        }}
+                        onMouseUp={() => {
+                            setObjState('spawn');
+                        }}
                     >
                         Zoom out
                     </span>
