@@ -125,7 +125,7 @@ export default class LeapMotionGestureController extends AbstractGestureControll
         // Gets the first frame that matches the model's duration
         while (
             firstFrame &&
-            lastFrame.timestamp - firstFrame.timestamp > minDuration
+            lastFrame.timestamp - firstFrame.timestamp < minDuration
         ) {
             i--;
             firstFrame = frames[frames.length + i];
@@ -140,6 +140,8 @@ export default class LeapMotionGestureController extends AbstractGestureControll
 
         // Gets the differences between the first frame and the last frame
         const frameDiff = this.frameDiff(firstFrame, lastFrame);
+        console.log(minDuration);
+        console.log(lastFrame.timestamp - firstFrame.timestamp > minDuration);
 
         // Checks if the differences between the first frame and the last frame match the model
         return this.checkDynamicPropertiesForModel(gesture.data, frameDiff);
