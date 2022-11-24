@@ -2,7 +2,7 @@ import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown } from 'react-icons/fa';
 
 type PollResultsProps = {
     questionList: Question[];
@@ -54,7 +54,7 @@ export default function PollResults({
                     ))}
                 </div>
                 <button onClick={exitPoll} className='button'>
-                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                     <span className='va-middle'>Quitter</span>
                 </button>
             </div>

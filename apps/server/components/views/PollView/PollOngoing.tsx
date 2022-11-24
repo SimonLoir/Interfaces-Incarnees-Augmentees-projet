@@ -2,11 +2,6 @@ import { useSocketContext } from '@utils/global';
 import { useEffect, useState, useCallback } from 'react';
 import { Question } from '.';
 import ProgressBar from './ProgressBar';
-import {
-    BsArrowClockwise,
-    BsArrowCounterclockwise,
-    BsHandThumbsUp,
-} from 'react-icons/bs';
 import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 interface PollOngoingProps {

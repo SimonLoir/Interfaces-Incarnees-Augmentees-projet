@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Question } from '.';
 import style from '@style/PollCreation.module.scss';
 import { useSocketContext } from '@utils/global';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 interface PollCreationProps {
     startPoll: () => void;
@@ -130,7 +130,7 @@ export default function PollCreation({
                                     }}
                                     className='button'
                                 >
-                                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                                    <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                                     <span className='va-middle'>
                                         Réinitialiser
                                     </span>
@@ -142,7 +142,7 @@ export default function PollCreation({
                                     <span className='va-middle'>
                                         Lancer le sondage
                                     </span>{' '}
-                                    <BsArrowClockwise className='va-middle' />
+                                    <FaThumbsUp className='va-middle thumb-rotate' />
                                 </button>
                             </>
                         )}

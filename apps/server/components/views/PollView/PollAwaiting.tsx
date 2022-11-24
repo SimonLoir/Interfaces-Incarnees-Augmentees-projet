@@ -1,6 +1,6 @@
 import { useSocketContext } from '@utils/global';
 import { useEffect } from 'react';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 interface PollAwaitingProps {
     startPoll: () => void;
     editQuestions: () => void;
@@ -36,12 +36,12 @@ export default function PollAwaiting({
                 <span className='loader'></span>
                 <p>En attente des participants...</p>
                 <button onClick={editQuestions} className='button'>
-                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                     <span className='va-middle'>Edition des questions</span>
                 </button>
                 <button onClick={startPoll} className='button'>
                     <span className='va-middle'>Lancer le sondage</span>{' '}
-                    <BsArrowClockwise className='va-middle' />
+                    <FaThumbsUp className='va-middle thumb-rotate' />
                 </button>
             </div>
         </div>
