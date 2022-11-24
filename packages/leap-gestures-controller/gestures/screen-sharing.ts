@@ -11,10 +11,6 @@ export const screenSharingGesture: Gesture<'dynamic'> = {
             hands: [
                 {
                     minGrabStrength: 0.7,
-                    palmPosition: {
-                        maxY: 300,
-                        minY: 30,
-                    },
                 },
             ],
         },
@@ -25,12 +21,11 @@ export const screenSharingGesture: Gesture<'dynamic'> = {
             hands: [
                 {
                     maxGrabStrength: 0,
-                    palmPosition: {},
+
                     palmVelocity: {
                         minX: -100,
                         maxX: 100,
-                        minY: 150,
-                        maxZ: -30,
+                        minY: 50,
                     },
                 },
             ],
