@@ -33,7 +33,7 @@ function getBase(type: 'right' | 'left'): HandModel {
             maxZ: 15,
         },
 
-        minGrabStrength: 1,
+        minGrabStrength: 0.7,
     };
 }
 
