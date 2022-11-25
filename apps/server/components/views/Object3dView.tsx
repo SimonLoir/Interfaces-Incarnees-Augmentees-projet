@@ -34,7 +34,7 @@ function Scene({
 
     function zoomOut() {
         if (!ref.current) return;
-        if (ref.current.scale.x > 0.01) {
+        if (ref.current.scale.x > 0.005) {
             ref.current.scale.x -= 0.001;
             ref.current.scale.y -= 0.001;
             ref.current.scale.z -= 0.001;
@@ -142,10 +142,10 @@ export default function Object3DView({ isTeacher = false }) {
     >(null);
 
     return (
-        <>
+        <div className={style.main}>
             {' '}
             {objState !== null && (
-                <div className={style.main}>
+                <div className={style.object}>
                     <Canvas>
                         <ambientLight color={'#ae3033'} intensity={1} />
 
@@ -155,8 +155,8 @@ export default function Object3DView({ isTeacher = false }) {
                 </div>
             )}
             {isTeacher && objState !== null && (
-                <div className={style.itemMain}>
-                    <span
+                <ul className={style.itemMain}>
+                    <li
                         key={'rotateLeft'}
                         className={style.item}
                         onMouseDown={() => {
@@ -167,8 +167,8 @@ export default function Object3DView({ isTeacher = false }) {
                         }}
                     >
                         Rotate right
-                    </span>
-                    <span
+                    </li>
+                    <li
                         key={'rotateRight'}
                         className={style.item}
                         onMouseDown={() => {
@@ -179,8 +179,8 @@ export default function Object3DView({ isTeacher = false }) {
                         }}
                     >
                         Rotate left
-                    </span>
-                    <span
+                    </li>
+                    <li
                         key={'zoomIn'}
                         className={style.item}
                         onMouseDown={() => {
@@ -191,8 +191,8 @@ export default function Object3DView({ isTeacher = false }) {
                         }}
                     >
                         Zoom in
-                    </span>
-                    <span
+                    </li>
+                    <li
                         key={'zoomOut'}
                         className={style.item}
                         onMouseDown={() => {
@@ -203,28 +203,28 @@ export default function Object3DView({ isTeacher = false }) {
                         }}
                     >
                         Zoom out
-                    </span>
+                    </li>
 
-                    <span
+                    <li
                         key={'vanish'}
                         className={style.item}
                         onClick={() => setObjState(null)}
                     >
                         Vanish
-                    </span>
-                </div>
+                    </li>
+                </ul>
             )}
             {isTeacher && objState === null && (
-                <div className={style.itemMain}>
-                    <span
+                <ul className={style.itemMain}>
+                    <li
                         key={'spawn'}
                         className={style.item}
                         onClick={() => setObjState('spawn')}
                     >
                         Spawn
-                    </span>
-                </div>
+                    </li>
+                </ul>
             )}
-        </>
+        </div>
     );
 }
