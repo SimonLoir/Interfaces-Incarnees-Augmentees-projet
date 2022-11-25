@@ -1,16 +1,7 @@
-import { Canvas, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { useLoader } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSocketContext } from '@utils/global';
-import {
-    MeshStandardMaterial,
-    Mesh,
-    TextureLoader,
-    MeshBasicMaterial,
-    Scene,
-} from 'three';
-import style from '@style/Object3d.module.scss';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 
 export default function ObjectScene({
@@ -31,12 +22,11 @@ export default function ObjectScene({
     const ref = useRef<THREE.Mesh>(null);
     const scene = <mesh scale={2} position={[0, 0, 0]} ref={ref}></mesh>;
     const loader = new MTLLoader();
-    let obj = null;
     loader.load(img + '/' + img + '.mtl', (materials) => {
         materials.preload();
         const objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
-        obj = objLoader.load(img + '/' + img + '.obj', (object) => {
+        objLoader.load(img + '/' + img + '.obj', (object) => {
             ref.current?.add(object);
         });
     });

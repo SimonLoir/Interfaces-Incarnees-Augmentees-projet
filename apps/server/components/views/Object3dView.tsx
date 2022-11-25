@@ -1,15 +1,6 @@
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { useLoader } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { useCallback, useEffect, useState } from 'react';
 import { useSocketContext } from '@utils/global';
-import {
-    MeshStandardMaterial,
-    Mesh,
-    TextureLoader,
-    MeshBasicMaterial,
-    Scene,
-} from 'three';
 import style from '@style/Object3d.module.scss';
 
 import ObjectScene from 'components/ObjectScene';
@@ -20,34 +11,35 @@ export default function Object3DView({ isTeacher = false }) {
         'rotateLeft' | 'rotateRight' | 'zoomIn' | 'zoomOut' | 'spawn' | null
     >(null);
 
-    function setStateSpawn(): void {
+    const setStateSpawn = useCallback(() => {
         setObjState('spawn');
         socket.emit('3DState', 'spawn');
-    }
+    }, [socket]);
 
-    function setStateRotateLeft(): void {
+    const setStateRotateLeft = useCallback(() => {
         setObjState('rotateLeft');
         socket.emit('3DState', 'rotateLeft');
-    }
+    }, [socket]);
 
-    function setStateRotateRight(): void {
+    const setStateRotateRight = useCallback(() => {
         setObjState('rotateRight');
         socket.emit('3DState', 'rotateRight');
-    }
+    }, [socket]);
 
-    function setStateZoomIn(): void {
+    const setStateZoomIn = useCallback(() => {
         setObjState('zoomIn');
         socket.emit('3DState', 'zoomIn');
-    }
+    }, [socket]);
 
-    function setStateZoomOut(): void {
+    const setStateZoomOut = useCallback(() => {
         setObjState('zoomOut');
         socket.emit('3DState', 'zoomOut');
-    }
-    function setStateNull(): void {
+    }, [socket]);
+
+    const setStateNull = useCallback(() => {
         setObjState(null);
         socket.emit('3DState', null);
-    }
+    }, [socket]);
 
     useEffect(() => {
         socket.on('spawn', () => {
@@ -82,7 +74,15 @@ export default function Object3DView({ isTeacher = false }) {
             socket.off('zoom_in');
             socket.off('zoom_out');
         };
-    }, [socket]);
+    }, [
+        socket,
+        setStateSpawn,
+        setStateNull,
+        setStateRotateLeft,
+        setStateRotateRight,
+        setStateZoomIn,
+        setStateZoomOut,
+    ]);
 
     useEffect(() => {
         socket.on('3DState', (state) => {
@@ -106,11 +106,13 @@ export default function Object3DView({ isTeacher = false }) {
                         />
 
                         {/*<ambientLight color={'#f0db4f'} intensity={1} /> */}
-                        <ObjectScene
-                            isTeacher={isTeacher}
-                            objState={objState}
-                            img='Mark 7'
-                        />
+                        <mesh position={[0, -1, 0]}>
+                            <ObjectScene
+                                isTeacher={isTeacher}
+                                objState={objState}
+                                img='Mark 7'
+                            />
+                        </mesh>
                     </Canvas>
                 </div>
             )}
