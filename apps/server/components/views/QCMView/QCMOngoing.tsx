@@ -2,7 +2,7 @@ import { useSocketContext } from '@utils/global';
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { QCMQuestion, QCMStates } from '.';
 import QCMAnswer from './QCMAnswer';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 type QCMOngoingProps = {
     questionList: QCMQuestion[];
     setQuestionList: (q: QCMQuestion[]) => void;
@@ -98,7 +98,7 @@ export default function QCMOngoing({
                     className='button'
                     onClick={() => goTo('list_questions')}
                 >
-                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                     <span className='va-middle'>Quitter</span>
                 </button>
                 <button className='button' onClick={next}>
@@ -107,7 +107,7 @@ export default function QCMOngoing({
                             ? 'Suivant'
                             : 'Résultats'}
                     </span>{' '}
-                    <BsArrowClockwise className='va-middle' />
+                    <FaThumbsUp className='va-middle thumb-rotate' />
                 </button>
             </p>
         </div>

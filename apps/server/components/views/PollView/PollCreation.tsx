@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Question } from '.';
 import style from '@style/PollCreation.module.scss';
 import { useSocketContext } from '@utils/global';
@@ -20,9 +20,16 @@ export default function PollCreation({
     const [question, setQuestion] = useState('');
     const socket = useSocketContext();
 
+    const addQuestionAndHideModal = useCallback(() => {
+        if (question.trim() === '') return;
+        addQuestion(question);
+        setQuestion('');
+        setShowModal(false);
+    }, [question, addQuestion]);
+
     useEffect(() => {
         socket.on('thumbs_up_gesture', () => {
-            setShowModal(true);
+            addQuestionAndHideModal();
         });
         socket.on('thumbs_down_gesture', () => {
             setShowModal(false);
@@ -40,7 +47,7 @@ export default function PollCreation({
             socket.off('thumbs_left_gesture');
             socket.off('thumbs_right_gesture');
         };
-    }, [socket, clearQuestions, startPoll]);
+    }, [socket, clearQuestions, startPoll, addQuestionAndHideModal]);
 
     if (showAddQuestion)
         return (
@@ -49,10 +56,7 @@ export default function PollCreation({
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            if (question.trim() === '') return;
-                            addQuestion(question);
-                            setQuestion('');
-                            setShowModal(false);
+                            addQuestionAndHideModal();
                         }}
                     >
                         <input
@@ -70,7 +74,8 @@ export default function PollCreation({
                             className='button'
                             onClick={() => setShowModal(false)}
                         >
-                            Annuler 👎
+                            <span className='va-middle'>Annuler</span>{' '}
+                            <FaThumbsDown className='va-middle' />
                         </button>
                     </p>
                 </div>
@@ -79,7 +84,8 @@ export default function PollCreation({
 
     const addQuestionButton = (
         <button className='button' onClick={() => setShowModal(true)}>
-            Ajouter une question 👍
+            <span className='va-middle'>Ajouter une question</span>{' '}
+            <FaThumbsUp className='va-middle' />
         </button>
     );
 

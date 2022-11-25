@@ -6,7 +6,7 @@ import {
 } from 'react-icons/bs';
 import { useState, useEffect } from 'react';
 import { useSocketContext } from '@utils/global';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 type ListQuestionsProps = {
     goTo: (state: QCMStates) => void;
@@ -22,7 +22,8 @@ export default function QCMListQuestions({
     const [questionIndex, setQuestionIndex] = useState(0);
     const addQuestionButton = (
         <button onClick={() => goTo('edit')} className={'button'}>
-            Ajouter une question 👍
+            <span className='va-middle'>Ajouter une question</span>{' '}
+            <FaThumbsUp className='va-middle' />
         </button>
     );
 
@@ -87,13 +88,13 @@ export default function QCMListQuestions({
                 </div>
             </div>
             <button onClick={clearQcm} className='button'>
-                <BsArrowCounterclockwise className='va-middle' />{' '}
+                <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                 <span className='va-middle'>Réinitialiser</span>
             </button>
             {addQuestionButton}
             <button onClick={() => goTo('awaiting')} className='button'>
                 <span className='va-middle'>Lancer le questionnaire</span>{' '}
-                <BsArrowClockwise className='va-middle' />
+                <FaThumbsUp className='va-middle thumb-rotate' />
             </button>
         </div>
     );

@@ -1,9 +1,8 @@
 import { useSocketContext } from '@utils/global';
-import { BackSide } from 'three';
 import { QCMQuestion, QCMStates } from '.';
 import { useEffect, useState, useCallback } from 'react';
 import QCMAnswer from './QCMAnswer';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 type QCMResultsProps = {
     questionList: QCMQuestion[];
@@ -83,21 +82,21 @@ export default function QCMResults({ questionList, goTo }: QCMResultsProps) {
                     <p>
                         {currentQuestionIndex > 0 && (
                             <button className='button' onClick={previous}>
-                                <span className='va-middle'>Précédent</span>{' '}
-                                <BsArrowClockwise className='va-middle' />
+                                <FaThumbsDown className='va-middle thumb-rotate' />{' '}
+                                <span className='va-middle'>Précédent</span>
                             </button>
                         )}
                         <button
                             className='button'
                             onClick={() => goTo('list_questions')}
                         >
-                            <BsArrowCounterclockwise className='va-middle' />{' '}
+                            <FaThumbsDown className='va-middle' />{' '}
                             <span className='va-middle'>Quitter</span>
                         </button>
                         {currentQuestionIndex !== questionList.length - 1 && (
                             <button className='button' onClick={next}>
                                 <span className='va-middle'>Suivant</span>{' '}
-                                <BsArrowClockwise className='va-middle' />
+                                <FaThumbsUp className='va-middle thumb-rotate' />
                             </button>
                         )}
                     </p>

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { QCMQuestion, QCMStates } from '.';
 import style from '@style/QCMCreation.module.scss';
 import { useSocketContext } from '@utils/global';
-import { BsArrowClockwise, BsArrowCounterclockwise } from 'react-icons/bs';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 type AddQuestionProps = {
     goTo: (state: QCMStates) => void;
@@ -91,18 +91,19 @@ export default function QCMAddQuestion({
                     className={'button'}
                     onClick={() => setOptions((o) => [...o, ''])}
                 >
-                    <BsArrowCounterclockwise className='va-middle' />{' '}
+                    <FaThumbsDown className='va-middle thumb-rotate' />{' '}
                     <span className='va-middle'>Ajouter un choix</span>
                 </button>
                 <button
                     onClick={() => goTo('list_questions')}
                     className={'button'}
                 >
-                    Annuler 👎
+                    <span className='va-middle'>Annuler</span>{' '}
+                    <FaThumbsDown className='va-middle' />
                 </button>
                 <button className={'button'} onClick={addQuestionToList}>
                     <span className='va-middle'>Ajouter la question</span>{' '}
-                    <BsArrowClockwise className='va-middle' />
+                    <FaThumbsUp className='va-middle thumb-rotate' />
                 </button>
             </div>
         </div>
