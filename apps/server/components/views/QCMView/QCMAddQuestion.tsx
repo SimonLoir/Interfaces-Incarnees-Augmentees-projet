@@ -48,7 +48,7 @@ export default function QCMAddQuestion({
         });
 
         socket.on('thumbs_right_gesture', () => {
-            addQuestionToList;
+            addQuestionToList();
         });
 
         return () => {

@@ -15,23 +15,40 @@ export default function QCMResults({ questionList, goTo }: QCMResultsProps) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
     const next = useCallback(() => {
+        console.log(currentQuestionIndex);
         if (currentQuestionIndex + 1 < questionList.length) {
+            console.log('ok');
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
-            goTo('list_questions');
         }
-    }, [currentQuestionIndex, goTo, questionList.length]);
+    }, [currentQuestionIndex, questionList.length, setCurrentQuestionIndex]);
+
+    const previous = useCallback(() => {
+        console.log(currentQuestionIndex);
+        if (currentQuestionIndex > 0) {
+            console.log('ok');
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+        }
+    }, [currentQuestionIndex, setCurrentQuestionIndex]);
+
     useEffect(() => {
-        socket.on('thumbs_left_gesture', () => {});
-        socket.on('thumbs_right_gesture', () => {});
-        socket.on('thumbs_down_gesture', () => {});
+        socket.on('thumbs_left_gesture', () => {
+            console.log('thumbs_left_gesture');
+            previous();
+        });
+        socket.on('thumbs_right_gesture', () => {
+            console.log('thumbs_right_gesture');
+            next();
+        });
+        socket.on('thumbs_down_gesture', () => {
+            goTo('list_questions');
+        });
 
         return () => {
             socket.off('thumbs_left_gesture');
             socket.off('thumbs_right_gesture');
             socket.off('thumbs_down_gesture');
         };
-    }, [socket]);
+    }, [socket, goTo, next, previous]);
 
     const max = questionList[currentQuestionIndex].answers.reduce(
         (x, y) => (y.counter > x ? y.counter : x),
@@ -64,6 +81,12 @@ export default function QCMResults({ questionList, goTo }: QCMResultsProps) {
                         )}
                     </div>
                     <p>
+                        {currentQuestionIndex > 0 && (
+                            <button className='button' onClick={previous}>
+                                <span className='va-middle'>Précédent</span>{' '}
+                                <BsArrowClockwise className='va-middle' />
+                            </button>
+                        )}
                         <button
                             className='button'
                             onClick={() => goTo('list_questions')}
