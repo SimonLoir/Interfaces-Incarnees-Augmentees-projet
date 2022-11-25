@@ -94,6 +94,30 @@ export default function Object3DView({ isTeacher = false }) {
         };
     }, [socket]);
 
+    if (objState === null) {
+        return (
+            <div className='center'>
+                <div>
+                    {isTeacher ? (
+                        <>
+                            <button
+                                className='button'
+                                onClick={() => setStateSpawn()}
+                            >
+                                Afficher
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <span className='loader'></span>
+                            <p>En attente d&apos;un objet à afficher</p>
+                        </>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={style.main}>
             {' '}
@@ -175,17 +199,6 @@ export default function Object3DView({ isTeacher = false }) {
                         }}
                     >
                         Vanish
-                    </li>
-                </ul>
-            )}
-            {isTeacher && objState === null && (
-                <ul className={style.itemMain}>
-                    <li
-                        key={'spawn'}
-                        className={style.item}
-                        onClick={() => setStateSpawn()}
-                    >
-                        Spawn
                     </li>
                 </ul>
             )}
