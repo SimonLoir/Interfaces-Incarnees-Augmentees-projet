@@ -120,67 +120,71 @@ export default function Object3DView({ isTeacher = false }) {
 
     return (
         <div className={style.main}>
-            {' '}
-            {objState !== null && (
-                <div className={style.object}>
-                    <Canvas>
-                        <ambientLight
-                            color={/*'#ae3033'*/ 'white'}
-                            intensity={1}
-                        />
+            <div className={style.canvas}>
+                <Canvas>
+                    <ambientLight color={/*'#ae3033'*/ 'white'} intensity={1} />
 
-                        {/*<ambientLight color={'#f0db4f'} intensity={1} /> */}
-                        <mesh position={[0, -1, 0]}>
-                            <ObjectScene
-                                isTeacher={isTeacher}
-                                objState={objState}
-                                img='Mark 7'
-                            />
-                        </mesh>
-                    </Canvas>
-                </div>
-            )}
-            {isTeacher && objState !== null && (
-                <ul className={style.itemMain}>
-                    <li
-                        key={'rotateLeft'}
-                        className={style.item}
-                        onMouseDown={() => {
-                            setStateRotateLeft();
-                        }}
-                        onMouseUp={() => {
-                            setStateSpawn();
-                        }}
-                    >
-                        Rotate right
-                    </li>
-                    <li
-                        key={'rotateRight'}
-                        className={style.item}
-                        onMouseDown={() => {
-                            setStateRotateRight();
-                        }}
-                        onMouseUp={() => {
-                            setStateSpawn();
-                        }}
-                    >
-                        Rotate left
-                    </li>
-                    <li
-                        key={'zoomIn'}
-                        className={style.item}
-                        onMouseDown={() => {
-                            setStateZoomIn();
-                        }}
-                        onMouseUp={() => {
-                            setStateSpawn();
-                        }}
-                    >
-                        Zoom in
-                    </li>
-                    <li
-                        key={'zoomOut'}
-                        className={style.item}
+                    {/*<ambientLight color={'#f0db4f'} intensity={1} /> */}
+                    <mesh position={[0, -1, 0]}>
+                        <ObjectScene
+                            isTeacher={isTeacher}
+                            objState={objState}
+                            img='Mark 7'
+                        />
+                    </mesh>
+                </Canvas>
+            </div>
+            {isTeacher && (
+                <div className={style.controls}>
+                    <div style={{ gridColumn: 'span 2' }}>
+                        <button
+                            className='button'
+                            onClick={() => setStateNull()}
+                        >
+                            Masquer
+                        </button>
+                    </div>
+                    <div style={{ gridColumn: 'span 2' }}>
+                        <button
+                            className='button'
+                            onMouseDown={() => {
+                                setStateZoomIn();
+                            }}
+                            onMouseUp={() => {
+                                setStateSpawn();
+                            }}
+                        >
+                            Zoom +
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            className='button'
+                            onMouseDown={() => {
+                                setStateRotateLeft();
+                            }}
+                            onMouseUp={() => {
+                                setStateSpawn();
+                            }}
+                        >
+                            Rotation Gauche
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            className='button'
+                            onMouseDown={() => {
+                                setStateRotateRight();
+                            }}
+                            onMouseUp={() => {
+                                setStateSpawn();
+                            }}
+                        >
+                            Rotation Droite
+                        </button>
+                    </div>
+                    <div
+                        style={{ gridColumn: 'span 2' }}
                         onMouseDown={() => {
                             setStateZoomOut();
                         }}
@@ -188,19 +192,9 @@ export default function Object3DView({ isTeacher = false }) {
                             setStateSpawn();
                         }}
                     >
-                        Zoom out
-                    </li>
-
-                    <li
-                        key={'vanish'}
-                        className={style.item}
-                        onClick={() => {
-                            setStateNull();
-                        }}
-                    >
-                        Vanish
-                    </li>
-                </ul>
+                        <button className='button'>Zoom -</button>
+                    </div>
+                </div>
             )}
         </div>
     );

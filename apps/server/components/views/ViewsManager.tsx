@@ -86,9 +86,8 @@ export default function ViewManager() {
 
     return (
         <div className={style.main}>
-            <div>
-                <View />
-            </div>
+            <View />
+
             <div className={style.controls}>
                 {views.map((v, i) => (
                     <span

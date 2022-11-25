@@ -71,9 +71,11 @@ export default function StudentsScreenShareView() {
 
     if (current === 'waiting')
         return (
-            <div className={style.center}>
-                <span className='loader'></span>
-                <p>En attente d&apos;une demande de partage</p>
+            <div className='center'>
+                <div>
+                    <span className='loader'></span>
+                    <p>En attente d&apos;une demande de partage</p>
+                </div>
             </div>
         );
     else if (current === 'incoming') {
