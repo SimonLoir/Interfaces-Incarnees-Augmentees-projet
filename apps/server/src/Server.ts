@@ -146,6 +146,12 @@ export default class Server {
             socket.on('3DRotation', (rotation: any) => {
                 this.io.emit('3DRotation', rotation);
             });
+            socket.on('3DZoom', (zoom: any) => {
+                this.io.emit('3DZoom', zoom);
+            });
+            socket.on('3DState', (state: any) => {
+                this.io.emit('3DState', state);
+            });
             socket.on('document', (url: string) => {
                 console.log('document', url);
                 this.io.emit('document', url);
