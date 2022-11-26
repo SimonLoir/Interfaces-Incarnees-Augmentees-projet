@@ -5,8 +5,8 @@ import Object3DView from 'components/views/Object3dView';
 import { useRouter } from 'next/router';
 
 export default function MyApp({ Component, pageProps }: any) {
-    const { connected, socket, wasConnected } = useSocket();
     const router = useRouter();
+    const { connected, socket, wasConnected } = useSocket(':3001/');
     if (!connected)
         return (
             <div className='center'>
