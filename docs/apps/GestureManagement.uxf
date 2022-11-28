@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <help_text>Space for diagram notes</help_text>
+  <zoom_level>5</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>595</x>
+      <y>375</y>
+      <w>340</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+/AbstractGestureController/
+--
+# frameRate : int
+# frameStore: Frame[]
+# frameStoreLength: int
+# lastOccurence : {[key:string] : value:int}
+# staticGestures : AstractGesture []
+# dynamicGestures : AstractGesture []
+# eventListeners : EventListenerStore&lt;Frame, AbstractGesture&lt;any&gt;&gt; ={frame: [], gesture: []};
+--
+/# initController() :void /
+# setAllowedGesture(allowedGesture : string[]) : void
+# handleFrame(frame: Frame) : void
+/# matchStaticGesture( gesture : AbstractGesture&lt;static&gt;, frames : Frame[]) : boolean/
+# matchDynamicGesture( gesture : AbstractGesture&lt;dynamic&gt;, frames : Frame[]) : boolean
+# extractFromFrames(frames:Frame[]) : AbstractGesture&lt;any&gt;[]
+# checkVectorModel(vectorModel : VectorModel, vector : Vector)
+/# frameDiff(frame1 : Frame, frame2 : Frame, gesture : AbstractGesture&lt;any&gt;): AbstractFrameDiff/
+/# checkStaticPropetiesForModel( model: AbstractModel, frameDiff : AbstractFrameDiff) : boolean/
+/# checkDynamicPropetiesForModel( model: AbstractModel, frameDiff : AbstractFrameDiff) : boolean/
+# addEventListener&lt;
+        T extends keyof EventListeners&lt;Frame, AbstractGesture&lt;any&gt;&gt;&gt;
+        (type: T, handler: EventListeners&lt;Frame, AbstractGesture&lt;any&gt;&gt;[T])
+# removeEventListener&lt;
+        T extends keyof EventListeners&lt;Frame, AbstractGesture&lt;any&gt;&gt;&gt;
+        (type: T, handler: EventListeners&lt;Frame, AbstractGesture&lt;any&gt;&gt;[T])
+
+--
+Responsibilities
+-- Abstraction of gesture recongintion suitable for different types of controller (techonology)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>635</y>
+      <w>330</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>KinectGestureController
+--
+KinectController : Kinect2
+--
++ KinectGestureController(allowerGestures : string[]) 
+# initController() :void 
+# matchStaticGesture( gesture : (Kinect)Gesture&lt;static&gt;, frames : (Kinect)Frame[]) : boolean
+# frameDiff(frame1 : (Kinect)Frame, frame2 : (Kinect)Frame, gesture : (Kinect)Gesture&lt;any&gt;): (Kinect)FrameDiff
+# checkStaticPropetiesForModel( model: (Kinect)Model, frameDiff : (Kinect)FrameDiff) : boolean
+# checkDynamicPropetiesForModel( model: (Kinect)Model, frameDiff : (Kinect)FrameDiff) : boolean
+- generateDirectionBetweenJoints(firstJoint: Joint,secondJoint: Joint): Vector
+--
+Responsibilities
+-- Gesture recognition management for KinectController</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>255</x>
+      <y>530</y>
+      <w>350</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>680.0;10.0;11.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1075</x>
+      <y>655</y>
+      <w>345</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>LeapMotionGestureController
+--
+leapController : Leap.Controller
+--
++ LeapMotionGestureController(controllerOptions: Leap.ControllerOptions, allowerGestures : string[]) 
+# initController() :void 
+# matchStaticGesture( gesture : (LeapMotion)Gesture&lt;static&gt;, frames : Leap.Frame[]) : boolean
+# frameDiff(frame1 : Leap.Frame, frame2 : Leap.Frame, gesture : (LeapMotion)Gesture&lt;any&gt;): (LeapMotion)FrameDiff
+# checkStaticPropetiesForModel( model: (LeapMotion)Model, frameDiff : (LeapMotion)FrameDiff) : boolean
+# checkDynamicPropetiesForModel( model: (LeapMotion)Model, frameDiff : (LeapMotion)FrameDiff) : boolean
++ checkHandWithoutMotion(model: HandModel, hand: Leap.Hand): boolean
++ checkHandWithMotion(model: HandModel, diff: HandDiffExport) 
+--
+Responsibilities
+-- Gesture recognition management for Leap Motion Controller</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>540</y>
+      <w>290</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;560.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1005</x>
+      <y>430</y>
+      <w>60</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+VectorModel
+--
+minX?: number;
+maxX?: number;
+minY?: number;
+maxY?: number;
+minZ?: number;
+maxZ?: number;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>465</x>
+      <y>440</y>
+      <w>60</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+Vector
+--
+X: number;
+Y: number;
+Z: number;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>460</y>
+      <w>85</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>675</x>
+      <y>685</y>
+      <w>175</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+/AbstractGesture&lt;T extends 'static' | 'dynamic'&gt; /
+--
+name: string
+type: T
+description: string;
+data: T extends 'static' ? AbstractModel : AbstractModel[]
+coolDown?: number
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>610</y>
+      <w>35</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>475</x>
+      <y>820</y>
+      <w>175</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+(Kinect)Gesture&lt;T extends 'static' | 'dynamic'&gt; /
+--
+data: T extends 'static' ? (Kinect)Model : (Kinect)Model[];
+found?: {frameDiff: FrameDiffExport;};
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>865</x>
+      <y>815</y>
+      <w>175</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+/AbstractGesture&lt;T extends 'static' | 'dynamic'&gt; /
+--
+name: string
+type: T
+description: string;
+data: T extends 'static' ? AbstractModel : AbstractModel[]
+coolDown?: number
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>740</y>
+      <w>125</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>230.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>845</x>
+      <y>740</y>
+      <w>120</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>185</y>
+      <w>35</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;380.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>680</x>
+      <y>140</y>
+      <w>155</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+/AbstractModel/
+--
+minDuration: number;
+maxDuration?: number;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1055</x>
+      <y>280</y>
+      <w>155</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+/(LeapMotion)Model /
+--
+hands?: HandModel[]
+fingers?: BasicFingersModel
+handsCount?: number
+allowOnlyOneHandMatch?: boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>185</y>
+      <w>295</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;570.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>300</y>
+      <w>155</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Data type&gt;&gt;
+/(Kinect)Model /
+--
+body: BodyModel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>185</y>
+      <w>270</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>520.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>730</y>
+      <w>205</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>390.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1035</x>
+      <y>765</y>
+      <w>225</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;100.0;430.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1125</x>
+      <y>350</y>
+      <w>150</w>
+      <h>315</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;610.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>460</y>
+      <w>85</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>150.0;20.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>335</y>
+      <w>140</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>260.0;10.0;10.0;600.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>65</y>
+      <w>35</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;620.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>685</x>
+      <y>35</y>
+      <w>155</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+/AbstractFrameDiff/
+--
+# timeDiff : number
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1265</x>
+      <y>185</y>
+      <w>155</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>(LeapMotion)FrameDiff
+--
+handCountDiff: number
+commonHands: string[]
+fingerCountDiff: number
+handDiffs: { [id: string]: HandDiff }
+--
++ FrameDiff(frame1: Leap.Frame, frame2: Leap.Frame)
+# handsDiff()
+# fingersDiff()
+# export(): FrameDiffExport
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>835</x>
+      <y>65</y>
+      <w>440</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;860.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>205</y>
+      <w>250</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+/KinectFrameDiff/
+--
+# timeDiff : number
+# armsVelocityDiff: {left: Vector | undefined ; right: Vector | undefined}
+# armsPositionDiff: {left: Vector | undefined ; right: Vector | undefined}
+# forearmsVelocityDiff: {left: Vector | undefined ; right: Vector | undefined}
+# forearmsPositionDiff: {left: Vector | undefined ; right: Vector | undefined}
+--
++ KinectFrameDiff(frame1: (Kinect)Frame, frame2 : (Kinect)Frame)
+# armsDiff(): void
+# forearmsDiff(): void
+# getMidBone(joint1: Joint, joint2: Joint): Vector
+# vectorDiff(vector1: Vector,vector2: Vector): { positionDiff: Vector; velocityDiff: Vector }
++ export(): FrameDiffExport
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>170</x>
+      <y>65</y>
+      <w>525</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>1030.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>310</y>
+      <w>115</w>
+      <h>335</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;210.0;650.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1325</x>
+      <y>225</y>
+      <w>55</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;860.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>795</x>
+      <y>305</y>
+      <w>140</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>EventListenerStore&lt;Frame, Gesture&gt;
+--
+[K in keyof EventListeners&lt;Frame, Gesture&gt;]: EventListeners&lt;
+        Frame,
+        Gesture
+    &gt;[K][]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>795</x>
+      <y>245</y>
+      <w>125</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>EventListeners&lt;Frame, Gesture&gt;
+--
+frame: (frame: Frame) =&gt; void
+gesture: (gesture: Gesture) =&gt; void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>855</x>
+      <y>270</y>
+      <w>35</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>350</y>
+      <w>35</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;use&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;50.0;20.0;10.0</additional_attributes>
+  </element>
+</diagram>
