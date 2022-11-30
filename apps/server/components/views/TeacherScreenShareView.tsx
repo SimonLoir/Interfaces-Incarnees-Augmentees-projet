@@ -8,6 +8,7 @@ export default function TeacherScreenShareView() {
     const [streamx, setStream] = useState<MediaStream>();
     const peer = usePeerContext();
     const socket = useSocketContext();
+    const [streaming, setStreaming] = useState(false);
 
     useEffect(() => {
         socket.on('new-peer', (peerid) => {
@@ -30,6 +31,9 @@ export default function TeacherScreenShareView() {
 
     return (
         <div className='center'>
+            {streaming === false
+                ? 'Vous ne partagez pas votre écran'
+                : 'Vous partagez votre écran'}
             <ScreenSelector
                 onSelect={async (source) => {
                     const sourceId = source.id;
@@ -60,6 +64,8 @@ export default function TeacherScreenShareView() {
                         call.on('stream', (stream: MediaStream) => {});
                         setCalls((calls) => [...calls, call]);
                     });
+
+                    setStreaming(true);
                 }}
             />
         </div>
