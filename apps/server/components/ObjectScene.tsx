@@ -3,6 +3,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { useEffect, useRef } from 'react';
 import { useSocketContext } from '@utils/global';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { Object3d } from './views/Object3dView';
 
 export default function ObjectScene({
     isTeacher = false,
@@ -17,16 +18,18 @@ export default function ObjectScene({
         | 'zoomOut'
         | 'spawn'
         | null;
-    img: string;
+    img: Object3d;
 }): JSX.Element {
     const ref = useRef<THREE.Mesh>(null);
-    const scene = <mesh scale={2} position={[0, 0, 0]} ref={ref}></mesh>;
+    const scene = (
+        <mesh scale={img.initialScale} position={[0, 0, 0]} ref={ref}></mesh>
+    );
     const loader = new MTLLoader();
-    loader.load(img + '/' + img + '.mtl', (materials) => {
+    loader.load(img.name + '/' + img.name + '.mtl', (materials) => {
         materials.preload();
         const objLoader = new OBJLoader();
         objLoader.setMaterials(materials);
-        objLoader.load(img + '/' + img + '.obj', (object) => {
+        objLoader.load(img.name + '/' + img.name + '.obj', (object) => {
             ref.current?.add(object);
         });
     });
@@ -35,19 +38,19 @@ export default function ObjectScene({
 
     function zoomIn() {
         if (!ref.current) return;
-        if (ref.current.scale.x < 0.045) {
-            ref.current.scale.x += 0.001;
-            ref.current.scale.y += 0.001;
-            ref.current.scale.z += 0.001;
+        if (ref.current.scale.x < img.maxScale) {
+            ref.current.scale.x += img.zoomSpeed;
+            ref.current.scale.y += img.zoomSpeed;
+            ref.current.scale.z += img.zoomSpeed;
         }
     }
 
     function zoomOut() {
         if (!ref.current) return;
-        if (ref.current.scale.x > 0.005) {
-            ref.current.scale.x -= 0.001;
-            ref.current.scale.y -= 0.001;
-            ref.current.scale.z -= 0.001;
+        if (ref.current.scale.x > img.minScale) {
+            ref.current.scale.x -= img.zoomSpeed;
+            ref.current.scale.y -= img.zoomSpeed;
+            ref.current.scale.z -= img.zoomSpeed;
         }
     }
 

@@ -39,9 +39,12 @@ export default function ViewManager() {
         socket.on('setView', (view) => {
             setViewID(view);
         });
-
+        socket.on('new_3d_object', () => {
+            setViewID('object3D');
+        });
         return () => {
             socket.off('setView');
+            socket.off('new_3d_object');
         };
     }, [socket]);
 

@@ -5,11 +5,54 @@ import style from '@style/Object3d.module.scss';
 
 import ObjectScene from 'components/ObjectScene';
 
+export type Object3d = {
+    name: string;
+    minScale: number;
+    maxScale: number;
+    initialScale: number;
+    zoomSpeed: number;
+};
+
+const cruiser: Object3d = {
+    name: 'cruiser',
+    minScale: 0.001,
+    maxScale: 0.014,
+    initialScale: 0.005,
+    zoomSpeed: 0.0002,
+};
+
+const mark7: Object3d = {
+    name: 'Mark 7',
+    minScale: 0.1,
+    maxScale: 2.5,
+    initialScale: 1.5,
+    zoomSpeed: 0.006,
+};
+
+const Objects3D = [mark7, cruiser];
+
 export default function Object3DView({ isTeacher = false }) {
     const socket = useSocketContext();
     const [objState, setObjState] = useState<
         'rotateLeft' | 'rotateRight' | 'zoomIn' | 'zoomOut' | 'spawn' | null
     >(null);
+
+    const [currentObjectIndex, setCurrentObjectIndex] = useState(0);
+
+    const nextObject = useCallback(() => {
+        if (currentObjectIndex < Objects3D.length - 1) {
+            socket.emit('object3d', currentObjectIndex + 1);
+            setCurrentObjectIndex(currentObjectIndex + 1);
+        }
+    }, [socket, currentObjectIndex, setCurrentObjectIndex]);
+
+    const prevObject = useCallback(() => {
+        if (currentObjectIndex > 0) {
+            console.log('prev');
+            socket.emit('object3d', currentObjectIndex - 1);
+            setCurrentObjectIndex(currentObjectIndex - 1);
+        }
+    }, [socket, currentObjectIndex, setCurrentObjectIndex]);
 
     const setStateSpawn = useCallback(() => {
         setObjState('spawn');
@@ -86,13 +129,19 @@ export default function Object3DView({ isTeacher = false }) {
 
     useEffect(() => {
         socket.on('3DState', (state) => {
+            console.log('state', state);
             setObjState(state);
+        });
+        socket.on('object3d', (index) => {
+            console.log('object3d', index);
+            setCurrentObjectIndex(index);
         });
 
         return () => {
             socket.off('3DState');
+            socket.off('object3d');
         };
-    }, [socket]);
+    }, [socket, setObjState, setCurrentObjectIndex]);
 
     if (objState === null) {
         return (
@@ -129,71 +178,94 @@ export default function Object3DView({ isTeacher = false }) {
                         <ObjectScene
                             isTeacher={isTeacher}
                             objState={objState}
-                            img='Mark 7'
+                            img={Objects3D[currentObjectIndex]}
                         />
                     </mesh>
                 </Canvas>
             </div>
             {isTeacher && (
-                <div className={style.controls}>
-                    <div style={{ gridColumn: 'span 2' }}>
-                        <button
-                            className='button'
-                            onClick={() => setStateNull()}
-                        >
-                            Masquer
-                        </button>
-                    </div>
-                    <div style={{ gridColumn: 'span 2' }}>
-                        <button
-                            className='button'
+                <div>
+                    <div className={style.controls}>
+                        <div style={{ gridColumn: 'span 2' }}>
+                            <button
+                                className='button'
+                                onClick={() => setStateNull()}
+                            >
+                                Masquer
+                            </button>
+                        </div>
+                        <div style={{ gridColumn: 'span 2' }}>
+                            <button
+                                className='button'
+                                onMouseDown={() => {
+                                    setStateZoomIn();
+                                }}
+                                onMouseUp={() => {
+                                    setStateSpawn();
+                                }}
+                            >
+                                Zoom +
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                className='button'
+                                onMouseDown={() => {
+                                    setStateRotateLeft();
+                                }}
+                                onMouseUp={() => {
+                                    setStateSpawn();
+                                }}
+                            >
+                                Rotation Gauche
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                className='button'
+                                onMouseDown={() => {
+                                    setStateRotateRight();
+                                }}
+                                onMouseUp={() => {
+                                    setStateSpawn();
+                                }}
+                            >
+                                Rotation Droite
+                            </button>
+                        </div>
+                        <div
+                            style={{ gridColumn: 'span 2' }}
                             onMouseDown={() => {
-                                setStateZoomIn();
+                                setStateZoomOut();
                             }}
                             onMouseUp={() => {
                                 setStateSpawn();
                             }}
                         >
-                            Zoom +
-                        </button>
+                            <button className='button'>Zoom -</button>
+                        </div>
                     </div>
-                    <div>
-                        <button
-                            className='button'
-                            onMouseDown={() => {
-                                setStateRotateLeft();
-                            }}
-                            onMouseUp={() => {
+
+                    {currentObjectIndex > 0 && (
+                        <div
+                            className={style.arrow_left}
+                            onClick={() => {
+                                setStateNull();
+                                prevObject();
                                 setStateSpawn();
                             }}
-                        >
-                            Rotation Gauche
-                        </button>
-                    </div>
-                    <div>
-                        <button
-                            className='button'
-                            onMouseDown={() => {
-                                setStateRotateRight();
-                            }}
-                            onMouseUp={() => {
+                        ></div>
+                    )}
+                    {currentObjectIndex < Objects3D.length - 1 && (
+                        <div
+                            className={style.arrow_right}
+                            onClick={() => {
+                                setStateNull();
+                                nextObject();
                                 setStateSpawn();
                             }}
-                        >
-                            Rotation Droite
-                        </button>
-                    </div>
-                    <div
-                        style={{ gridColumn: 'span 2' }}
-                        onMouseDown={() => {
-                            setStateZoomOut();
-                        }}
-                        onMouseUp={() => {
-                            setStateSpawn();
-                        }}
-                    >
-                        <button className='button'>Zoom -</button>
-                    </div>
+                        ></div>
+                    )}
                 </div>
             )}
         </div>

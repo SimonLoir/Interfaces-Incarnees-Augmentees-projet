@@ -162,6 +162,9 @@ export default class Server {
             socket.on('QCMEvent', (event: string) => {
                 this.io.emit('QCMEvent', event);
             });
+            socket.on('object3d', (index: number) => {
+                this.io.emit('object3d', index);
+            });
         });
 
         setInterval(() => {
