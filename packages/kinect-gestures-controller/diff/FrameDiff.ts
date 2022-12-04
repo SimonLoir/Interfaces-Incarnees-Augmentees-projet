@@ -22,12 +22,15 @@ export default class FrameDiff extends AbstractFrameDiff {
         left: Vector | undefined;
         right: Vector | undefined;
     } = { left: undefined, right: undefined };
+    protected distanceFrame1: number = 0;
+    protected distanceFrame2: number = 0;
 
     constructor(private frame1: Frame, private frame2: Frame) {
         super();
         this.timeDiff = this.frame2.timestamp - this.frame1.timestamp;
         this.armsDiff();
         this.forearmsDiff();
+        this.forearmsDistanceDiff();
     }
 
     protected armsDiff() {
@@ -100,6 +103,42 @@ export default class FrameDiff extends AbstractFrameDiff {
         this.forearmsVelocityDiff.right = rightVelocityDiff;
     }
 
+    protected forearmsDistanceDiff() {
+        const leftForearmMidFrame1: Vector = this.getMidBone(
+            this.frame1.body.ElbowLeft!,
+            this.frame1.body.WristLeft!
+        );
+        const leftForearmMidFrame2: Vector = this.getMidBone(
+            this.frame2.body.ElbowLeft!,
+            this.frame2.body.WristLeft!
+        );
+        const rightForearmMidFrame1: Vector = this.getMidBone(
+            this.frame1.body.ElbowRight!,
+            this.frame1.body.WristRight!
+        );
+        const rightForearmMidFrame2: Vector = this.getMidBone(
+            this.frame2.body.ElbowRight!,
+            this.frame2.body.WristRight!
+        );
+
+        this.distanceFrame1 = this.getDistance(
+            leftForearmMidFrame1,
+            rightForearmMidFrame1
+        );
+        this.distanceFrame2 = this.getDistance(
+            leftForearmMidFrame2,
+            rightForearmMidFrame2
+        );
+    }
+
+    protected getDistance(vector1: Vector, vector2: Vector): number {
+        return Math.sqrt(
+            Math.pow(vector1[0] - vector2[0], 2) +
+                Math.pow(vector1[1] - vector2[1], 2) +
+                Math.pow(vector1[2] - vector2[2], 2)
+        );
+    }
+
     protected getMidBone(joint1: Joint, joint2: Joint): Vector {
         return [
             (joint1.cameraX + joint2.cameraX) / 2,
@@ -134,6 +173,8 @@ export default class FrameDiff extends AbstractFrameDiff {
             forearmVelocityDiff: this.forearmsVelocityDiff,
             forearmsPositionDiff: this.forearmsPositionDiff,
             timeDiff: this.timeDiff,
+            distanceFrame1: this.distanceFrame1,
+            distanceFrame2: this.distanceFrame2,
         };
     }
 }

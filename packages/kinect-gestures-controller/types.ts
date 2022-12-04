@@ -87,4 +87,6 @@ export type FrameDiffExport = {
         right: Vector | undefined;
     };
     timeDiff: number;
+    distanceFrame1: number;
+    distanceFrame2: number;
 };
