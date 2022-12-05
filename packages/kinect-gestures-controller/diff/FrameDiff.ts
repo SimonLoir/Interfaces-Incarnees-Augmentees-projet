@@ -24,6 +24,7 @@ export default class FrameDiff extends AbstractFrameDiff {
     } = { left: undefined, right: undefined };
     protected distanceFrame1: number = 0;
     protected distanceFrame2: number = 0;
+    protected forearmSpan: number = 0;
 
     constructor(private frame1: Frame, private frame2: Frame) {
         super();
@@ -104,31 +105,48 @@ export default class FrameDiff extends AbstractFrameDiff {
     }
 
     protected forearmsDistanceDiff() {
-        const leftForearmMidFrame1: Vector = this.getMidBone(
-            this.frame1.body.ElbowLeft!,
-            this.frame1.body.WristLeft!
-        );
-        const leftForearmMidFrame2: Vector = this.getMidBone(
-            this.frame2.body.ElbowLeft!,
-            this.frame2.body.WristLeft!
-        );
-        const rightForearmMidFrame1: Vector = this.getMidBone(
-            this.frame1.body.ElbowRight!,
-            this.frame1.body.WristRight!
-        );
-        const rightForearmMidFrame2: Vector = this.getMidBone(
-            this.frame2.body.ElbowRight!,
-            this.frame2.body.WristRight!
-        );
-
         this.distanceFrame1 = this.getDistance(
-            leftForearmMidFrame1,
-            rightForearmMidFrame1
+            this.getCameraVector(this.frame1.body.WristLeft!),
+            this.getCameraVector(this.frame1.body.WristRight!)
         );
         this.distanceFrame2 = this.getDistance(
-            leftForearmMidFrame2,
-            rightForearmMidFrame2
+            this.getCameraVector(this.frame2.body.WristLeft!),
+            this.getCameraVector(this.frame2.body.WristRight!)
         );
+    }
+
+    protected bodyForearmSpan() {
+        const leftForearmSize = this.getDistance(
+            this.getCameraVector(this.frame1.body.ElbowLeft!),
+            this.getCameraVector(this.frame1.body.WristLeft!)
+        );
+
+        const rightForearmSize = this.getDistance(
+            this.getCameraVector(this.frame1.body.ElbowRight!),
+            this.getCameraVector(this.frame1.body.WristRight!)
+        );
+
+        const leftArmSize = this.getDistance(
+            this.getCameraVector(this.frame1.body.ShoulderLeft!),
+            this.getCameraVector(this.frame1.body.ElbowLeft!)
+        );
+
+        const rightArmSize = this.getDistance(
+            this.getCameraVector(this.frame1.body.ShoulderRight!),
+            this.getCameraVector(this.frame1.body.ElbowRight!)
+        );
+
+        const shouldersSize = this.getDistance(
+            this.getCameraVector(this.frame1.body.ShoulderLeft!),
+            this.getCameraVector(this.frame1.body.ShoulderRight!)
+        );
+
+        this.forearmSpan =
+            leftForearmSize +
+            rightForearmSize +
+            leftArmSize +
+            rightArmSize +
+            shouldersSize;
     }
 
     protected getDistance(vector1: Vector, vector2: Vector): number {
@@ -137,6 +155,10 @@ export default class FrameDiff extends AbstractFrameDiff {
                 Math.pow(vector1[1] - vector2[1], 2) +
                 Math.pow(vector1[2] - vector2[2], 2)
         );
+    }
+
+    protected getCameraVector(joint: Joint): Vector {
+        return [joint.cameraX, joint.cameraY, joint.cameraZ];
     }
 
     protected getMidBone(joint1: Joint, joint2: Joint): Vector {
@@ -175,6 +197,7 @@ export default class FrameDiff extends AbstractFrameDiff {
             timeDiff: this.timeDiff,
             distanceFrame1: this.distanceFrame1,
             distanceFrame2: this.distanceFrame2,
+            forearmSpan: this.forearmSpan,
         };
     }
 }

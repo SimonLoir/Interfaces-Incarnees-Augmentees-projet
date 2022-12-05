@@ -99,6 +99,5 @@ export default function ObjectScene({
         };
     }, [socket]);
 
-    console.log(scene);
     return scene;
 }

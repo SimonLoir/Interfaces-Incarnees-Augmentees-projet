@@ -89,4 +89,5 @@ export type FrameDiffExport = {
     timeDiff: number;
     distanceFrame1: number;
     distanceFrame2: number;
+    forearmSpan: number;
 };
