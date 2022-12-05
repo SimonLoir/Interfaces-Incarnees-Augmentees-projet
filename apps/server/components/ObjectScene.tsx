@@ -24,15 +24,19 @@ export default function ObjectScene({
     const scene = (
         <mesh scale={img.initialScale} position={[0, 0, 0]} ref={ref}></mesh>
     );
-    const loader = new MTLLoader();
-    loader.load(img.name + '/' + img.name + '.mtl', (materials) => {
-        materials.preload();
-        const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        objLoader.load(img.name + '/' + img.name + '.obj', (object) => {
-            ref.current?.add(object);
+
+    useEffect(() => {
+        ref.current?.clear();
+        const loader = new MTLLoader();
+        loader.load(img.name + '/' + img.name + '.mtl', (materials) => {
+            materials.preload();
+            const objLoader = new OBJLoader();
+            objLoader.setMaterials(materials);
+            objLoader.load(img.name + '/' + img.name + '.obj', (object) => {
+                ref.current?.add(object);
+            });
         });
-    });
+    }, [img]);
 
     const socket = useSocketContext();
 

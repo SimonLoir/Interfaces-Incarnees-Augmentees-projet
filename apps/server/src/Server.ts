@@ -259,7 +259,24 @@ export default class Server {
             case 'ten-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 9);
                 break;
-
+            case 'spawn':
+                this.io.emit('spawn');
+                break;
+            case 'vanish':
+                this.io.emit('vanish');
+                break;
+            case 'rotate-left':
+                this.io.emit('rotate_left');
+                break;
+            case 'rotate-right':
+                this.io.emit('rotate_right');
+                break;
+            case 'zoom-in':
+                this.io.emit('zoom_in');
+                break;
+            case 'zoom-out':
+                this.io.emit('zoom_out');
+                break;
             default:
                 break;
         }

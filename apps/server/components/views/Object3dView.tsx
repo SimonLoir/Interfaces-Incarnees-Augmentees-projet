@@ -44,72 +44,80 @@ export default function Object3DView({ isTeacher = false }) {
     const [objState, setObjState] = useState<
         'rotateLeft' | 'rotateRight' | 'zoomIn' | 'zoomOut' | 'spawn' | null
     >(null);
-
     const [currentObjectIndex, setCurrentObjectIndex] = useState(0);
+    const [image, setImage] = useState<any>(Objects3D[currentObjectIndex]);
 
-    const setStateSpawn = useCallback(() => {
-        setObjState('spawn');
+    function sendSpawnEvent() {
         socket.emit('3DState', 'spawn');
-    }, [socket]);
+    }
 
-    const setStateRotateLeft = useCallback(() => {
-        setObjState('rotateLeft');
+    function sendVanishEvent() {
+        socket.emit('3DState', 'vanish');
+    }
+
+    function sendRotateLeftEvent() {
         socket.emit('3DState', 'rotateLeft');
-    }, [socket]);
 
-    const setStateRotateRight = useCallback(() => {
-        setObjState('rotateRight');
+        setObjState('rotateLeft');
+    }
+
+    function sendRotateRightEvent() {
         socket.emit('3DState', 'rotateRight');
-    }, [socket]);
+    }
 
-    const setStateZoomIn = useCallback(() => {
-        setObjState('zoomIn');
+    function sendZoomInEvent() {
         socket.emit('3DState', 'zoomIn');
-    }, [socket]);
+    }
 
-    const setStateZoomOut = useCallback(() => {
-        setObjState('zoomOut');
+    function sendZoomOutEvent() {
         socket.emit('3DState', 'zoomOut');
-    }, [socket]);
+    }
 
-    const setStateNull = useCallback(() => {
-        setObjState(null);
-        socket.emit('3DState', null);
-    }, [socket]);
+    const sendNewObjectEvent = useCallback(
+        (index: number) => {
+            socket.emit('object3d', index);
+        },
+        [socket]
+    );
 
     const setObjectIndex = useCallback(
         (index: number) => {
-            setStateNull();
-            socket.emit('object3d', index);
             setCurrentObjectIndex(index);
-            setStateSpawn();
+            setImage(Objects3D[index]);
         },
-        [socket, setCurrentObjectIndex, setStateNull, setStateSpawn]
+        [setCurrentObjectIndex, setImage]
     );
 
     useEffect(() => {
         socket.on('spawn', () => {
-            setStateSpawn();
+            setObjState('spawn');
         });
 
         socket.on('vanish', () => {
-            setStateNull();
+            setObjState(null);
         });
 
         socket.on('rotate_left', () => {
-            setStateRotateLeft();
+            setObjState('rotateLeft');
         });
 
         socket.on('rotate_right', () => {
-            setStateRotateRight();
+            setObjState('rotateRight');
         });
 
         socket.on('zoom_in', () => {
-            setStateZoomIn();
+            setObjState('zoomIn');
         });
 
         socket.on('zoom_out', () => {
-            setStateZoomOut();
+            setObjState('zoomOut');
+        });
+
+        socket.on('3DState', (state) => {
+            setObjState(state);
+        });
+        socket.on('object3d', (index: number) => {
+            setObjectIndex(index);
         });
 
         return () => {
@@ -119,27 +127,21 @@ export default function Object3DView({ isTeacher = false }) {
             socket.off('rotate_right');
             socket.off('zoom_in');
             socket.off('zoom_out');
+            socket.off('3DState');
+            socket.off('object3d');
         };
-    }, [
-        socket,
-        setStateSpawn,
-        setStateNull,
-        setStateRotateLeft,
-        setStateRotateRight,
-        setStateZoomIn,
-        setStateZoomOut,
-    ]);
+    }, [socket, setObjState, setObjectIndex, setCurrentObjectIndex, setImage]);
 
     useEffect(() => {
         socket.on('thumbs_right_gesture', () => {
             if (currentObjectIndex < Objects3D.length - 1) {
-                setObjectIndex(currentObjectIndex + 1);
+                sendNewObjectEvent(currentObjectIndex + 1);
             }
         });
 
         socket.on('thumbs_left_gesture', () => {
             if (currentObjectIndex > 0) {
-                setObjectIndex(currentObjectIndex - 1);
+                sendNewObjectEvent(currentObjectIndex - 1);
             }
         });
 
@@ -147,23 +149,7 @@ export default function Object3DView({ isTeacher = false }) {
             socket.off('thumbs_right_gesture');
             socket.off('thumbs_left_gesture');
         };
-    }, [socket, setObjectIndex, currentObjectIndex]);
-
-    useEffect(() => {
-        socket.on('3DState', (state) => {
-            console.log('state', state);
-            setObjState(state);
-        });
-        socket.on('object3d', (index: number) => {
-            console.log('index', index);
-            setCurrentObjectIndex(index);
-        });
-
-        return () => {
-            socket.off('3DState');
-            socket.off('object3d');
-        };
-    }, [socket, setObjState, setCurrentObjectIndex]);
+    }, [socket, setObjectIndex, sendNewObjectEvent, currentObjectIndex]);
 
     if (objState === null) {
         return (
@@ -171,10 +157,7 @@ export default function Object3DView({ isTeacher = false }) {
                 <div>
                     {isTeacher ? (
                         <>
-                            <button
-                                className='button'
-                                onClick={() => setStateSpawn()}
-                            >
+                            <button className='button' onClick={sendSpawnEvent}>
                                 Afficher
                             </button>
                         </>
@@ -200,7 +183,7 @@ export default function Object3DView({ isTeacher = false }) {
                         <ObjectScene
                             isTeacher={isTeacher}
                             objState={objState}
-                            img={Objects3D[currentObjectIndex]}
+                            img={image}
                         />
                     </mesh>
                 </Canvas>
@@ -211,7 +194,7 @@ export default function Object3DView({ isTeacher = false }) {
                         <div style={{ gridColumn: 'span 2' }}>
                             <button
                                 className='button'
-                                onClick={() => setStateNull()}
+                                onClick={sendVanishEvent}
                             >
                                 Masquer
                             </button>
@@ -219,12 +202,8 @@ export default function Object3DView({ isTeacher = false }) {
                         <div style={{ gridColumn: 'span 2' }}>
                             <button
                                 className='button'
-                                onMouseDown={() => {
-                                    setStateZoomIn();
-                                }}
-                                onMouseUp={() => {
-                                    setStateSpawn();
-                                }}
+                                onMouseDown={sendZoomInEvent}
+                                onMouseUp={sendSpawnEvent}
                             >
                                 Zoom +
                             </button>
@@ -232,12 +211,8 @@ export default function Object3DView({ isTeacher = false }) {
                         <div>
                             <button
                                 className='button'
-                                onMouseDown={() => {
-                                    setStateRotateLeft();
-                                }}
-                                onMouseUp={() => {
-                                    setStateSpawn();
-                                }}
+                                onMouseDown={sendRotateLeftEvent}
+                                onMouseUp={sendSpawnEvent}
                             >
                                 Rotation Gauche
                             </button>
@@ -245,24 +220,16 @@ export default function Object3DView({ isTeacher = false }) {
                         <div>
                             <button
                                 className='button'
-                                onMouseDown={() => {
-                                    setStateRotateRight();
-                                }}
-                                onMouseUp={() => {
-                                    setStateSpawn();
-                                }}
+                                onMouseDown={sendRotateRightEvent}
+                                onMouseUp={sendSpawnEvent}
                             >
                                 Rotation Droite
                             </button>
                         </div>
                         <div
                             style={{ gridColumn: 'span 2' }}
-                            onMouseDown={() => {
-                                setStateZoomOut();
-                            }}
-                            onMouseUp={() => {
-                                setStateSpawn();
-                            }}
+                            onMouseDown={sendZoomOutEvent}
+                            onMouseUp={sendSpawnEvent}
                         >
                             <button className='button'>Zoom -</button>
                         </div>
@@ -272,7 +239,7 @@ export default function Object3DView({ isTeacher = false }) {
                         <div
                             className={style.arrow_left}
                             onClick={() => {
-                                setObjectIndex(currentObjectIndex - 1);
+                                sendNewObjectEvent(currentObjectIndex - 1);
                             }}
                         ></div>
                     )}
@@ -280,7 +247,7 @@ export default function Object3DView({ isTeacher = false }) {
                         <div
                             className={style.arrow_right}
                             onClick={() => {
-                                setObjectIndex(currentObjectIndex + 1);
+                                sendNewObjectEvent(currentObjectIndex + 1);
                             }}
                         ></div>
                     )}
