@@ -29,7 +29,15 @@ const mark7: Object3d = {
     zoomSpeed: 0.006,
 };
 
-const Objects3D = [mark7, cruiser];
+const atom: Object3d = {
+    name: 'atom',
+    minScale: 0.001,
+    maxScale: 0.013,
+    initialScale: 0.005,
+    zoomSpeed: 0.0002,
+};
+
+const Objects3D = [mark7, cruiser, atom];
 
 export default function Object3DView({ isTeacher = false }) {
     const socket = useSocketContext();
