@@ -47,21 +47,6 @@ export default function Object3DView({ isTeacher = false }) {
 
     const [currentObjectIndex, setCurrentObjectIndex] = useState(0);
 
-    const nextObject = useCallback(() => {
-        if (currentObjectIndex < Objects3D.length - 1) {
-            socket.emit('object3d', currentObjectIndex + 1);
-            setCurrentObjectIndex(currentObjectIndex + 1);
-        }
-    }, [socket, currentObjectIndex, setCurrentObjectIndex]);
-
-    const prevObject = useCallback(() => {
-        if (currentObjectIndex > 0) {
-            console.log('prev');
-            socket.emit('object3d', currentObjectIndex - 1);
-            setCurrentObjectIndex(currentObjectIndex - 1);
-        }
-    }, [socket, currentObjectIndex, setCurrentObjectIndex]);
-
     const setStateSpawn = useCallback(() => {
         setObjState('spawn');
         socket.emit('3DState', 'spawn');
@@ -91,6 +76,16 @@ export default function Object3DView({ isTeacher = false }) {
         setObjState(null);
         socket.emit('3DState', null);
     }, [socket]);
+
+    const setObjectIndex = useCallback(
+        (index: number) => {
+            setStateNull();
+            socket.emit('object3d', index);
+            setCurrentObjectIndex(index);
+            setStateSpawn();
+        },
+        [socket, setCurrentObjectIndex, setStateNull, setStateSpawn]
+    );
 
     useEffect(() => {
         socket.on('spawn', () => {
@@ -136,12 +131,31 @@ export default function Object3DView({ isTeacher = false }) {
     ]);
 
     useEffect(() => {
+        socket.on('thumbs_right_gesture', () => {
+            if (currentObjectIndex < Objects3D.length - 1) {
+                setObjectIndex(currentObjectIndex + 1);
+            }
+        });
+
+        socket.on('thumbs_left_gesture', () => {
+            if (currentObjectIndex > 0) {
+                setObjectIndex(currentObjectIndex - 1);
+            }
+        });
+
+        return () => {
+            socket.off('thumbs_right_gesture');
+            socket.off('thumbs_left_gesture');
+        };
+    }, [socket, setObjectIndex, currentObjectIndex]);
+
+    useEffect(() => {
         socket.on('3DState', (state) => {
             console.log('state', state);
             setObjState(state);
         });
-        socket.on('object3d', (index) => {
-            console.log('object3d', index);
+        socket.on('object3d', (index: number) => {
+            console.log('index', index);
             setCurrentObjectIndex(index);
         });
 
@@ -258,9 +272,7 @@ export default function Object3DView({ isTeacher = false }) {
                         <div
                             className={style.arrow_left}
                             onClick={() => {
-                                setStateNull();
-                                prevObject();
-                                setStateSpawn();
+                                setObjectIndex(currentObjectIndex - 1);
                             }}
                         ></div>
                     )}
@@ -268,9 +280,7 @@ export default function Object3DView({ isTeacher = false }) {
                         <div
                             className={style.arrow_right}
                             onClick={() => {
-                                setStateNull();
-                                nextObject();
-                                setStateSpawn();
+                                setObjectIndex(currentObjectIndex + 1);
                             }}
                         ></div>
                     )}
