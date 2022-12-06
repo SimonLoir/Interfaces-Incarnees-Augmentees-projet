@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import style from '@style/StudentsScreenShareView.module.scss';
 import { usePeerContext, useSocketContext } from '@utils/global';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 type current_state = 'waiting' | 'sharing' | 'incoming';
 
@@ -84,8 +85,13 @@ export default function StudentsScreenShareView() {
             <div className='center'>
                 <div className='yes-no-modal'>
                     <p>{call.peer} veut partager son écran</p>
-                    <button onClick={acceptScreenShare}>Accepter 👍</button>
-                    <button onClick={rejectScreenShare}>Refuser 👎</button>
+                    <button onClick={rejectScreenShare}>
+                        <FaThumbsDown className='va-middle' />{' '}
+                        <span className='va-middle'>Refuser</span>
+                    </button>
+                    <button onClick={acceptScreenShare}>
+                        <span>Accepter</span> <FaThumbsUp />
+                    </button>
                 </div>
             </div>
         );

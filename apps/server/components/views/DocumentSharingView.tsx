@@ -1,6 +1,7 @@
 import { useSocketContext } from '@utils/global';
 import { useCallback, useEffect, useState } from 'react';
 import style from '@style/DocumentSharing.module.scss';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 const useAvailableFiles = () => {
     const [files, setFiles] = useState<string[]>([]);
@@ -46,9 +47,12 @@ export default function DocumentSharingView() {
             <div className='center'>
                 <div className='yes-no-modal'>
                     <p>Envoyer le fichier {selectedFile} ? </p>
-                    <button onClick={sendSelectedFile}>Oui 👍</button>
                     <button onClick={() => setSelectedFile(null)}>
-                        Non 👎
+                        <FaThumbsDown className='va-middle' />{' '}
+                        <span className='va-middle'>Non</span>
+                    </button>
+                    <button onClick={sendSelectedFile}>
+                        <span>Oui</span> <FaThumbsUp />
                     </button>
                 </div>
             </div>

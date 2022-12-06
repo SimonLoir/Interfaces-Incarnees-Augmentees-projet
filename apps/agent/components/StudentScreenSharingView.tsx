@@ -41,7 +41,11 @@ export default function StudentsScreenSharingView() {
             <div className='center'>
                 <div>
                     <span className='loader'></span>
-                    <p>En attente de réponse</p>
+                    <p style={{ textAlign: 'center' }}>
+                        En attente de réponse
+                        <br />
+                        Votre ID : {peer.id}
+                    </p>
                 </div>
             </div>
         );
