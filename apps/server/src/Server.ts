@@ -10,6 +10,7 @@ import cors from 'cors';
 import LeapMotionServer from './LeapMotionServer';
 import { Gesture } from 'leap-gestures-controller';
 import { AbstractGesture } from 'project-types';
+import { Gesture as KinectGesture } from 'kinect-gestures-controller/types';
 
 export default class Server {
     private static instance: Server;
@@ -266,17 +267,85 @@ export default class Server {
                 this.io.emit('vanish');
                 break;
             case 'rotate-left':
-                this.io.emit('rotate_left');
+                () => {
+                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
+                    if (kinectGesture.found) {
+                        if (
+                            kinectGesture.found.frameDiff.forearmVelocityDiff
+                                .left
+                        ) {
+                            this.io.emit(
+                                'rotate_left',
+                                Math.abs(
+                                    kinectGesture.found.frameDiff
+                                        .forearmVelocityDiff.left[0]
+                                )
+                            );
+                        } else if (
+                            kinectGesture.found.frameDiff.forearmVelocityDiff
+                                .right
+                        ) {
+                            this.io.emit(
+                                'rotate_left',
+                                Math.abs(
+                                    kinectGesture.found.frameDiff
+                                        .forearmVelocityDiff.right[0]
+                                )
+                            );
+                        }
+                    }
+                };
+
                 break;
             case 'rotate-right':
-                this.io.emit('rotate_right');
+                () => {
+                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
+                    if (kinectGesture.found) {
+                        if (kinectGesture.forearmsMovingType === 'left') {
+                            this.io.emit(
+                                'rotate_right',
+                                Math.abs(
+                                    kinectGesture.found.frameDiff
+                                        .forearmVelocityDiff!.left![0]
+                                )
+                            );
+                        } else if (
+                            kinectGesture.forearmsMovingType === 'right'
+                        ) {
+                            this.io.emit(
+                                'rotate_right',
+                                Math.abs(
+                                    kinectGesture.found.frameDiff
+                                        .forearmVelocityDiff!.right![0]
+                                )
+                            );
+                        }
+                    }
+                };
                 break;
             case 'zoom-in':
-                this.io.emit('zoom_in');
+                () => {
+                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
+                    if (kinectGesture.found) {
+                        const intensity =
+                            kinectGesture.found!.frameDiff.distanceFrame2 /
+                            kinectGesture.found!.frameDiff.forearmSpan;
+                        this.io.emit('zoom_in', intensity);
+                    }
+                };
                 break;
             case 'zoom-out':
-                this.io.emit('zoom_out');
+                () => {
+                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
+                    if (kinectGesture.found) {
+                        const intensity =
+                            kinectGesture.found!.frameDiff.distanceFrame2 /
+                            kinectGesture.found!.frameDiff.forearmSpan;
+                        this.io.emit('zoom_out', intensity);
+                    }
+                };
                 break;
+
             default:
                 break;
         }

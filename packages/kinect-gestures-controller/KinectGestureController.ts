@@ -28,6 +28,9 @@ export default class KinectGestureController extends AbstractGestureController<F
     ];
     protected staticGestures: Gesture<'static'>[] = [];
     protected kinectController: Kinect2;
+
+    protected forearmType?: 'left' | 'right';
+
     constructor(allowedGestures: string[] = []) {
         super();
         this.kinectController = new Kinect2();
@@ -55,6 +58,17 @@ export default class KinectGestureController extends AbstractGestureController<F
         frames: Frame[]
     ): boolean {
         return false;
+    }
+
+    protected matchDynamicGesture(
+        gesture: Gesture<'dynamic'>,
+        frames: Frame[]
+    ): boolean {
+        super.matchDynamicGesture(gesture, frames);
+        if (this.forearmType) {
+            gesture.forearmsMovingType = this.forearmType;
+        }
+        return true;
     }
 
     protected checkStaticPropertiesForModel(
@@ -217,49 +231,58 @@ export default class KinectGestureController extends AbstractGestureController<F
                     }
                 }
             }
-            if (forearmsInModel && forearmsInModel.length > 0) {
-                for (const forearm of forearmsInModel) {
-                    const { velocityDiff, type } = forearm;
+        }
 
-                    if (velocityDiff) {
-                        if (type === 'right' && forearmVelocityDiff.right) {
-                            if (
-                                !this.checkVectorModel(
-                                    velocityDiff,
-                                    forearmVelocityDiff.right
-                                )
+        if (forearmsInModel && forearmsInModel.length > 0) {
+            for (const forearm of forearmsInModel) {
+                const { velocityDiff, type } = forearm;
+
+                if (velocityDiff) {
+                    // if the type of the foream is right
+                    if (type === 'right' && forearmVelocityDiff.right) {
+                        if (
+                            !this.checkVectorModel(
+                                velocityDiff,
+                                forearmVelocityDiff.right
                             )
-                                return false;
-                        } else if (
-                            type === 'left' &&
-                            forearmVelocityDiff.left
-                        ) {
-                            if (
-                                !this.checkVectorModel(
-                                    velocityDiff,
-                                    forearmVelocityDiff.left
-                                )
-                            )
-                                return false;
-                        } else {
-                            if (
-                                forearmVelocityDiff.right &&
-                                this.checkVectorModel(
-                                    velocityDiff,
-                                    forearmVelocityDiff.right
-                                )
-                            )
-                                break;
-                            if (
-                                forearmVelocityDiff.left &&
-                                this.checkVectorModel(
-                                    velocityDiff,
-                                    forearmVelocityDiff.left
-                                )
-                            )
-                                break;
+                        )
                             return false;
+                        else this.forearmType = 'right';
+                    }
+                    // if the type of the forearm is left
+                    else if (type === 'left' && forearmVelocityDiff.left) {
+                        if (
+                            !this.checkVectorModel(
+                                velocityDiff,
+                                forearmVelocityDiff.left
+                            )
+                        )
+                            return false;
+                        else this.forearmType = 'left';
+                    }
+                    // if the type of the forearm is not specified
+                    else {
+                        if (
+                            forearmVelocityDiff.right &&
+                            this.checkVectorModel(
+                                velocityDiff,
+                                forearmVelocityDiff.right
+                            )
+                        ) {
+                            this.forearmType = 'right';
+                            break;
                         }
+                        if (
+                            forearmVelocityDiff.left &&
+                            this.checkVectorModel(
+                                velocityDiff,
+                                forearmVelocityDiff.left
+                            )
+                        ) {
+                            this.forearmType = 'left';
+                            break;
+                        }
+                        return false;
                     }
                 }
             }
