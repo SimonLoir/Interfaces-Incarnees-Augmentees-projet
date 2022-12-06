@@ -94,6 +94,7 @@ export default function ObjectScene({
 
         socket.on('zoom', (zoom) => {
             if (!ref.current) return;
+            if (objState !== 'spawn') return;
             const newScale =
                 (zoom / 100) * (img.maxScale - img.minScale) + img.minScale;
 
@@ -102,11 +103,13 @@ export default function ObjectScene({
 
         socket.on('rotate_right_gesture', (intensity) => {
             if (!ref.current) return;
+            if (objState !== 'spawn') return;
             ref.current.rotateY(intensity * 0.02);
         });
 
         socket.on('rotate_left_gesture', (intensity) => {
             if (!ref.current) return;
+            if (objState !== 'spawn') return;
             ref.current.rotateY(-intensity * 0.02);
         });
 
