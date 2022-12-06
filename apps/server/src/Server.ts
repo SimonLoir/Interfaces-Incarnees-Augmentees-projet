@@ -270,26 +270,22 @@ export default class Server {
                 () => {
                     const kinectGesture = gesture as KinectGesture<'dynamic'>;
                     if (kinectGesture.found) {
-                        if (
-                            kinectGesture.found.frameDiff.forearmVelocityDiff
-                                .left
-                        ) {
+                        if (kinectGesture.forearmsMovingType === 'left') {
                             this.io.emit(
                                 'rotate_left',
                                 Math.abs(
                                     kinectGesture.found.frameDiff
-                                        .forearmVelocityDiff.left[0]
+                                        .forearmVelocityDiff!.left![0]
                                 )
                             );
                         } else if (
-                            kinectGesture.found.frameDiff.forearmVelocityDiff
-                                .right
+                            kinectGesture.forearmsMovingType === 'right'
                         ) {
                             this.io.emit(
                                 'rotate_left',
                                 Math.abs(
                                     kinectGesture.found.frameDiff
-                                        .forearmVelocityDiff.right[0]
+                                        .forearmVelocityDiff!.right![0]
                                 )
                             );
                         }
