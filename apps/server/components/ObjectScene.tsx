@@ -120,7 +120,7 @@ export default function ObjectScene({
             socket.off('rotate_right_gesture');
             socket.off('rotate_left_gesture');
         };
-    }, [socket, img.maxScale, img.minScale]);
+    }, [socket, img.maxScale, img.minScale, objState]);
 
     return scene;
 }
