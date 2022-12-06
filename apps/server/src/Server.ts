@@ -202,6 +202,8 @@ export default class Server {
      * @param gesture The gesture to send
      */
     public sendGesture(gesture: AbstractGesture<any>) {
+        console.log(gesture.name);
+        let kinectGesture = undefined;
         switch (gesture.name) {
             case 'screen-sharing':
                 this.io.emit('screen_share_gesture');
@@ -266,80 +268,66 @@ export default class Server {
             case 'vanish':
                 this.io.emit('vanish');
                 break;
+
             case 'rotate-left':
-                () => {
-                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
-                    if (kinectGesture.found) {
-                        if (kinectGesture.forearmsMovingType === 'left') {
-                            this.io.emit(
-                                'rotate_left_gesture',
-                                Math.abs(
-                                    kinectGesture.found.frameDiff
-                                        .forearmVelocityDiff!.left![0]
-                                )
-                            );
-                        } else if (
-                            kinectGesture.forearmsMovingType === 'right'
-                        ) {
-                            this.io.emit(
-                                'rotate_left_gesture',
-                                Math.abs(
-                                    kinectGesture.found.frameDiff
-                                        .forearmVelocityDiff!.right![0]
-                                )
-                            );
-                        }
+                console.log('rotate_left');
+                kinectGesture = gesture as KinectGesture<'dynamic'>;
+                if (kinectGesture.found) {
+                    if (kinectGesture.forearmsMovingType === 'left') {
+                        this.io.emit(
+                            'rotate_left_gesture',
+                            Math.abs(
+                                kinectGesture.found.frameDiff
+                                    .forearmVelocityDiff!.left![0]
+                            )
+                        );
+                    } else if (kinectGesture.forearmsMovingType === 'right') {
+                        this.io.emit(
+                            'rotate_left_gesture',
+                            Math.abs(
+                                kinectGesture.found.frameDiff
+                                    .forearmVelocityDiff!.right![0]
+                            )
+                        );
                     }
-                };
+                }
 
                 break;
             case 'rotate-right':
-                () => {
-                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
-                    if (kinectGesture.found) {
-                        if (kinectGesture.forearmsMovingType === 'left') {
-                            this.io.emit(
-                                'rotate_right_gesture',
-                                Math.abs(
-                                    kinectGesture.found.frameDiff
-                                        .forearmVelocityDiff!.left![0]
-                                )
-                            );
-                        } else if (
-                            kinectGesture.forearmsMovingType === 'right'
-                        ) {
-                            this.io.emit(
-                                'rotate_right',
-                                Math.abs(
-                                    kinectGesture.found.frameDiff
-                                        .forearmVelocityDiff!.right![0]
-                                )
-                            );
-                        }
+                console.log('rotate_right');
+                kinectGesture = gesture as KinectGesture<'dynamic'>;
+                if (kinectGesture.found) {
+                    if (kinectGesture.forearmsMovingType === 'left') {
+                        this.io.emit(
+                            'rotate_right_gesture',
+                            Math.abs(
+                                kinectGesture.found.frameDiff
+                                    .forearmVelocityDiff!.left![0]
+                            )
+                        );
+                    } else if (kinectGesture.forearmsMovingType === 'right') {
+                        this.io.emit(
+                            'rotate_right',
+                            Math.abs(
+                                kinectGesture.found.frameDiff
+                                    .forearmVelocityDiff!.right![0]
+                            )
+                        );
                     }
-                };
+                }
+
                 break;
-            case 'zoom-in':
-                () => {
-                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
-                    if (kinectGesture.found) {
-                        const intensity =
-                            kinectGesture.found!.frameDiff.distanceFrame2 /
-                            kinectGesture.found!.frameDiff.forearmSpan;
-                        this.io.emit('zoom_gesture', intensity);
-                    }
-                };
-                break;
-            case 'zoom-out':
-                () => {
-                    const kinectGesture = gesture as KinectGesture<'dynamic'>;
-                    if (kinectGesture.found) {
-                        const intensity =
-                            kinectGesture.found!.frameDiff.distanceFrame2 /
-                            kinectGesture.found!.frameDiff.forearmSpan;
-                        this.io.emit('zoom_gesture', intensity);
-                    }
-                };
+
+            case 'zoom':
+                kinectGesture = gesture as KinectGesture<'dynamic'>;
+                if (kinectGesture.found) {
+                    const intensity =
+                        kinectGesture.found!.frameDiff.distanceFrame2 /
+                        kinectGesture.found!.frameDiff.forearmSpan;
+
+                    this.io.emit('zoom_gesture', intensity);
+                }
+
                 break;
 
             default:

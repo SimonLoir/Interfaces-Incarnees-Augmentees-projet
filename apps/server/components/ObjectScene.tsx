@@ -92,11 +92,11 @@ export default function ObjectScene({
             ref.current.scale.set(x, y, z);
         });
 
-        socket.on('zoom', (zoom) => {
+        socket.on('zoom_gesture', (zoom) => {
             if (!ref.current) return;
             if (objState !== 'spawn') return;
             const newScale =
-                (zoom / 100) * (img.maxScale - img.minScale) + img.minScale;
+                zoom * (img.maxScale - img.minScale) + img.minScale;
 
             ref.current.scale.set(newScale, newScale, newScale);
         });

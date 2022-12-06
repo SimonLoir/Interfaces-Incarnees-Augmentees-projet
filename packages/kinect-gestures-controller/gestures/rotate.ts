@@ -28,7 +28,7 @@ function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
         name: 'rotate-' + type,
         type: 'dynamic',
         description: 'Rotates the 3D Object to the ' + type,
-        coolDown: 1000,
+        coolDown: 0,
         data: [
             {
                 minDuration: 0,

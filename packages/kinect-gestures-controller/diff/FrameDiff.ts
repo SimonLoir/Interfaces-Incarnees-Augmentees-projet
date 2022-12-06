@@ -32,6 +32,7 @@ export default class FrameDiff extends AbstractFrameDiff {
         this.armsDiff();
         this.forearmsDiff();
         this.forearmsDistanceDiff();
+        this.bodyForearmSpan();
     }
 
     protected armsDiff() {

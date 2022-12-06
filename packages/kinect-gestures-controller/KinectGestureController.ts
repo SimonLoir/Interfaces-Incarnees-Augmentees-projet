@@ -1,10 +1,10 @@
 import Kinect2, { Joint } from 'kinect2';
 import Frame from './Frame';
 import { BodyModel, Model, Gesture } from './types';
-import { zoomInGesture } from './gestures/zoom_in';
-import { zoomOutGesture } from './gestures/zoom_out';
+
 import { VanishGesture } from './gestures/vanish';
 import { spawnGesture } from './gestures/spawn';
+import { zoomGesture } from './gestures/zoom';
 import {
     AbstractGesture,
     AbstractGestureController,
@@ -19,12 +19,11 @@ export default class KinectGestureController extends AbstractGestureController<F
     protected frameStore: Frame[] = [];
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [
-        zoomInGesture,
-        zoomOutGesture,
+        //zoomInGesture,
+        //zoomOutGesture,
         VanishGesture,
         spawnGesture,
-        rotateLeftGesture,
-        rotateRightGesture,
+        zoomGesture,
     ];
     protected staticGestures: Gesture<'static'>[] = [];
     protected kinectController: Kinect2;
@@ -64,11 +63,13 @@ export default class KinectGestureController extends AbstractGestureController<F
         gesture: Gesture<'dynamic'>,
         frames: Frame[]
     ): boolean {
-        super.matchDynamicGesture(gesture, frames);
-        if (this.forearmType) {
-            gesture.forearmsMovingType = this.forearmType;
+        if (super.matchDynamicGesture(gesture, frames)) {
+            if (this.forearmType) {
+                gesture.forearmsMovingType = this.forearmType;
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     protected checkStaticPropertiesForModel(

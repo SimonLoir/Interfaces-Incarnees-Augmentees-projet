@@ -2,15 +2,12 @@ import { VectorModel } from 'project-types';
 import { Gesture } from '../types';
 
 const initFrameDirection: VectorModel = {
-    minX: -0.5,
-    maxX: 0.5,
-    minY: -0.3,
-    maxY: 0.2,
+    maxZ: -0.5,
+    maxY: -0.1,
 };
 const finalFrameDirection: VectorModel = {
-    minX: -0.5,
-    maxX: 0.5,
-    minY: 0.4,
+    maxZ: -0.5,
+    minY: 0.1,
 };
 
 export const spawnGesture: Gesture<'dynamic'> = {
