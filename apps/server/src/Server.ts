@@ -272,7 +272,7 @@ export default class Server {
                     if (kinectGesture.found) {
                         if (kinectGesture.forearmsMovingType === 'left') {
                             this.io.emit(
-                                'rotate_left',
+                                'rotate_left_gesture',
                                 Math.abs(
                                     kinectGesture.found.frameDiff
                                         .forearmVelocityDiff!.left![0]
@@ -282,7 +282,7 @@ export default class Server {
                             kinectGesture.forearmsMovingType === 'right'
                         ) {
                             this.io.emit(
-                                'rotate_left',
+                                'rotate_left_gesture',
                                 Math.abs(
                                     kinectGesture.found.frameDiff
                                         .forearmVelocityDiff!.right![0]
@@ -299,7 +299,7 @@ export default class Server {
                     if (kinectGesture.found) {
                         if (kinectGesture.forearmsMovingType === 'left') {
                             this.io.emit(
-                                'rotate_right',
+                                'rotate_right_gesture',
                                 Math.abs(
                                     kinectGesture.found.frameDiff
                                         .forearmVelocityDiff!.left![0]
@@ -326,7 +326,7 @@ export default class Server {
                         const intensity =
                             kinectGesture.found!.frameDiff.distanceFrame2 /
                             kinectGesture.found!.frameDiff.forearmSpan;
-                        this.io.emit('zoom_in', intensity);
+                        this.io.emit('zoom_gesture', intensity);
                     }
                 };
                 break;
@@ -337,7 +337,7 @@ export default class Server {
                         const intensity =
                             kinectGesture.found!.frameDiff.distanceFrame2 /
                             kinectGesture.found!.frameDiff.forearmSpan;
-                        this.io.emit('zoom_out', intensity);
+                        this.io.emit('zoom_gesture', intensity);
                     }
                 };
                 break;

@@ -24,6 +24,7 @@ export default function ObjectScene({
     const scene = (
         <mesh scale={img.initialScale} position={[0, 0, 0]} ref={ref}></mesh>
     );
+    const socket = useSocketContext();
 
     useEffect(() => {
         ref.current?.clear();
@@ -37,8 +38,6 @@ export default function ObjectScene({
             });
         });
     }, [img]);
-
-    const socket = useSocketContext();
 
     function zoomIn() {
         if (!ref.current) return;
@@ -93,11 +92,32 @@ export default function ObjectScene({
             ref.current.scale.set(x, y, z);
         });
 
+        socket.on('zoom', (zoom) => {
+            if (!ref.current) return;
+            const newScale =
+                (zoom / 100) * (img.maxScale - img.minScale) + img.minScale;
+
+            ref.current.scale.set(newScale, newScale, newScale);
+        });
+
+        socket.on('rotate_right_gesture', (intensity) => {
+            if (!ref.current) return;
+            ref.current.rotateY(intensity * 0.02);
+        });
+
+        socket.on('rotate_left_gesture', (intensity) => {
+            if (!ref.current) return;
+            ref.current.rotateY(-intensity * 0.02);
+        });
+
         return () => {
             socket.off('3DRotation');
             socket.off('3DZoom');
+            socket.off('zoom');
+            socket.off('rotate_right_gesture');
+            socket.off('rotate_left_gesture');
         };
-    }, [socket]);
+    }, [socket, img.maxScale, img.minScale]);
 
     return scene;
 }
