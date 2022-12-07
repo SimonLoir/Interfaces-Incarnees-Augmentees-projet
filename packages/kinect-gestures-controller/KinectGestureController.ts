@@ -226,7 +226,6 @@ export default class KinectGestureController extends AbstractGestureController<F
                 if (velocityDiff) {
                     // if the type of the foream is right
                     if (type === 'right' && forearmVelocityDiff.right) {
-                        console.log(forearmVelocityDiff.right);
                         if (
                             !this.checkVectorModel(
                                 velocityDiff,
@@ -237,7 +236,6 @@ export default class KinectGestureController extends AbstractGestureController<F
                     }
                     // if the type of the forearm is left
                     else if (type === 'left' && forearmVelocityDiff.left) {
-                        console.log(forearmVelocityDiff.left);
                         if (
                             !this.checkVectorModel(
                                 velocityDiff,

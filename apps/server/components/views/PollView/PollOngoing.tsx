@@ -43,8 +43,6 @@ export default function PollOngoing({
 
     useEffect(() => {
         socket.on('approval', (id) => {
-            console.log('user approved');
-
             setQuestionList(
                 questionList.map((poll, index) => {
                     if (index === Number(id)) {
@@ -55,7 +53,6 @@ export default function PollOngoing({
             );
         });
         socket.on('refusal', (id) => {
-            console.log('user refused');
             setQuestionList(
                 questionList.map((poll, index) => {
                     if (index === Number(id)) {

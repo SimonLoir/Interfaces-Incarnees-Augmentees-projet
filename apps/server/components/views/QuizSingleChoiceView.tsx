@@ -41,12 +41,10 @@ export default function QuizSingleChoice() {
                         newPoll,
                     ]);
                     setNewPoll(false);
-                    console.log('emitted question');
-                    console.log(questionList);
                 }
             }
         }
-    }, [currentState, currentQuestionIndex, socket]);
+    }, [currentState, currentQuestionIndex, socket, newPoll, questionList]);
 
     useEffect(() => {
         localStorage.setItem('pollPreset', JSON.stringify(questionList));
@@ -54,8 +52,6 @@ export default function QuizSingleChoice() {
 
     useEffect(() => {
         socket.on('approval', (id) => {
-            console.log('user approved');
-
             setQuestionList(
                 questionList.map((poll, index) => {
                     if (index === Number(id)) {
@@ -66,7 +62,6 @@ export default function QuizSingleChoice() {
             );
         });
         socket.on('refusal', (id) => {
-            console.log('user refused');
             setQuestionList(
                 questionList.map((poll, index) => {
                     if (index === Number(id)) {

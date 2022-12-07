@@ -17,7 +17,7 @@ const useAvailableFiles = () => {
 export default function DocumentSharingView() {
     const socket = useSocketContext();
     const files = useAvailableFiles();
-    console.log(files);
+
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
     const sendSelectedFile = useCallback(() => {

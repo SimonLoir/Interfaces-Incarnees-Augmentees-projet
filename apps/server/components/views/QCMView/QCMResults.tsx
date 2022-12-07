@@ -14,28 +14,22 @@ export default function QCMResults({ questionList, goTo }: QCMResultsProps) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
     const next = useCallback(() => {
-        console.log(currentQuestionIndex);
         if (currentQuestionIndex + 1 < questionList.length) {
-            console.log('ok');
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
     }, [currentQuestionIndex, questionList.length, setCurrentQuestionIndex]);
 
     const previous = useCallback(() => {
-        console.log(currentQuestionIndex);
         if (currentQuestionIndex > 0) {
-            console.log('ok');
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     }, [currentQuestionIndex, setCurrentQuestionIndex]);
 
     useEffect(() => {
         socket.on('thumbs_left_gesture', () => {
-            console.log('thumbs_left_gesture');
             previous();
         });
         socket.on('thumbs_right_gesture', () => {
-            console.log('thumbs_right_gesture');
             next();
         });
         socket.on('thumbs_down_gesture', () => {

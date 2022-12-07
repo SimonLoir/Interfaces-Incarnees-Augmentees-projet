@@ -3,10 +3,10 @@ import { Gesture } from '../types';
 
 const initFrameDirection: VectorModel = {
     maxZ: -0.5,
-    minY: 0.25,
+    minY: 0.2,
 };
 const finalFrameDirection: VectorModel = {
-    maxY: -0.25,
+    maxY: -0.2,
     maxZ: -0.5,
 };
 
@@ -14,7 +14,7 @@ export const VanishGesture: Gesture<'dynamic'> = {
     name: 'vanish',
     type: 'dynamic',
     description: 'Vanish the 3D Object',
-    coolDown: 4000,
+    coolDown: 1000,
     data: [
         {
             minDuration: 0,

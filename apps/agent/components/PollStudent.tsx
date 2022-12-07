@@ -15,7 +15,6 @@ export default function PollStudents() {
     const [pollConnection, setPollConnection] = useState<boolean>(false);
     const { host, port } = getServerInfo();
     function handleGesture(gesture: any) {
-        console.log(gesture);
         //Concurrency handling for button press + thumbs up/ thumbs down
         setStatus(
             status.map((s, i) => {
@@ -56,7 +55,6 @@ export default function PollStudents() {
             const question = poll.question;
             setQuestion({ id, question });
             if (newPoll) {
-                console.log('new poll');
                 setStatus([undefined]);
             }
 

@@ -23,7 +23,6 @@ export function ScreenSelector({
         const listener = async ({ data }: any) => {
             if (data.type === 'sources') {
                 setSources(data.sources);
-                console.log(data.sources);
             }
         };
 

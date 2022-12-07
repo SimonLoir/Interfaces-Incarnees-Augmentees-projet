@@ -30,7 +30,6 @@ export default class IoClient {
         });
 
         this.io.on('document', (document: string) => {
-            console.log('document', document);
             server.downloadDocument(document);
         });
         this.io.on('pollEvent', (event: string) => {

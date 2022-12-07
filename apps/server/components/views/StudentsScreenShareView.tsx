@@ -27,7 +27,6 @@ export default function StudentsScreenShareView() {
             }, 500);
         });
         setQueue((q) => q.slice(1));
-        console.log('call answer', call);
     }, [queue, socket]);
 
     const rejectScreenShare = useCallback(() => {
@@ -40,7 +39,6 @@ export default function StudentsScreenShareView() {
 
     useEffect(() => {
         peer.on('call', (call: any) => {
-            console.log('call incoming', call);
             if (current === 'sharing') return;
             setQueue((q) => [...q, call]);
             setCurrent('incoming');

@@ -11,7 +11,6 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
-    console.log('test');
     createWindow();
 });
 

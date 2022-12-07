@@ -40,31 +40,26 @@ export default function QCMAnswers({
         <div className={style.main}>
             <h2>{question}</h2>
 
-            {answers.map(
-                (answer, index) => (
-                    console.log(answer),
-                    (
-                        <div>
-                            <h2>{index + 1}</h2>
-                            <button
-                                key={answer.answer}
-                                className={
-                                    status[questionId] === -1
-                                        ? style.allowClick
-                                        : status[questionId] === index
-                                        ? style.clicked
-                                        : style.disabled
-                                }
-                                onClick={() => {
-                                    handleGesture(index);
-                                }}
-                            >
-                                {answer.answer}
-                            </button>
-                        </div>
-                    )
-                )
-            )}
+            {answers.map((answer, index) => (
+                <div>
+                    <h2>{index + 1}</h2>
+                    <button
+                        key={answer.answer}
+                        className={
+                            status[questionId] === -1
+                                ? style.allowClick
+                                : status[questionId] === index
+                                ? style.clicked
+                                : style.disabled
+                        }
+                        onClick={() => {
+                            handleGesture(index);
+                        }}
+                    >
+                        {answer.answer}
+                    </button>
+                </div>
+            ))}
         </div>
     );
 }

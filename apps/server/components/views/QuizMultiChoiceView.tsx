@@ -79,7 +79,6 @@ export default function QuizMultiChoice() {
         });
 
         return () => {
-            console.log('off');
             socket.off('answer');
         };
     }, [socket, currentQuestionIndex, questionList]);
@@ -206,7 +205,6 @@ export default function QuizMultiChoice() {
     }
 
     if (currentState === 'creation') {
-        console.log(questionList);
         return (
             <div className={style.main}>
                 <form

@@ -9,7 +9,6 @@ export default function DocumentShareView() {
 
     const acceptDocument = useCallback(() => {
         if (!doc) return;
-        console.log(doc);
 
         const { host, port } = getServerInfo();
         fetch(`http://${host}:${port}/${doc}`)

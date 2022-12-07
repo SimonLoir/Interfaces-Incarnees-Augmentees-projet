@@ -90,7 +90,9 @@ export default function Object3DView({ isTeacher = false }) {
 
     useEffect(() => {
         socket.on('spawn', () => {
-            setObjState('spawn');
+            if (objState === null) {
+                setObjState('spawn');
+            }
         });
 
         socket.on('vanish', () => {
@@ -130,7 +132,14 @@ export default function Object3DView({ isTeacher = false }) {
             socket.off('3DState');
             socket.off('object3d');
         };
-    }, [socket, setObjState, setObjectIndex, setCurrentObjectIndex, setImage]);
+    }, [
+        socket,
+        setObjState,
+        setObjectIndex,
+        setCurrentObjectIndex,
+        setImage,
+        objState,
+    ]);
 
     useEffect(() => {
         socket.on('thumbs_right_gesture', () => {

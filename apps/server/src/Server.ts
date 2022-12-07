@@ -51,7 +51,7 @@ export default class Server {
                 (req: Request, res: Response) => {
                     const id = req.params.id;
                     this.io.emit('new-peer', id);
-                    console.log('new-peer', id);
+
                     return res.send(id);
                 }
             );
@@ -61,7 +61,7 @@ export default class Server {
                 (req: Request, res: Response) => {
                     const id = req.params.id;
                     this.io.emit('approval', id);
-                    console.log('+1 approval', id);
+
                     return res.send(id);
                 }
             );
@@ -71,7 +71,7 @@ export default class Server {
                 (req: Request, res: Response) => {
                     const id = req.params.id;
                     this.io.emit('refusal', id);
-                    console.log('+1 refusal', id);
+
                     return res.send(id);
                 }
             );
@@ -82,7 +82,7 @@ export default class Server {
                     const id = req.params.id;
                     const num = req.params.num;
                     this.io.emit('answer', [num, id]);
-                    console.log('+1 answer ' + num + ' ', id);
+
                     return res.send(id);
                 }
             );
@@ -91,7 +91,7 @@ export default class Server {
                 '/poll-connect/*',
                 (req: Request, res: Response) => {
                     this.io.emit('new-poll-participation', 'hi student');
-                    console.log('new-poll-participation');
+
                     return res.send('hi student');
                 }
             );
@@ -126,7 +126,6 @@ export default class Server {
      */
     private setupSocketConnection() {
         this.io.on('connection', (socket) => {
-            console.log('new connection');
             socket.emit('setView', this.currentView);
             socket.on('screen_share_accepted', (sharerId: string) => {
                 this.io.emit('screen_share_accepted', sharerId);
@@ -154,7 +153,6 @@ export default class Server {
                 this.io.emit('3DState', state);
             });
             socket.on('document', (url: string) => {
-                console.log('document', url);
                 this.io.emit('document', url);
             });
             socket.on('pollEvent', (event: string) => {
@@ -208,7 +206,6 @@ export default class Server {
      * @param gesture The gesture to send
      */
     public sendGesture(gesture: AbstractGesture<any>) {
-        console.log(gesture.name);
         let kinectGesture = undefined;
         switch (gesture.name) {
             case 'screen-sharing':
