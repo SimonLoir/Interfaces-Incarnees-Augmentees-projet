@@ -6,6 +6,7 @@ export default class KinectServer extends KinectGestureController {
         super([]);
         this.addEventListener('gesture', (g) => {
             console.log('received gesture', g);
+
             server.sendGesture(g);
         });
     }

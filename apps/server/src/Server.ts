@@ -166,6 +166,12 @@ export default class Server {
             socket.on('object3d', (index: number) => {
                 this.io.emit('object3d', index);
             });
+            socket.on('addIntensity', () => {
+                this.io.emit('addIntensity');
+            });
+            socket.on('subIntensity', () => {
+                this.io.emit('subIntensity');
+            });
         });
 
         setInterval(() => {

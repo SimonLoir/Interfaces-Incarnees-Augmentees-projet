@@ -1,6 +1,6 @@
 import { useFrame } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSocketContext } from '@utils/global';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { Object3d } from './views/Object3dView';
@@ -20,6 +20,7 @@ export default function ObjectScene({
         | null;
     img: Object3d;
 }): JSX.Element {
+    const [rotationIntensity, setRotationIntensity] = useState(1);
     const ref = useRef<THREE.Mesh>(null);
     const scene = (
         <mesh scale={img.initialScale} position={[0, 0, 0]} ref={ref}></mesh>
@@ -59,12 +60,12 @@ export default function ObjectScene({
 
     function rotateLeft() {
         if (!ref.current) return;
-        ref.current.rotateY(-0.02);
+        ref.current.rotateY(-0.02 * rotationIntensity);
     }
 
     function rotateRight() {
         if (!ref.current) return;
-        ref.current.rotateY(0.02);
+        ref.current.rotateY(0.02 * rotationIntensity);
     }
 
     useFrame(() => {
@@ -101,16 +102,42 @@ export default function ObjectScene({
             ref.current.scale.set(newScale, newScale, newScale);
         });
 
-        socket.on('rotate_right_gesture', (intensity) => {
+        socket.on('rotate_right_gesture', () => {
             if (!ref.current) return;
-            if (objState !== 'spawn') return;
-            ref.current.rotateY(intensity * 0.02);
+            if (objState === 'spawn') {
+                socket.emit('3DState', 'rotateRight');
+            } else if (objState === 'rotateRight') {
+                socket.emit('addIntensity');
+            } else if (objState === 'rotateLeft') {
+                if (rotationIntensity === 1) {
+                    socket.emit('3DState', 'spawn');
+                } else {
+                    socket.emit('subIntensity');
+                }
+            }
         });
 
-        socket.on('rotate_left_gesture', (intensity) => {
+        socket.on('rotate_left_gesture', () => {
             if (!ref.current) return;
-            if (objState !== 'spawn') return;
-            ref.current.rotateY(-intensity * 0.02);
+
+            if (objState === 'spawn') {
+                socket.emit('3DState', 'rotateLeft');
+            } else if (objState === 'rotateLeft') {
+                socket.emit('addIntensity');
+            } else if (objState === 'rotateRight') {
+                if (rotationIntensity === 1) {
+                    socket.emit('3DState', 'spawn');
+                } else {
+                    socket.emit('subIntensity');
+                }
+            }
+        });
+
+        socket.on('addIntensity', () => {
+            setRotationIntensity((rotationIntensity) => rotationIntensity + 1);
+        });
+        socket.on('subIntensity', () => {
+            setRotationIntensity((rotationIntensity) => rotationIntensity - 1);
         });
 
         return () => {
@@ -119,8 +146,17 @@ export default function ObjectScene({
             socket.off('zoom');
             socket.off('rotate_right_gesture');
             socket.off('rotate_left_gesture');
+            socket.off('addIntensity');
+            socket.off('subIntensity');
         };
-    }, [socket, img.maxScale, img.minScale, objState]);
+    }, [
+        socket,
+        img.maxScale,
+        img.minScale,
+        objState,
+        rotationIntensity,
+        setRotationIntensity,
+    ]);
 
     return scene;
 }

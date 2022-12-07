@@ -3,10 +3,10 @@ import { Gesture } from '../types';
 
 const initFrameDirection: VectorModel = {
     maxZ: -0.5,
-    minY: 0.2,
+    minY: 0.25,
 };
 const finalFrameDirection: VectorModel = {
-    maxY: -0.2,
+    maxY: -0.25,
     maxZ: -0.5,
 };
 

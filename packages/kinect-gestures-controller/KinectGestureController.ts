@@ -15,15 +15,15 @@ import { rotateLeftGesture, rotateRightGesture } from './gestures/rotate';
 
 export default class KinectGestureController extends AbstractGestureController<Frame> {
     protected frameRate = 8;
-    protected frameStoreLength = this.frameRate * 3; // 3 seconds
+    protected frameStoreLength = this.frameRate * 1; // 1 seconds
     protected frameStore: Frame[] = [];
 
     protected dynamicGestures: Gesture<'dynamic'>[] = [
-        //zoomInGesture,
-        //zoomOutGesture,
         VanishGesture,
         spawnGesture,
         zoomGesture,
+        rotateLeftGesture,
+        rotateRightGesture,
     ];
     protected staticGestures: Gesture<'static'>[] = [];
     protected kinectController: Kinect2;
@@ -241,6 +241,7 @@ export default class KinectGestureController extends AbstractGestureController<F
                 if (velocityDiff) {
                     // if the type of the foream is right
                     if (type === 'right' && forearmVelocityDiff.right) {
+                        console.log(forearmVelocityDiff.right);
                         if (
                             !this.checkVectorModel(
                                 velocityDiff,
@@ -252,6 +253,7 @@ export default class KinectGestureController extends AbstractGestureController<F
                     }
                     // if the type of the forearm is left
                     else if (type === 'left' && forearmVelocityDiff.left) {
+                        console.log(forearmVelocityDiff.left);
                         if (
                             !this.checkVectorModel(
                                 velocityDiff,
@@ -270,6 +272,7 @@ export default class KinectGestureController extends AbstractGestureController<F
                                 forearmVelocityDiff.right
                             )
                         ) {
+                            console.log(forearmVelocityDiff.right);
                             this.forearmType = 'right';
                             break;
                         }
@@ -280,6 +283,7 @@ export default class KinectGestureController extends AbstractGestureController<F
                                 forearmVelocityDiff.left
                             )
                         ) {
+                            console.log(forearmVelocityDiff.left);
                             this.forearmType = 'left';
                             break;
                         }

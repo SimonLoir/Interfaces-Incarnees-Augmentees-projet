@@ -2,25 +2,23 @@ import { VectorModel } from 'project-types';
 import { Gesture } from '../types';
 
 const rightFrameDirection: VectorModel = {
-    minX: 0.5,
     minY: -0.3,
     maxY: 0.3,
 };
 const leftFrameDirection: VectorModel = {
-    maxX: -0.5,
     minY: -0.3,
     maxY: 0.3,
 };
 
+const lowDirection: VectorModel = {
+    maxY: -0.5,
+};
+
 const velocityDiffLeft: VectorModel = {
-    minX: -70,
-    minY: -30,
-    maxY: 30,
+    maxX: -150,
 };
 const velocityDiffRight: VectorModel = {
-    maxX: 70,
-    minY: -30,
-    maxY: 30,
+    minX: 150,
 };
 
 function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
@@ -28,7 +26,7 @@ function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
         name: 'rotate-' + type,
         type: 'dynamic',
         description: 'Rotates the 3D Object to the ' + type,
-        coolDown: 0,
+        coolDown: 3000,
         data: [
             {
                 minDuration: 0,
@@ -66,6 +64,9 @@ function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
                                     ? velocityDiffRight
                                     : velocityDiffLeft,
                         },
+                        {
+                            direction: lowDirection,
+                        },
                     ],
                     forearms: [
                         {
@@ -77,6 +78,9 @@ function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
                                 type === 'right'
                                     ? velocityDiffRight
                                     : velocityDiffLeft,
+                        },
+                        {
+                            direction: lowDirection,
                         },
                     ],
                 },
