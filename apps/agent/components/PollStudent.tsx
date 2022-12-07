@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSocketContext } from '@utils/global';
 import { getServerInfo } from 'utils/network';
 import style from '@style/poll.module.scss';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 export default function PollStudents() {
     const [status, setStatus] = useState<(boolean | undefined)[]>([]);
@@ -107,25 +108,26 @@ export default function PollStudents() {
                     className={
                         status[question.id] === undefined
                             ? style.allowClick
-                            : status[question.id] === true
-                            ? style.clicked
-                            : style.disabled
-                    }
-                    onClick={approval}
-                >
-                    Vrai 👍
-                </button>
-                <button
-                    className={
-                        status[question.id] === undefined
-                            ? style.allowClick
                             : status[question.id] === false
                             ? style.clicked
                             : style.disabled
                     }
                     onClick={refusal}
                 >
-                    Faux 👎
+                    <FaThumbsDown className='va-middle' />{' '}
+                    <span className='va-middle'>Faux</span>
+                </button>
+                <button
+                    className={
+                        status[question.id] === undefined
+                            ? style.allowClick
+                            : status[question.id] === true
+                            ? style.clicked
+                            : style.disabled
+                    }
+                    onClick={approval}
+                >
+                    <span className='va-middle'>Vrai</span> <FaThumbsUp />
                 </button>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import { useSocketContext } from '@utils/global';
 import { useCallback, useEffect, useState } from 'react';
 import { getServerInfo } from 'utils/network';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 export default function DocumentShareView() {
     const socket = useSocketContext();
@@ -71,8 +72,13 @@ export default function DocumentShareView() {
                                 {doc}&quot;. Voulez-vous le télécharger ?
                             </p>
 
-                            <button onClick={acceptDocument}>Oui 👍</button>
-                            <button onClick={rejectDocument}>Non 👎</button>
+                            <button onClick={rejectDocument}>
+                                <FaThumbsDown className='va-middle' />{' '}
+                                <span className='va-middle'>Non</span>
+                            </button>
+                            <button onClick={acceptDocument}>
+                                <span>Oui</span> <FaThumbsUp />
+                            </button>
                         </div>
                     </>
                 )}
