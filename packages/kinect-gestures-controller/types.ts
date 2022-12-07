@@ -45,7 +45,6 @@ export interface Gesture<T extends 'static' | 'dynamic'>
     found?: {
         frameDiff: FrameDiffExport;
     };
-    forearmsMovingType?: 'left' | 'right';
 }
 
 export type Model = AbstractModel & {

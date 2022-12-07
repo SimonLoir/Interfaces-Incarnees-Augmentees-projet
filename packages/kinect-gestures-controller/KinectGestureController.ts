@@ -28,8 +28,6 @@ export default class KinectGestureController extends AbstractGestureController<F
     protected staticGestures: Gesture<'static'>[] = [];
     protected kinectController: Kinect2;
 
-    protected forearmType?: 'left' | 'right';
-
     constructor(allowedGestures: string[] = []) {
         super();
         this.kinectController = new Kinect2();
@@ -56,19 +54,6 @@ export default class KinectGestureController extends AbstractGestureController<F
         gesture: Gesture<'static'>,
         frames: Frame[]
     ): boolean {
-        return false;
-    }
-
-    protected matchDynamicGesture(
-        gesture: Gesture<'dynamic'>,
-        frames: Frame[]
-    ): boolean {
-        if (super.matchDynamicGesture(gesture, frames)) {
-            if (this.forearmType) {
-                gesture.forearmsMovingType = this.forearmType;
-            }
-            return true;
-        }
         return false;
     }
 
@@ -249,7 +234,6 @@ export default class KinectGestureController extends AbstractGestureController<F
                             )
                         )
                             return false;
-                        else this.forearmType = 'right';
                     }
                     // if the type of the forearm is left
                     else if (type === 'left' && forearmVelocityDiff.left) {
@@ -261,7 +245,6 @@ export default class KinectGestureController extends AbstractGestureController<F
                             )
                         )
                             return false;
-                        else this.forearmType = 'left';
                     }
                     // if the type of the forearm is not specified
                     else {
@@ -271,22 +254,18 @@ export default class KinectGestureController extends AbstractGestureController<F
                                 velocityDiff,
                                 forearmVelocityDiff.right
                             )
-                        ) {
-                            console.log(forearmVelocityDiff.right);
-                            this.forearmType = 'right';
+                        )
                             break;
-                        }
+
                         if (
                             forearmVelocityDiff.left &&
                             this.checkVectorModel(
                                 velocityDiff,
                                 forearmVelocityDiff.left
                             )
-                        ) {
-                            console.log(forearmVelocityDiff.left);
-                            this.forearmType = 'left';
+                        )
                             break;
-                        }
+
                         return false;
                     }
                 }

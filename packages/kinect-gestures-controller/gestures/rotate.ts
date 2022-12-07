@@ -20,7 +20,7 @@ const velocityDiffLeft: VectorModel = {
 const velocityDiffRight: VectorModel = {
     minX: 150,
 };
-
+/*
 function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
     return {
         name: 'rotate-' + type,
@@ -88,6 +88,131 @@ function GenerateRotateGesture(type: 'left' | 'right'): Gesture<'dynamic'> {
         ],
     };
 }
+*/
 
-export const rotateLeftGesture = GenerateRotateGesture('left');
-export const rotateRightGesture = GenerateRotateGesture('right');
+export const rotateLeftGesture: Gesture<'dynamic'> = {
+    name: 'rotate-left',
+    type: 'dynamic',
+    description: 'Rotates the 3D Object to the left',
+
+    coolDown: 1_000,
+    data: [
+        {
+            minDuration: 0,
+            body: {
+                arms: [
+                    {
+                        type: 'right',
+                        direction: rightFrameDirection,
+                    },
+                    {
+                        type: 'left',
+                        direction: lowDirection,
+                    },
+                ],
+                forearms: [
+                    {
+                        type: 'right',
+                        direction: rightFrameDirection,
+                    },
+                    {
+                        type: 'left',
+                        direction: lowDirection,
+                    },
+                ],
+            },
+        },
+        {
+            minDuration: 0,
+            maxDuration: 1 * 1_000_000,
+            body: {
+                arms: [
+                    {
+                        type: 'right',
+                        direction: leftFrameDirection,
+                        velocityDiff: velocityDiffLeft,
+                    },
+
+                    {
+                        type: 'left',
+                        direction: lowDirection,
+                    },
+                ],
+                forearms: [
+                    {
+                        type: 'right',
+                        direction: leftFrameDirection,
+                        velocityDiff: velocityDiffLeft,
+                    },
+                    {
+                        type: 'left',
+                        direction: lowDirection,
+                    },
+                ],
+            },
+        },
+    ],
+};
+
+export const rotateRightGesture: Gesture<'dynamic'> = {
+    name: 'rotate-right',
+    type: 'dynamic',
+    description: 'Rotates the 3D Object to the right',
+    coolDown: 1_000,
+    data: [
+        {
+            minDuration: 0,
+            body: {
+                arms: [
+                    {
+                        type: 'left',
+                        direction: leftFrameDirection,
+                    },
+                    {
+                        type: 'right',
+                        direction: lowDirection,
+                    },
+                ],
+                forearms: [
+                    {
+                        type: 'left',
+                        direction: leftFrameDirection,
+                    },
+                    {
+                        type: 'right',
+                        direction: lowDirection,
+                    },
+                ],
+            },
+        },
+        {
+            minDuration: 0,
+            maxDuration: 1 * 1_000_000,
+            body: {
+                arms: [
+                    {
+                        type: 'left',
+                        direction: rightFrameDirection,
+                        velocityDiff: velocityDiffRight,
+                    },
+
+                    {
+                        type: 'right',
+                        direction: lowDirection,
+                    },
+                ],
+                forearms: [
+                    {
+                        type: 'left',
+                        direction: rightFrameDirection,
+                        velocityDiff: velocityDiffRight,
+                    },
+                    {
+                        type: 'right',
+                        direction: lowDirection,
+                    },
+                ],
+            },
+        },
+    ],
+};

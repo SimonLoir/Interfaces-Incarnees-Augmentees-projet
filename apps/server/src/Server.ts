@@ -276,51 +276,11 @@ export default class Server {
                 break;
 
             case 'rotate-left':
-                console.log('rotate_left');
-                kinectGesture = gesture as KinectGesture<'dynamic'>;
-                if (kinectGesture.found) {
-                    if (kinectGesture.forearmsMovingType === 'left') {
-                        this.io.emit(
-                            'rotate_left_gesture',
-                            Math.abs(
-                                kinectGesture.found.frameDiff
-                                    .forearmVelocityDiff!.left![0]
-                            )
-                        );
-                    } else if (kinectGesture.forearmsMovingType === 'right') {
-                        this.io.emit(
-                            'rotate_left_gesture',
-                            Math.abs(
-                                kinectGesture.found.frameDiff
-                                    .forearmVelocityDiff!.right![0]
-                            )
-                        );
-                    }
-                }
+                this.io.emit('rotate_left_gesture');
 
                 break;
             case 'rotate-right':
-                console.log('rotate_right');
-                kinectGesture = gesture as KinectGesture<'dynamic'>;
-                if (kinectGesture.found) {
-                    if (kinectGesture.forearmsMovingType === 'left') {
-                        this.io.emit(
-                            'rotate_right_gesture',
-                            Math.abs(
-                                kinectGesture.found.frameDiff
-                                    .forearmVelocityDiff!.left![0]
-                            )
-                        );
-                    } else if (kinectGesture.forearmsMovingType === 'right') {
-                        this.io.emit(
-                            'rotate_right',
-                            Math.abs(
-                                kinectGesture.found.frameDiff
-                                    .forearmVelocityDiff!.right![0]
-                            )
-                        );
-                    }
-                }
+                this.io.emit('rotate_right_gesture');
 
                 break;
 
