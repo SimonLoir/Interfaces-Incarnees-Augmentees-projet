@@ -1,5 +1,4 @@
 import next from 'next';
-import Kinect2 from 'kinect2';
 import express, { Request, Response } from 'express';
 import { NextServer, RequestHandler } from 'next/dist/server/next';
 import { createServer, Server as HTTPServer } from 'http';
@@ -8,7 +7,6 @@ import KinectServer from './KinectServer';
 import { PeerServer } from 'peer';
 import cors from 'cors';
 import LeapMotionServer from './LeapMotionServer';
-import { Gesture } from 'leap-gestures-controller';
 import { AbstractGesture } from 'project-types';
 import { Gesture as KinectGesture } from 'kinect-gestures-controller/types';
 
@@ -25,16 +23,29 @@ export default class Server {
     private currentView: string = 'home';
 
     private constructor() {
+        // Starts the next.js server
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
         this.handle = this.nextServer.getRequestHandler();
         this.port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
 
+        // Creates the express http server
         this.expressServer = express();
+        // Allows all origins to let the agent connect to the server
         this.expressServer.use(cors({ origin: '*' }));
+
+        // Creates a basic http server with the express server
         this.httpServer = createServer(this.expressServer);
+
+        // Creates a socket.io server with the http server
         this.io = new SocketIOServer(this.httpServer);
+
+        // Creates a kinect server attached to this server
         this.kinectServer = new KinectServer(this);
+
+        // Creates a peer server for webRTC
         PeerServer({ port: 3002, path: '/' });
+
+        // Creates a leap motion server attached to this server
         this.leapMotionServer = new LeapMotionServer(this);
     }
 
@@ -127,46 +138,60 @@ export default class Server {
     private setupSocketConnection() {
         this.io.on('connection', (socket) => {
             socket.emit('setView', this.currentView);
+
             socket.on('screen_share_accepted', (sharerId: string) => {
                 this.io.emit('screen_share_accepted', sharerId);
             });
+
             socket.on('screen_share_refused', (sharerId: string) => {
                 this.io.emit('screen_share_refused', sharerId);
             });
+
             socket.on('setView', (view: string) => {
                 this.io.emit('setView', view);
                 this.currentView = view;
             });
+
             socket.on('pollQuestion', (pollQuestion: string) => {
                 this.io.emit('pollQuestion', pollQuestion);
             });
+
             socket.on('QCMQuestion', (QCMQuestion: any) => {
                 this.io.emit('QCMQuestion', QCMQuestion);
             });
+
             socket.on('3DRotation', (rotation: any) => {
                 this.io.emit('3DRotation', rotation);
             });
+
             socket.on('3DZoom', (zoom: any) => {
                 this.io.emit('3DZoom', zoom);
             });
+
             socket.on('3DState', (state: any) => {
                 this.io.emit('3DState', state);
             });
+
             socket.on('document', (url: string) => {
                 this.io.emit('document', url);
             });
+
             socket.on('pollEvent', (event: string) => {
                 this.io.emit('pollEvent', event);
             });
+
             socket.on('QCMEvent', (event: string) => {
                 this.io.emit('QCMEvent', event);
             });
+
             socket.on('object3d', (index: number) => {
                 this.io.emit('object3d', index);
             });
+
             socket.on('addIntensity', () => {
                 this.io.emit('addIntensity');
             });
+
             socket.on('subIntensity', () => {
                 this.io.emit('subIntensity');
             });
@@ -194,6 +219,7 @@ export default class Server {
     public sendNextView() {
         this.io.emit('next-view');
     }
+
     /**
      * Tells the client to go to the previous view
      */
@@ -211,74 +237,93 @@ export default class Server {
             case 'screen-sharing':
                 this.io.emit('screen_share_gesture');
                 break;
+
             case 'thumb-position-up':
                 this.io.emit('thumbs_up_gesture');
                 break;
+
             case 'thumb-position-down':
                 this.io.emit('thumbs_down_gesture');
                 break;
+
             case 'thumb-position-left':
                 this.io.emit('thumbs_left_gesture');
                 break;
+
             case 'thumb-position-right':
                 this.io.emit('thumbs_right_gesture');
                 break;
+
             case 'swipe-left':
                 this.io.emit('swipe_left_gesture');
                 break;
+
             case 'swipe-right':
                 this.io.emit('swipe_right_gesture');
                 break;
+
             case 'scroll-right':
                 this.io.emit('scroll_right_gesture');
                 break;
+
             case 'scroll-left':
                 this.io.emit('scroll_left_gesture');
                 break;
+
             case 'one-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 0);
                 break;
+
             case 'two-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 1);
                 break;
+
             case 'three-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 2);
                 break;
+
             case 'four-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 3);
                 break;
+
             case 'five-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 4);
                 break;
+
             case 'six-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 5);
                 break;
+
             case 'seven-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 6);
                 break;
+
             case 'eight-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 7);
                 break;
+
             case 'nine-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 8);
                 break;
+
             case 'ten-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 9);
                 break;
+
             case 'spawn':
                 this.io.emit('spawn');
                 break;
+
             case 'vanish':
                 this.io.emit('vanish');
                 break;
 
             case 'rotate-left':
                 this.io.emit('rotate_left_gesture');
-
                 break;
+
             case 'rotate-right':
                 this.io.emit('rotate_right_gesture');
-
                 break;
 
             case 'zoom':
@@ -290,7 +335,6 @@ export default class Server {
 
                     this.io.emit('zoom_gesture', intensity);
                 }
-
                 break;
 
             default:

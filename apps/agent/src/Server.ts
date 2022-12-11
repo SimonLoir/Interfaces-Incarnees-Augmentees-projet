@@ -19,13 +19,24 @@ export default class Server {
     private leapMotionServer: LeapMotionServer;
 
     private constructor() {
+        // Starts a next server
         this.nextServer = next({ dev: process.env.NODE_ENV !== 'production' });
         this.handle = this.nextServer.getRequestHandler();
         this.port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+
+        // Creates an express http server
         this.expressServer = express();
+
+        // Creates a basic node http server on the express server
         this.httpServer = createServer(this.expressServer);
+
+        // Creates a socket.io server on the http server
         this.io = new SocketIOServer(this.httpServer);
+
+        // Creates a client connected to the teacher's server
         this.ioClient = new IoClient(this);
+
+        // Creates a leap motion server to handle the leap motion gestures
         this.leapMotionServer = new LeapMotionServer(this);
     }
 
@@ -121,33 +132,43 @@ export default class Server {
             case 'screen-sharing':
                 this.io.emit('screen_share_gesture');
                 break;
+
             case 'thumb-position-up':
                 this.io.emit('thumbs_up_gesture');
                 break;
+
             case 'thumb-position-down':
                 this.io.emit('thumbs_down_gesture');
                 break;
+
             case 'scroll-left':
                 this.io.emit('scroll_left_gesture');
                 break;
+
             case 'scroll-right':
                 this.io.emit('scroll_right_gesture');
                 break;
+
             case 'one-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 0);
                 break;
+
             case 'two-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 1);
                 break;
+
             case 'three-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 2);
                 break;
+
             case 'four-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 3);
                 break;
+
             case 'five-extended-fingers':
                 this.io.emit('extended_fingers_gesture', 4);
                 break;
+
             default:
                 break;
         }

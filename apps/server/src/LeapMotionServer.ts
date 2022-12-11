@@ -2,7 +2,12 @@ import Server from './Server';
 import LeapMotionGestureController from 'leap-gestures-controller';
 
 export default class LeapMotionServer extends LeapMotionGestureController {
+    /**
+     * Creates an instance of LeapMotionServer.
+     * @param server The server to send the gestures to.
+     */
     constructor(server: Server) {
+        // Allows only the following gestures
         super({}, [
             'thumb-position-down',
             'thumb-position-up',
@@ -24,8 +29,10 @@ export default class LeapMotionServer extends LeapMotionGestureController {
             'nine-extended-fingers',
             'ten-extended-fingers',
         ]);
+
+        // Adds a listener for each gesture
         this.addEventListener('gesture', (g) => {
-            console.log('received gesture', g);
+            // Sends the gesture to the http server
             server.sendGesture(g);
         });
     }
